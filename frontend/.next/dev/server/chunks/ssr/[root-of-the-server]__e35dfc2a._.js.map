@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 14, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/lucas/Documents/openclassrooms/Formation/12%20-%20Saas%20gestion%20projet/ia-project-manager/frontend/src/app/page.tsx"],"sourcesContent":["\r\nexport default function Home() {\r\n  return (\r\n    <div className=\"flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black\">\r\n      <main>\r\n        <h1>Home</h1>\r\n      </main>\r\n    </div>\r\n  );\r\n}\r\n"],"names":[],"mappings":";;;;;;AACe,SAAS;IACtB,qBACE,8OAAC;QAAI,WAAU;kBACb,cAAA,8OAAC;sBACC,cAAA,8OAAC;0BAAG;;;;;;;;;;;;;;;;AAIZ"}}]
+}
