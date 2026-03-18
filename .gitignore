@@ -39,3 +39,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# backend
+node_modules
+# Keep environment variables out of version control
+.env
+
+/generated/prisma
+
+# Base de données
+*.db
+*.sqlite
+*.sqlite3
+dev.db
+
+# docs
+/_docs
