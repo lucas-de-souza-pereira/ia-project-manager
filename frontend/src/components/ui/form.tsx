@@ -117,9 +117,8 @@ const FormControl = React.forwardRef<
       ref={ref}
       id={formItemId}
       aria-describedby={
-        !error
-          ? `${formDescriptionId}`
-          : `${formDescriptionId} ${formMessageId}`
+        // FIX WAVE: On ne lie que le message d'erreur par défaut pour ne pas casser la référence
+        !error ? undefined : `${formMessageId}`
       }
       aria-invalid={!!error}
       {...props}
@@ -153,7 +152,14 @@ const FormMessage = React.forwardRef<
   const body = error ? String(error?.message) : children;
 
   if (!body) {
-    return null;
+    return (
+      <p
+        ref={ref}
+        id={formMessageId}
+        className={cn("hidden", className)}
+        {...props}
+      />
+    );
   }
 
   return (
