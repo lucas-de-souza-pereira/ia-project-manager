@@ -1,4 +1,4 @@
-import { AuthWrapper } from "@/components/layout/auth-wrapper";
+import { AuthWrapper } from "@/components/layout/auth/auth-wrapper";
 import { LoginForm } from "@/components/features/auth/login-form";
 
 export default function LoginPage() {
