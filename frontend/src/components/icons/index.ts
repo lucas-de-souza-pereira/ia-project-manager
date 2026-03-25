@@ -1,3 +1,6 @@
 export { Logo } from "./logo";
 export { DashboardIcon } from "./dashboard-icon";
 export { Folder } from "./folder";
+export { SquareCheck } from "./square-check";
+export { Calendar } from "./calendar";
+export { Comment } from "./comment";

@@ -8,6 +8,7 @@
   /* Polices */
   --font-inter: var(--font-inter);
   --font-sans: var(--font-sans);
+  --font-manrope: var(--font-manrope);
 
   /* Mapping Sémantique - Abricot */
   --color-primary: var(--primary);
@@ -46,16 +47,15 @@
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
 
+  /* Bouton d'action principal (Noir) */
+  --color-primary-button: var(--primary-button);
+  --color-primary-button-hover: var(--primary-button-hover);
+
   /* Radius */
   --radius-sm: 4px;
-  --radius-md: 10px;
-  --radius-lg: var(--radius);
+  --radius-md: var(--radius); /* 8px */
+  --radius-lg: 10px;
   --radius-xl: calc(var(--radius) * 1.4);
-
-  /* Couleurs statiques de status (Kanban) */
-  --color-status-todo: #ffdfdb;
-  --color-status-doing: #ffebd2;
-  --color-status-done: #d5fee3;
 }
 
 @layer base {
@@ -69,17 +69,18 @@
 
     --heading: #1f1f1f;
     --card: #ffffff;
-    --card-foreground: #000000;
+    --card-foreground: #6b7280;
     --muted: #e5e7eb;
-    --muted-foreground: #6b7280;
-    --muted-foreground-light: #9ca3af;
+    --muted-foreground: #9ca3af;
     --border: #e5e7eb;
+    --primary-button: #0f0f0f;
+    --primary-button-hover: #1f1f1f;
 
     --input: #e5e7eb;
     --ring: #d3590b;
 
-    --secondary: #e5e7eb;
-    --secondary-foreground: #1f1f1f;
+    --secondary: #f9fafb;
+    --secondary-foreground: #6b7280;
 
     --accent: #f9fafb;
     --accent-foreground: #000000;
@@ -95,8 +96,6 @@
     --chart-3: #6b7280;
     --chart-4: #e5e7eb;
     --chart-5: #000000;
-
-    --navbar-foreground: #0f0f0f;
 
     --radius: 0.5rem;
   }
@@ -118,5 +117,23 @@
   body {
     background-color: var(--background);
     color: var(--foreground);
+  }
+
+  h1 {
+    font-family: var(--font-manrope), sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: var(--heading);
+  }
+
+  h2 {
+    font-family: var(--font-manrope), sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: var(--heading);
   }
 }
