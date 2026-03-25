@@ -13,7 +13,7 @@ export default function DashboardView({ user }: DashboardViewProps) {
       <div className="flex flex-col gap-y-4.5 md:flex-row items-center justify-between">
         <div className="flex flex-col gap-y-3.5">
           <h1>Tableau de bord</h1>
-          <p className="text-lg">
+          <p className="text-lg text-foreground">
             Bonjour {user.name}, voici un aperçu de vos projets et tâches
           </p>
         </div>

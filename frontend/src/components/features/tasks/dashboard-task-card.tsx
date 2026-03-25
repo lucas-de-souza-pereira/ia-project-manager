@@ -32,8 +32,10 @@ export default function DashboardTaskCard({
   return (
     <Card>
       <CardHeader>
-        <div className="flex flex-col items-start justify-between">
-          <CardTitle>{task.title}</CardTitle>
+        <div className="flex flex-col items-start justify-between gap-y-1.75">
+          <h3>
+            <CardTitle>{task.title}</CardTitle>
+          </h3>
           <CardDescription>{task.description}</CardDescription>
         </div>
         <CardAction>
@@ -41,7 +43,7 @@ export default function DashboardTaskCard({
         </CardAction>
       </CardHeader>
 
-      <CardContent>
+      <CardContent className="flex flex-col md:flex-row items-start md:items-center md:justify-between gap-y-4 md:gap-y-0">
         <div className="flex items-center gap-x-3 text-sm text-muted-foreground font-medium">
           <div className="flex items-center gap-x-1.5">
             <Folder className="w-4 h-4" />
