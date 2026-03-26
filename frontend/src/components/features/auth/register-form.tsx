@@ -40,10 +40,10 @@ export function RegisterForm() {
   }
 
   return (
-    <div className="flex flex-col h-full w-full py-8">
+    <div className="flex flex-col h-full w-full py-19">
       <div className="flex-1 flex flex-col justify-start">
         <div className="mb-8 mx-auto">
-          <Logo color="primary" />
+          <Logo className="w-63 h-8 text-primary" />
         </div>
       </div>
 

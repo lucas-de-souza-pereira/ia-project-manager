@@ -23,6 +23,7 @@ const badgeVariants = cva(
         doing: "bg-[#FFE0E0] text-[#EF4444]",
         done: "bg-[#FFF0D7] text-[#E08D00]",
         owner: "bg-[#FFE8D9] text-[#D3590B]",
+        counter: "bg-[#E5E7EB] text-[#6B7280]",
       },
     },
     defaultVariants: {

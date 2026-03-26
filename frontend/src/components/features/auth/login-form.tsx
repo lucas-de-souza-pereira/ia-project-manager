@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Link from "next/link";
-import { Logo } from "@/components/icons/logo";
+import { Logo } from "@/components/icons";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -38,10 +38,10 @@ export function LoginForm() {
   }
 
   return (
-    <div className="flex flex-col h-full w-full py-8">
+    <div className="flex flex-col h-full w-full py-19">
       <div className="flex-1 flex flex-col justify-start">
         <div className="mb-8 mx-auto">
-          <Logo color="primary" />
+          <Logo className="w-63 h-8 text-primary" />
         </div>
       </div>
 
