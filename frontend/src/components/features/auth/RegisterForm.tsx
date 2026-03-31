@@ -1,5 +1,6 @@
 "use client";
 
+import { useActionState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -16,28 +17,34 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { registerAction } from "@/lib/auth/actions";
+import { ActionResult } from "@/types/actions";
 
 const registerSchema = z.object({
+  name: z.string().min(1, "Le nom est requis."),
   email: z.string().email("Adresse email invalide."),
   password: z
     .string()
     .min(8, "Le mot de passe doit faire au moins 8 caractères."),
 });
 
+const initialState: ActionResult = { success: false, error: "" };
+
 export function RegisterForm() {
+  const [state, formAction, isPending] = useActionState(
+    registerAction,
+    initialState,
+  );
+
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     mode: "onTouched",
     defaultValues: {
+      name: "",
       email: "",
       password: "",
     },
   });
-
-  function onSubmit(values: z.infer<typeof registerSchema>) {
-    console.log("Valeurs du formulaire d'inscription:", values);
-    // TODO: Connecter à la route /api/register du backend
-  }
 
   return (
     <div className="flex flex-col h-full w-full py-8">
@@ -53,10 +60,29 @@ export function RegisterForm() {
         </div>
 
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-7 w-3/4 mx-auto"
-          >
+          <form action={formAction} className="space-y-7 w-3/4 mx-auto">
+            {!state.success && state.error && (
+              <p
+                role="alert"
+                className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-4 py-2 text-center"
+              >
+                {state.error}
+              </p>
+            )}
+
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nom complet</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Jean Dupont" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="email"
@@ -85,8 +111,13 @@ export function RegisterForm() {
             />
 
             <div className="space-y-4 mx-auto px-4.25">
-              <Button type="submit" className="w-full" size="lg">
-                S'inscrire
+              <Button
+                type="submit"
+                className="w-full"
+                size="lg"
+                disabled={isPending}
+              >
+                {isPending ? "Inscription en cours…" : "S'inscrire"}
               </Button>
             </div>
           </form>
