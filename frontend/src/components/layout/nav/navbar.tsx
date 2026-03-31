@@ -1,9 +1,9 @@
 import { NavbarItem } from "./navbar-item";
+import { UserAvatar } from "./user-avatar";
 import { DashboardIcon } from "@/components/icons";
 import { Folder } from "@/components/icons";
 import { Logo } from "@/components/icons";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import Link from "next/link";
+import { LogoutButton } from "@/components/features/auth/logout-button";
 
 export function Navbar() {
   return (
@@ -29,13 +29,8 @@ export function Navbar() {
         </ul>
 
         <nav aria-label="Menu utilisateur">
-          <Link href="/profile">
-            <Avatar className="size-10 md:size-16.25 cursor-pointer">
-              <AvatarFallback className="bg-primary-light group-hover/avatar:bg-primary transition-colors duration-300">
-                U
-              </AvatarFallback>
-            </Avatar>
-          </Link>
+          <UserAvatar />
+          <LogoutButton />
         </nav>
       </div>
     </nav>

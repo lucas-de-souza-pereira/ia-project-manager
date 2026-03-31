@@ -1,5 +1,6 @@
 "use client";
 
+import { useActionState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -16,13 +17,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { loginAction } from "@/lib/auth/actions";
+import { ActionResult } from "@/types/actions";
 
 const loginSchema = z.object({
   email: z.string().email("Adresse email invalide."),
   password: z.string().min(1, "Le mot de passe est requis."),
 });
 
+const initialState: ActionResult = { success: false, error: "" };
+
 export function LoginForm() {
+  const [state, formAction, isPending] = useActionState(
+    loginAction,
+    initialState,
+  );
+
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     mode: "onTouched",
@@ -31,11 +41,6 @@ export function LoginForm() {
       password: "",
     },
   });
-
-  function onSubmit(values: z.infer<typeof loginSchema>) {
-    console.log("Valeurs du formulaire de connexion:", values);
-    // TODO: Connecter à l'API de backend
-  }
 
   return (
     <div className="flex flex-col h-full w-full py-19">
@@ -51,10 +56,16 @@ export function LoginForm() {
         </div>
 
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-7 w-3/4 mx-auto"
-          >
+          <form action={formAction} className="space-y-7 w-3/4 mx-auto">
+            {!state.success && state.error && (
+              <p
+                role="alert"
+                className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-4 py-2 text-center"
+              >
+                {state.error}
+              </p>
+            )}
+
             <FormField
               control={form.control}
               name="email"
@@ -62,11 +73,7 @@ export function LoginForm() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input
-                      className=""
-                      placeholder="jean@abricot.fr"
-                      {...field}
-                    />
+                    <Input placeholder="jean@abricot.fr" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -79,7 +86,7 @@ export function LoginForm() {
                 <FormItem>
                   <FormLabel>Mot de passe</FormLabel>
                   <FormControl>
-                    <Input className="" type="password" {...field} />
+                    <Input type="password" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -87,8 +94,13 @@ export function LoginForm() {
             />
 
             <div className="space-y-4 mx-auto px-4.25">
-              <Button type="submit" className="w-full" size="lg">
-                Se connecter
+              <Button
+                type="submit"
+                className="w-full"
+                size="lg"
+                disabled={isPending}
+              >
+                {isPending ? "Connexion en cours…" : "Se connecter"}
               </Button>
               <div className="text-center">
                 <Link
