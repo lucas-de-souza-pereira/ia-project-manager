@@ -1,17 +1,11 @@
 import DashboardView from "@/components/features/tasks/dashboard-view";
 import { type AssignedTask } from "@/types/task";
 import { getToken } from "@/lib/auth/session";
-import { apiFetch } from "@/lib/api/client";
+import { getAssignedTasks } from "@/lib/api/dashboard";
 
 export default async function DashboardPage() {
   const token = await getToken();
-
-  const res = await apiFetch<{ data: { tasks: AssignedTask[] } }>(
-    "/dashboard/assigned-tasks",
-    {
-      token: token as string,
-    },
-  );
+  const rawTasks = await getAssignedTasks(token as string);
 
   const priorityWeight = {
     HIGH: 3,
@@ -25,7 +19,7 @@ export default async function DashboardPage() {
     DONE: 1,
   };
 
-  const formatedTasks = res.data.tasks
+  const formatedTasks = rawTasks
     .map((task) => ({
       ...task,
       commentsCount: task.comments ? task.comments.length : 0,
