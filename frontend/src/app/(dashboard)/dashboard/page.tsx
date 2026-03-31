@@ -19,12 +19,23 @@ export default async function DashboardPage() {
     LOW: 1,
   };
 
+  const statusWeight = {
+    IN_PROGRESS: 3,
+    TODO: 2,
+    DONE: 1,
+  };
+
   const formatedTasks = res.data.tasks
     .map((task) => ({
       ...task,
       commentsCount: task.comments ? task.comments.length : 0,
     }))
-    .sort((a, b) => priorityWeight[b.priority] - priorityWeight[a.priority]);
+    .sort((a, b) => {
+      if (statusWeight[b.status] !== statusWeight[a.status]) {
+        return statusWeight[b.status] - statusWeight[a.status];
+      }
+      return priorityWeight[b.priority] - priorityWeight[a.priority];
+    });
   return (
     <div>
       <DashboardView tasks={formatedTasks} />
