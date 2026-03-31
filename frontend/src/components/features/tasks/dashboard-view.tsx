@@ -6,17 +6,17 @@ import TaskListView from "./task-list-view";
 import TaskKanbanView from "./task-kanban-view";
 import { Button } from "@/components/ui/button";
 import { SquareCheck, Calendar } from "@/components/icons";
+import { useAuth } from "@/contexts/auth-context";
 
-import { type Task } from "@/types/task";
+import { type AssignedTask } from "@/types/task";
 
 interface DashboardViewProps {
-  user: { name: string };
-  tasks: Task[];
+  tasks: AssignedTask[];
 }
 
-export default function DashboardView({ user, tasks }: DashboardViewProps) {
+export default function DashboardView({ tasks }: DashboardViewProps) {
   const [view, setView] = useState<"list" | "kanban">("list");
-
+  const { user } = useAuth();
   return (
     <div className="mt-8 md:mt-12 xl:mt-22">
       <div className="w-10/12 xl:w-[1215px] mx-auto">
@@ -24,7 +24,7 @@ export default function DashboardView({ user, tasks }: DashboardViewProps) {
           <div className="flex flex-col gap-y-3.5">
             <h1>Tableau de bord</h1>
             <p className="text-lg text-foreground">
-              Bonjour {user.name}, voici un aperçu de vos projets et tâches
+              Bonjour {user?.name}, voici un aperçu de vos projets et tâches
             </p>
           </div>
 

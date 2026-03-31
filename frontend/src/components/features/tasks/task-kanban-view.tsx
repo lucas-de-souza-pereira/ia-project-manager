@@ -1,15 +1,15 @@
 import { Badge } from "@/components/ui/badge";
 import DashboardTaskCard from "./dashboard-task-card";
-import { type Task } from "@/types/task";
+import { type AssignedTask } from "@/types/task";
 
 interface KanbanColumnProps {
   title: string;
-  tasks: Task[];
-  status: Task["status"];
+  tasks: AssignedTask[];
+  status: AssignedTask["status"];
 }
 
 function KanbanColumn({ title, tasks, status }: KanbanColumnProps) {
-  const filteredTasks = tasks.filter((t) => t.status === status);
+  const filteredTasks = tasks.filter((task) => task.status === status);
 
   return (
     <div className="w-full flex-1 md:overflow-x-auto md:bg-card md:rounded-lg md:border md:border-border p-1.5 md:p-6 py-3.5 md:py-10">
@@ -31,12 +31,12 @@ function KanbanColumn({ title, tasks, status }: KanbanColumnProps) {
   );
 }
 
-export default function TaskKanbanView({ tasks }: { tasks: Task[] }) {
+export default function TaskKanbanView({ tasks }: { tasks: AssignedTask[] }) {
   return (
     <div className="flex flex-col gap-y-4.5 xl:flex-row gap-x-5.5">
-      <KanbanColumn title="À faire" tasks={tasks} status="todo" />
-      <KanbanColumn title="En cours" tasks={tasks} status="doing" />
-      <KanbanColumn title="Terminé" tasks={tasks} status="done" />
+      <KanbanColumn title="À faire" tasks={tasks} status="TODO" />
+      <KanbanColumn title="En cours" tasks={tasks} status="IN_PROGRESS" />
+      <KanbanColumn title="Terminé" tasks={tasks} status="DONE" />
     </div>
   );
 }

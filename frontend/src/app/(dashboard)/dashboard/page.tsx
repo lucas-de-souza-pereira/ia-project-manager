@@ -1,133 +1,33 @@
 import DashboardView from "@/components/features/tasks/dashboard-view";
-import { type Task } from "@/types/task";
+import { type AssignedTask } from "@/types/task";
+import { getToken } from "@/lib/auth/session";
+import { apiFetch } from "@/lib/api/client";
 
-const mockTasks: Task[] = [
-  {
-    title: "Tâche 1",
-    description: "Description de la tâche 1",
-    status: "todo",
-    dueDate: "2024-03-28",
-    commentsCount: 3,
-    project: { name: "Projet 1" },
-  },
-  {
-    title: "Tâche 2",
-    description: "Description de la tâche 2",
-    status: "doing",
-    dueDate: "2024-03-30",
-    commentsCount: 1,
-    project: { name: "Projet 2" },
-  },
-  {
-    title: "Tâche 3",
-    description: "Description de la tâche 3",
-    status: "done",
-    dueDate: "2024-03-25",
-    commentsCount: 5,
-    project: { name: "Projet 1" },
-  },
-  {
-    title: "Tâche 1",
-    description: "Description de la tâche 1",
-    status: "todo",
-    dueDate: "2024-03-28",
-    commentsCount: 3,
-    project: { name: "Projet 1" },
-  },
-  {
-    title: "Tâche 2",
-    description: "Description de la tâche 2",
-    status: "doing",
-    dueDate: "2024-03-30",
-    commentsCount: 1,
-    project: { name: "Projet 2" },
-  },
-  {
-    title: "Tâche 3",
-    description: "Description de la tâche 3",
-    status: "done",
-    dueDate: "2024-03-25",
-    commentsCount: 5,
-    project: { name: "Projet 1" },
-  },
-  {
-    title: "Tâche 1",
-    description: "Description de la tâche 1",
-    status: "todo",
-    dueDate: "2024-03-28",
-    commentsCount: 3,
-    project: { name: "Projet 1" },
-  },
-  {
-    title: "Tâche 2",
-    description: "Description de la tâche 2",
-    status: "doing",
-    dueDate: "2024-03-30",
-    commentsCount: 1,
-    project: { name: "Projet 2" },
-  },
-  {
-    title: "Tâche 3",
-    description: "Description de la tâche 3",
-    status: "done",
-    dueDate: "2024-03-25",
-    commentsCount: 5,
-    project: { name: "Projet 1" },
-  },
-  {
-    title: "Tâche 1",
-    description: "Description de la tâche 1",
-    status: "todo",
-    dueDate: "2024-03-28",
-    commentsCount: 3,
-    project: { name: "Projet 1" },
-  },
-  {
-    title: "Tâche 2",
-    description: "Description de la tâche 2",
-    status: "doing",
-    dueDate: "2024-03-30",
-    commentsCount: 1,
-    project: { name: "Projet 2" },
-  },
-  {
-    title: "Tâche 3",
-    description: "Description de la tâche 3",
-    status: "done",
-    dueDate: "2024-03-25",
-    commentsCount: 5,
-    project: { name: "Projet 1" },
-  },
-  {
-    title: "Tâche 1",
-    description: "Description de la tâche 1",
-    status: "todo",
-    dueDate: "2024-03-28",
-    commentsCount: 3,
-    project: { name: "Projet 1" },
-  },
-  {
-    title: "Tâche 2",
-    description: "Description de la tâche 2",
-    status: "doing",
-    dueDate: "2024-03-30",
-    commentsCount: 1,
-    project: { name: "Projet 2" },
-  },
-  {
-    title: "Tâche 3",
-    description: "Description de la tâche 3",
-    status: "done",
-    dueDate: "2024-03-25",
-    commentsCount: 5,
-    project: { name: "Projet 1" },
-  },
-];
+export default async function DashboardPage() {
+  const token = await getToken();
 
-export default function DashboardPage() {
+  const res = await apiFetch<{ data: { tasks: AssignedTask[] } }>(
+    "/dashboard/assigned-tasks",
+    {
+      token: token as string,
+    },
+  );
+
+  const priorityWeight = {
+    HIGH: 3,
+    MEDIUM: 2,
+    LOW: 1,
+  };
+
+  const formatedTasks = res.data.tasks
+    .map((task) => ({
+      ...task,
+      commentsCount: task.comments ? task.comments.length : 0,
+    }))
+    .sort((a, b) => priorityWeight[b.priority] - priorityWeight[a.priority]);
   return (
     <div>
-      <DashboardView user={{ name: "Lucas" }} tasks={mockTasks} />
+      <DashboardView tasks={formatedTasks} />
     </div>
   );
 }

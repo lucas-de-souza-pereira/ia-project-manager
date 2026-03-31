@@ -9,11 +9,12 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Folder, Calendar, Comment } from "@/components/icons";
-
-import { type Task } from "@/types/task";
+import { formatFrenchDate } from "@/lib/utils";
+import { type AssignedTask } from "@/types/task";
+import { TASK_STATUS_DICT } from "@/config/task-status";
 
 interface DashboardTaskCardProps {
-  task: Task;
+  task: AssignedTask;
   variant?: "list" | "kanban";
 }
 
@@ -29,7 +30,7 @@ function TaskMetadata({ task }: { task: DashboardTaskCardProps["task"] }) {
 
       <div className="flex items-center gap-x-1.5">
         <Calendar className="w-4 h-4" />
-        <p>{task.dueDate}</p>
+        <p>{formatFrenchDate(task.dueDate)}</p>
       </div>
 
       <span className="text-gray-300 font-light">|</span>
@@ -47,6 +48,7 @@ export default function DashboardTaskCard({
   variant = "list",
 }: DashboardTaskCardProps) {
   const isList = variant === "list";
+  const statusConfig = TASK_STATUS_DICT[task.status];
   return (
     <Card>
       <CardHeader>
@@ -57,7 +59,9 @@ export default function DashboardTaskCard({
           <CardDescription>{task.description}</CardDescription>
         </div>
         <CardAction>
-          <Badge variant={task.status}>{task.status}</Badge>
+          <Badge className={statusConfig.tailwindClasses}>
+            {statusConfig.label}
+          </Badge>
         </CardAction>
       </CardHeader>
 
