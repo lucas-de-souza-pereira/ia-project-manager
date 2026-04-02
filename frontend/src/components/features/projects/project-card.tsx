@@ -14,18 +14,39 @@ import Link from "next/link";
 import { type Project } from "@/types/project";
 import { Badge } from "@/components/ui/badge";
 import { getUserInitials } from "@/lib/utils";
+import { type User } from "@/types/user";
+import { getAvatarRole, getRoleInfo } from "@/config/user-role";
+import { UserChip } from "@/components/shared/user-chip";
 
 interface ProjectCardProps {
   project: Project;
-  userName: string;
+  currentUser: User;
 }
 
-export default function ProjectCard({ project, userName }: ProjectCardProps) {
-  const allTeamUsers = [...project.members.map((member) => member.user)];
+export default function ProjectCard({
+  project,
+  currentUser,
+}: ProjectCardProps) {
+  const allTeamUsers = [
+    { member: project.owner, role: "ADMIN" },
+    ...project.members
+      .filter((member) => member.user.id !== project.owner.id)
+      .map((member) => ({
+        member: member.user,
+        role: member.role,
+      })),
+  ];
+
+  const userRole =
+    project.members.find((member) => member.user.id === currentUser.id)?.role ||
+    "ADMIN";
+
   const otherTeamMembers = allTeamUsers.filter(
-    (member) => member.name !== userName,
+    (teamMember) => teamMember.member.id !== currentUser.id,
   );
   const totalTeamMembers = allTeamUsers.length;
+  console.log("currentUser", currentUser);
+  console.log("currentUser.id", currentUser.id);
 
   return (
     <Link href={`/projects/${project.id}`}>
@@ -53,20 +74,20 @@ export default function ProjectCard({ project, userName }: ProjectCardProps) {
           <div className="flex flex-col items-start gap-x-2 mt-8">
             <p>Equipe ({totalTeamMembers})</p>
             <div className="flex gap-2 items-center">
-              <Avatar>
-                <AvatarFallback className="size-6.75">
-                  {getUserInitials(userName)}
-                </AvatarFallback>
-              </Avatar>
-              <Badge variant="user">{project.userRole}</Badge>
+              <UserChip
+                user={currentUser}
+                currentUserId={currentUser.id}
+                ownerId={project.owner.id}
+                variant="role"
+              />
               <Avatar>
                 <AvatarGroup>
-                  {otherTeamMembers.map((member) => (
-                    <Avatar key={member.id}>
+                  {otherTeamMembers.map((item) => (
+                    <Avatar key={item.member.id}>
                       <AvatarFallback
-                        className={`size-6.75 ${project.userRole === "ADMIN" ? "owner" : "user"}`}
+                        className={`size-6.75 ${getAvatarRole(item.role)}`}
                       >
-                        {getUserInitials(member.name)}
+                        {getUserInitials(item.member.name)}
                       </AvatarFallback>
                     </Avatar>
                   ))}

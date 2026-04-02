@@ -1,15 +1,15 @@
 import ProjectsView from "@/components/features/projects/projects-view";
 import { getToken, requireSession } from "@/lib/auth/session";
-import { getProjects, getAllTasksProject } from "@/lib/api/projects";
+import { getProjects, getTasksByProjectId } from "@/lib/api/projects";
 
 export default async function ProjectPage() {
   const token = await getToken();
   const rawProjects = await getProjects(token as string);
-  const user = await requireSession();
+  const currentUser = await requireSession();
 
   const formatedProjects = await Promise.all(
     rawProjects.map(async (project) => {
-      const projectTasks = await getAllTasksProject(
+      const projectTasks = await getTasksByProjectId(
         token as string,
         project.id,
       );
@@ -27,7 +27,7 @@ export default async function ProjectPage() {
   );
   return (
     <div>
-      {<ProjectsView projects={formatedProjects} userName={user.name} />}
+      {<ProjectsView projects={formatedProjects} currentUser={currentUser} />}
     </div>
   );
 }

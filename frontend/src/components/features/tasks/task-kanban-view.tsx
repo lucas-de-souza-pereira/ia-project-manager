@@ -15,7 +15,7 @@ function KanbanColumn({ title, tasks, status }: KanbanColumnProps) {
     <div className="w-full flex-1 md:overflow-x-auto md:bg-card md:rounded-lg md:border md:border-border p-1.5 md:p-6 py-3.5 md:py-10">
       <div className="flex flex-row gap-x-2 items-center">
         <h3 className="text-lg">{title}</h3>
-        <Badge variant="counter" className="h-6.25">
+        <Badge variant="muted" className="h-6.25">
           {filteredTasks.length}
         </Badge>
       </div>

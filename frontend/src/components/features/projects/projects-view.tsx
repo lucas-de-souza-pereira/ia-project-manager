@@ -5,10 +5,10 @@ import { User } from "@/types/user";
 
 export default function ProjectsView({
   projects,
-  userName,
+  currentUser,
 }: {
   projects: Project[];
-  userName: string;
+  currentUser: User;
 }) {
   return (
     <div className="w-[1166px] mx-auto">
@@ -25,7 +25,11 @@ export default function ProjectsView({
 
       <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} userName={userName} />
+          <ProjectCard
+            key={project.id}
+            project={project}
+            currentUser={currentUser}
+          />
         ))}
       </div>
     </div>

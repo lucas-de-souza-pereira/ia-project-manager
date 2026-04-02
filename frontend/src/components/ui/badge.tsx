@@ -21,7 +21,7 @@ const badgeVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         user: "bg-[#FFE8D9] text-[#D3590B]",
         owner: "bg-[#E0ECFF] text-[#3B82F6]",
-        counter: "bg-[#E5E7EB] text-[#6B7280]",
+        muted: "bg-[#E5E7EB] text-[#6B7280]",
       },
     },
     defaultVariants: {
