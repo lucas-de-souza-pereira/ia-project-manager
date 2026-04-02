@@ -13,12 +13,20 @@ import { Avatar, AvatarFallback, AvatarGroup } from "@/components/ui/avatar";
 import Link from "next/link";
 import { type Project } from "@/types/project";
 import { Badge } from "@/components/ui/badge";
+import { getUserInitials } from "@/lib/utils";
 
 interface ProjectCardProps {
   project: Project;
+  userName: string;
 }
 
-export default function ProjectCard({ project }: ProjectCardProps) {
+export default function ProjectCard({ project, userName }: ProjectCardProps) {
+  const allTeamUsers = [...project.members.map((member) => member.user)];
+  const otherTeamMembers = allTeamUsers.filter(
+    (member) => member.name !== userName,
+  );
+  const totalTeamMembers = allTeamUsers.length;
+
   return (
     <Link href={`/projects/${project.id}`}>
       <Card>
@@ -34,23 +42,34 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <CardContent>
           <div className="flex items-center justify-between">
             <p>Progression</p>
-            <p>0%</p>
+            <p>{project.progress}%</p>
           </div>
-          <Progress value={0} />
-          <p>0/0 tâches terminées</p>
+          <Progress value={project.progress ? project.progress : 0} />
+          <p>
+            {project.completedTasksCount}/{project._count.tasks} tâches
+            terminées
+          </p>
 
           <div className="flex flex-col items-start gap-x-2 mt-8">
-            <p>Equipe ({project.members.length})</p>
-            <div>
+            <p>Equipe ({totalTeamMembers})</p>
+            <div className="flex gap-2 items-center">
               <Avatar>
-                <AvatarFallback className="size-6.75">U</AvatarFallback>
+                <AvatarFallback className="size-6.75">
+                  {getUserInitials(userName)}
+                </AvatarFallback>
               </Avatar>
-              <Badge variant="owner">Propriétaire</Badge>
+              <Badge variant="user">{project.userRole}</Badge>
               <Avatar>
                 <AvatarGroup>
-                  <AvatarFallback className="size-6.75">X</AvatarFallback>
-                  <AvatarFallback className="size-6.75">Y</AvatarFallback>
-                  <AvatarFallback className="size-6.75">Z</AvatarFallback>
+                  {otherTeamMembers.map((member) => (
+                    <Avatar key={member.id}>
+                      <AvatarFallback
+                        className={`size-6.75 ${project.userRole === "ADMIN" ? "owner" : "user"}`}
+                      >
+                        {getUserInitials(member.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                  ))}
                 </AvatarGroup>
               </Avatar>
             </div>

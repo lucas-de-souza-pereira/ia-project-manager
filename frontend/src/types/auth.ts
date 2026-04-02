@@ -1,8 +1,4 @@
-export interface User {
-  id: string;
-  email: string;
-  name: string | null;
-}
+import { User } from "./user";
 
 export interface AuthSession {
   user: User;

@@ -1,3 +1,5 @@
+import { AssignedTask } from "./task";
+
 export interface ProjectMember {
   id: string;
   role: string;
@@ -27,5 +29,11 @@ export interface Project {
   _count: {
     tasks: number;
   };
-  userRole?: string;
+  userRole: string;
+  progress?: number;
+  completedTasksCount?: number;
+}
+
+export interface ProjectWithTasks extends Project {
+  tasks: AssignedTask[];
 }

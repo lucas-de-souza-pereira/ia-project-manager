@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { User } from "@/types/auth";
+import type { User } from "@/types/user";
 import { apiFetch } from "@/lib/api/client";
 
 const COOKIE_NAME = "auth_token";

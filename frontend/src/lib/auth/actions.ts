@@ -3,8 +3,8 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { apiFetch } from "@/lib/api/client";
-import { User } from "@/types/auth";
-import { ActionResult } from "@/types/actions";
+import type { User } from "@/types/user";
+import type { ActionResult } from "@/types/actions";
 
 const COOKIE_NAME = "auth_token";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
