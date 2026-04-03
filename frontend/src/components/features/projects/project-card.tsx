@@ -12,10 +12,9 @@ import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarGroup } from "@/components/ui/avatar";
 import Link from "next/link";
 import { type Project } from "@/types/project";
-import { Badge } from "@/components/ui/badge";
 import { getUserInitials } from "@/lib/utils";
 import { type User } from "@/types/user";
-import { getAvatarRole, getRoleInfo } from "@/config/user-role";
+import { getAvatarRole } from "@/config/user-role";
 import { UserChip } from "@/components/shared/user-chip";
 
 interface ProjectCardProps {
@@ -37,17 +36,10 @@ export default function ProjectCard({
       })),
   ];
 
-  const userRole =
-    project.members.find((member) => member.user.id === currentUser.id)?.role ||
-    "ADMIN";
-
   const otherTeamMembers = allTeamUsers.filter(
     (teamMember) => teamMember.member.id !== currentUser.id,
   );
   const totalTeamMembers = allTeamUsers.length;
-  console.log("currentUser", currentUser);
-  console.log("currentUser.id", currentUser.id);
-
   return (
     <Link href={`/projects/${project.id}`}>
       <Card>
@@ -82,7 +74,7 @@ export default function ProjectCard({
               />
               <Avatar>
                 <AvatarGroup>
-                  {otherTeamMembers.map((item) => (
+                  {otherTeamMembers?.map((item) => (
                     <Avatar key={item.member.id}>
                       <AvatarFallback
                         className={`size-6.75 ${getAvatarRole(item.role)}`}

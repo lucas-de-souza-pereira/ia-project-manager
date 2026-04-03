@@ -4,9 +4,6 @@ import ProjectTasksCard from "./project-tasks-card";
 import { ArrowLeft } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { type ProjectWithTasks } from "@/types/project";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { getUserInitials } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
 import { Chips } from "@/components/shared/chips";
 import { SquareCheck, Calendar } from "@/components/icons";
 import { UserChip } from "@/components/shared/user-chip";
@@ -19,17 +16,15 @@ export default function ProjectDetailView({
   project: ProjectWithTasks;
   currentUser: User;
 }) {
-  const allTeamUsers = [
+  const allTeamMembers = [
     { member: project.owner, role: "ADMIN" },
     ...project.members
       .filter((m) => m.user.id !== project.owner.id)
       .map((m) => ({ member: m.user, role: m.role })),
   ];
-  const otherTeamMembers = allTeamUsers.filter(
-    (item) => item.member.id !== project.ownerId,
+  const otherTeamMembers = allTeamMembers.filter(
+    ({ member }) => member.id !== currentUser.id,
   );
-  const totalTeamMembers = allTeamUsers.length;
-
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -55,7 +50,7 @@ export default function ProjectDetailView({
       <div className="flex mt-15">
         <div className="flex gap-10">
           <h2>Contributeurs</h2>
-          <p>{project.members.length} personnes</p>
+          <p>{allTeamMembers.length} personnes</p>
         </div>
         <div className="flex gap-4">
           <UserChip
@@ -108,7 +103,15 @@ export default function ProjectDetailView({
         </div>
       </div>
 
-      {/* <ProjectTasksCard /> */}
+      <div className="mt-15 flex flex-col gap-y-8">
+        {project.tasks.map((task) => (
+          <ProjectTasksCard
+            key={task.id}
+            task={task}
+            currentUser={currentUser}
+          />
+        ))}
+      </div>
     </div>
   );
 }

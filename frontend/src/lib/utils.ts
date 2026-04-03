@@ -14,6 +14,16 @@ export function formatFrenchDate(dateString: string): string {
   }).format(new Date(dateString));
 }
 
+export function formatFrenchDateWithHour(dateString: string): string {
+  if (!dateString) return "";
+  return new Intl.DateTimeFormat("fr-FR", {
+    day: "numeric",
+    month: "long",
+    hour: "numeric",
+    minute: "numeric",
+  }).format(new Date(dateString));
+}
+
 export function getUserInitials(name: string): string {
   const parts = name.trim().split(/\s+/);
   if (parts.length >= 2) {

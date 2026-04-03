@@ -1,3 +1,6 @@
+import { type Comment } from "./comment";
+import { type User } from "./user";
+
 export interface Task {
   id: string;
   title: string;
@@ -10,19 +13,9 @@ export interface Task {
   assignees: {
     id: string;
     userId: string;
-    user: {
-      id: string;
-      email: string;
-      name: string;
-    };
+    user: User;
   }[];
-  comments: {
-    id: string;
-    content: string;
-    author: {
-      name: string;
-    };
-  }[];
+  comments: Comment[];
   createdAt: string;
 }
 

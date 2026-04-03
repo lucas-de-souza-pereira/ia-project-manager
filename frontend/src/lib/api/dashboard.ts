@@ -11,7 +11,7 @@ export async function getAssignedTasks(token: string) {
   return res.data.tasks;
 }
 
-export async function getProjectsWithTasks(token: string) {
+export async function getAssignedProjectsWithTasks(token: string) {
   const res = await apiFetch<{ data: { projects: ProjectWithTasks[] } }>(
     "/dashboard/projects-with-tasks",
     { token },

@@ -7,7 +7,7 @@ import { getAvatarRole, getRoleInfo } from "@/config/user-role";
 interface UserChipProps {
   user: User;
   currentUserId?: string;
-  ownerId: string;
+  ownerId?: string;
   variant?: "role" | "name";
 }
 export function UserChip({

@@ -1,4 +1,5 @@
-import { AssignedTask } from "./task";
+import { type Task } from "./task";
+import { type User } from "./user";
 
 export interface ProjectMember {
   id: string;
@@ -6,11 +7,7 @@ export interface ProjectMember {
   joinedAt: string;
   userId: string;
   projectId: string;
-  user: {
-    id: string;
-    email: string;
-    name: string;
-  };
+  user: User;
 }
 
 export interface Project {
@@ -20,11 +17,7 @@ export interface Project {
   createdAt: string;
   updatedAt: string;
   ownerId: string;
-  owner: {
-    id: string;
-    email: string;
-    name: string;
-  };
+  owner: User;
   members: ProjectMember[];
   _count: {
     tasks: number;
@@ -35,5 +28,5 @@ export interface Project {
 }
 
 export interface ProjectWithTasks extends Project {
-  tasks: AssignedTask[];
+  tasks: Task[];
 }
