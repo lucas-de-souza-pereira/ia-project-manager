@@ -29,8 +29,8 @@ export function UserChip({
 
   return (
     <div className="flex items-center gap-2">
-      <Avatar className="size-8">
-        <AvatarFallback className={getAvatarRole(avatarRole)}>
+      <Avatar className="">
+        <AvatarFallback className={`${getAvatarRole(avatarRole)} text-[10px]`}>
           {getUserInitials(user.name)}
         </AvatarFallback>
       </Avatar>

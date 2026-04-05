@@ -16,6 +16,7 @@ import { getUserInitials } from "@/lib/utils";
 import { type User } from "@/types/user";
 import { getAvatarRole } from "@/config/user-role";
 import { UserChip } from "@/components/shared/user-chip";
+import { UserGroup } from "@/components/icons";
 
 interface ProjectCardProps {
   project: Project;
@@ -42,30 +43,34 @@ export default function ProjectCard({
   const totalTeamMembers = allTeamUsers.length;
   return (
     <Link href={`/projects/${project.id}`}>
-      <Card>
-        <CardHeader>
+      <Card className="px-4 py-5 md:px-6.25 md:py-6.25 lg:px-8.5 lg:py-7.5 h-full flex flex-col justify-between">
+        <CardHeader className="p-0 md:p-0 lg:p-0">
           <div className="flex flex-col items-start justify-between gap-y-1.75">
-            <h2>
-              <CardTitle>{project.name}</CardTitle>
-            </h2>
+            <CardTitle variant="h2">{project.name}</CardTitle>
             <CardDescription>{project.description}</CardDescription>
           </div>
         </CardHeader>
 
-        <CardContent>
+        <CardContent className="p-0 md:p-0 lg:p-0">
           <div className="flex items-center justify-between">
-            <p>Progression</p>
-            <p>{project.progress}%</p>
+            <p className="text-xs">Progression</p>
+            <p className="text-xs text-heading">{project.progress}%</p>
           </div>
-          <Progress value={project.progress ? project.progress : 0} />
-          <p>
+          <Progress
+            value={project.progress ? project.progress : 0}
+            className="mt-3.75"
+          />
+          <p className="text-[10px] mt-2">
             {project.completedTasksCount}/{project._count.tasks} tâches
             terminées
           </p>
 
           <div className="flex flex-col items-start gap-x-2 mt-8">
-            <p>Equipe ({totalTeamMembers})</p>
-            <div className="flex gap-2 items-center">
+            <div className="flex items-center gap-x-2">
+              <UserGroup className="size-2.75" />
+              <p className="text-[10px]">Équipe ({totalTeamMembers})</p>
+            </div>
+            <div className="flex gap-2 items-center mt-3.75">
               <UserChip
                 user={currentUser}
                 currentUserId={currentUser.id}
@@ -77,7 +82,7 @@ export default function ProjectCard({
                   {otherTeamMembers?.map((item) => (
                     <Avatar key={item.member.id}>
                       <AvatarFallback
-                        className={`size-6.75 ${getAvatarRole(item.role)}`}
+                        className={`size-6.75 text-[10px] ${getAvatarRole(item.role)}`}
                       >
                         {getUserInitials(item.member.name)}
                       </AvatarFallback>

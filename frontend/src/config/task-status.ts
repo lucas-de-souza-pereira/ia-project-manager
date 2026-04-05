@@ -6,14 +6,14 @@ export const TASK_STATUS_DICT: Record<
 > = {
   TODO: {
     label: "À faire",
-    tailwindClasses: "bg-[#F1FFF7] text-[#27AE60]",
+    tailwindClasses: "bg-[#FFE0E0] text-[#EF4444]",
   },
   IN_PROGRESS: {
     label: "En cours",
-    tailwindClasses: "bg-[#FFE0E0] text-[#EF4444]",
+    tailwindClasses: "bg-[#FFF0D7] text-[#E08D00]",
   },
   DONE: {
     label: "Terminée",
-    tailwindClasses: "bg-[#FFF0D7] text-[#E08D00]",
+    tailwindClasses: "bg-[#F1FFF7] text-[#27AE60]",
   },
 };

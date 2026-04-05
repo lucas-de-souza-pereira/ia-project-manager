@@ -22,7 +22,7 @@ function KanbanColumn({ title, tasks, status }: KanbanColumnProps) {
 
       <div className="flex flex-col gap-y-3.25 md:gap-y-4.5 md:flex-row md:gap-x-4.5 xl:flex-col xl:gap-y-4.5 mt-4.5 md:mt-10.25">
         {filteredTasks.map((task) => (
-          <div key={task.id} className=" md:w-[280px] shrink-0 xl:w-full">
+          <div key={task.id} className=" md:w-[300px] shrink-0 xl:w-full">
             <DashboardTaskCard task={task} variant="kanban" />
           </div>
         ))}

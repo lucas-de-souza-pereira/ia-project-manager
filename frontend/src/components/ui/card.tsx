@@ -6,9 +6,9 @@ function Card({
   className,
   size = "default",
   ...props
-}: React.ComponentProps<"div"> & { size?: "default" | "sm" }) {
+}: React.ComponentProps<"article"> & { size?: "default" | "sm" }) {
   return (
-    <div
+    <article
       data-slot="card"
       data-size={size}
       className={cn(
@@ -33,12 +33,18 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
+type HeadingVariant = "h2" | "h3";
+interface CardTitleProps extends React.ComponentPropsWithoutRef<HeadingVariant> {
+  variant?: HeadingVariant;
+}
+
+function CardTitle({ className, variant = "h3", ...props }: CardTitleProps) {
+  const Tag = variant;
   return (
-    <div
+    <Tag
       data-slot="card-title"
       className={cn(
-        "text-base leading-snug font-medium group-data-[size=sm]/card:text-sm",
+        "text-lg leading-snug font-semibold group-data-[size=sm]/card:text-sm",
         className,
       )}
       {...props}
@@ -46,9 +52,9 @@ function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
+function CardDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
-    <div
+    <p
       data-slot="card-description"
       className={cn("text-sm text-card-foreground", className)}
       {...props}

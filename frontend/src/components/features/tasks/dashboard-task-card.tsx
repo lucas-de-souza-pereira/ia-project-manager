@@ -50,28 +50,28 @@ export default function DashboardTaskCard({
   const isList = variant === "list";
   const statusConfig = TASK_STATUS_DICT[task.status];
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex flex-col items-start justify-between gap-y-1.75">
-          <h3>
-            <CardTitle>{task.title}</CardTitle>
-          </h3>
-          <CardDescription>{task.description}</CardDescription>
+    <Card className="py-4.5 px-6 xl:py-6.25 xl:px-10 h-full flex flex-col justify-between">
+      <CardHeader className="p-0 md:p-0 lg:p-0">
+        <div className="contents">
+          <CardTitle>{task.title}</CardTitle>
+          <CardDescription className="col-span-full mt-1.75">
+            {task.description}
+          </CardDescription>
         </div>
-        <CardAction>
+
+        <CardAction className="row-span-1">
           <Badge className={statusConfig.tailwindClasses}>
             {statusConfig.label}
           </Badge>
         </CardAction>
       </CardHeader>
-
       <CardContent
-        className={`flex ${isList ? "flex-col md:flex-row" : "flex-col"} items-start md:items-center md:justify-between gap-y-4 md:gap-y-8`}
+        className={`p-0 md:p-0 lg:p-0 flex ${isList ? "flex-col md:flex-row" : "flex-col"} items-start  md:justify-between gap-y-4 md:gap-y-8`}
       >
         <TaskMetadata task={task} />
 
         <CardAction>
-          <Button variant="default" size="lg">
+          <Button variant="default" size="lg" className="w-30">
             Voir
           </Button>
         </CardAction>

@@ -11,8 +11,8 @@ export default function ProjectsView({
   currentUser: User;
 }) {
   return (
-    <div className="w-[1166px] mx-auto">
-      <div className="flex flex-col gap-y-4.5 md:flex-row items-center justify-between mt-19">
+    <div className="w-11/12 lg:w-[1166px] mx-auto">
+      <div className="flex flex-col gap-y-4.5 md:flex-row items-center justify-between mt-8 md:mt-12 lg:mt-19">
         <div className="flex flex-col gap-y-3.5">
           <h1>Mes projets</h1>
           <p>Gérez vos projets</p>
@@ -23,7 +23,7 @@ export default function ProjectsView({
         </Button>
       </div>
 
-      <div className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="mt-8 md:mt-12 lg:mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {projects.map((project) => (
           <ProjectCard
             key={project.id}

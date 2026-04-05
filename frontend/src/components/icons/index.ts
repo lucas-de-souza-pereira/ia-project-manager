@@ -7,3 +7,4 @@ export { Comment } from "./comment";
 export { ArrowLeft } from "./arrow-left";
 export { ChevronUp } from "./chevron-up";
 export { ChevronDown } from "./chevron-down";
+export { UserGroup } from "./user-group";

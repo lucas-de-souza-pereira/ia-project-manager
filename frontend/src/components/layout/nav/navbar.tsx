@@ -8,9 +8,9 @@ import { LogoutButton } from "@/components/features/auth/logout-button";
 export function Navbar() {
   return (
     <nav className="flex flex-col lg:flex-row justify-between w-full items-center px-4 md:px-25 py-4 md:py-2 gap-y-4 lg:gap-y-0">
-      <Logo className="w-36.75 h-4.75 text-primary shrink-0" />
+      <Logo className="flex w-36.75 h-4.75 text-primary shrink-0" />
 
-      <div className="flex w-full md:w-auto items-center justify-between md:justify-end gap-x-4 md:gap-x-8">
+      <div className="flex w-full md:w-auto items-center justify-between gap-x-4 md:gap-x-8 lg:contents">
         <ul className="flex gap-x-2 md:gap-x-4" aria-label="Menu principal">
           <li>
             <NavbarItem
@@ -28,7 +28,10 @@ export function Navbar() {
           </li>
         </ul>
 
-        <nav aria-label="Menu utilisateur">
+        <nav
+          aria-label="Menu utilisateur"
+          className="flex flex-col items-center lg:flex-row lg:gap-x-4"
+        >
           <UserAvatar />
           <LogoutButton />
         </nav>
