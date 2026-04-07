@@ -1,0 +1,57 @@
+"use client";
+
+import { Comment } from "@/types/comment";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { ChevronDown, ChevronUp } from "@/components/icons";
+import { CommentItem } from "./comment-item";
+import { CommentForm } from "./comment-form";
+
+interface CommentsSectionProps {
+  comments: Comment[];
+  onAddComment: (content: string) => void;
+}
+
+export function CommentsSection({
+  comments,
+  onAddComment,
+}: CommentsSectionProps) {
+  const [isCommentsOpen, setIsCommentsOpen] = useState(false);
+  const listId = `comments-list-${comments.length}`;
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between">
+        <h3 className="font-semibold">Commentaires ({comments.length})</h3>
+        <Button
+          variant="ghost"
+          size="lg"
+          onClick={() => setIsCommentsOpen(!isCommentsOpen)}
+          aria-expanded={isCommentsOpen}
+          aria-controls={listId}
+          aria-label={
+            isCommentsOpen
+              ? "Masquer les commentaires"
+              : "Afficher les commentaires"
+          }
+        >
+          {isCommentsOpen ? (
+            <ChevronUp className="w-3.75 h-4" />
+          ) : (
+            <ChevronDown className="w-3.75 h-4" />
+          )}
+        </Button>
+      </div>
+
+      {isCommentsOpen && (
+        <div id={listId} className="space-y-4">
+          <div>
+            {comments.map((comment) => (
+              <CommentItem key={comment.id} comment={comment} />
+            ))}
+          </div>
+          <CommentForm onAddComment={onAddComment} />
+        </div>
+      )}
+    </div>
+  );
+}
