@@ -14,6 +14,8 @@ import { Calendar } from "@/components/icons";
 import { formatFrenchDate } from "@/lib/utils";
 import { UserChip } from "@/components/shared/user-chip";
 import { CommentsSection } from "./comments/comments-section";
+import { Badge } from "@/components/ui/badge";
+import { TASK_STATUS_DICT } from "@/config/task-status";
 
 interface ProjectTasksCardProps {
   task: Task;
@@ -27,11 +29,16 @@ export default function ProjectTasksCard({
   const onAddComment = (content: string) => {
     console.log(content);
   };
-
+  const statusConfig = TASK_STATUS_DICT[task.status];
   return (
     <Card>
       <CardHeader>
-        <h3>{task.title}</h3>
+        <div className="flex items-center gap-x-2">
+          <h3>{task.title}</h3>
+          <Badge className={statusConfig.tailwindClasses}>
+            {statusConfig.label}
+          </Badge>
+        </div>
         <p>{task.description}</p>
       </CardHeader>
       <CardContent>

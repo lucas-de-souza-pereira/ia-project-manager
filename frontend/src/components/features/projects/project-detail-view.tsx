@@ -26,15 +26,17 @@ export default function ProjectDetailView({
     ({ member }) => member.id !== currentUser.id,
   );
   return (
-    <div>
-      <div className="flex items-center justify-between">
-        <Button variant="ghost" className="bg-white rounded-lg border-border">
-          <ArrowLeft className="w-3.75" />
-        </Button>
+    <div className="mt-19.5">
+      <div className="flex items-center justify-between pl-11 pr-[113px]">
+        <div className="flex gap-x-3 ">
+          <Button variant="ghost" className="bg-white rounded-lg border-border">
+            <ArrowLeft className="w-3.75" />
+          </Button>
 
-        <div className="flex flex-col">
-          <h1>{project.name}</h1>
-          <p>{project.description}</p>
+          <div className="flex flex-col">
+            <h1>{project.name}</h1>
+            <p>{project.description}</p>
+          </div>
         </div>
 
         <div className="flex">

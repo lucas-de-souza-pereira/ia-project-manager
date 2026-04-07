@@ -12,9 +12,9 @@ export default async function ProjectDetailsPage({
   const projectId = resolvedParams.id;
   const projectDetails = await getProjectById(token as string, projectId);
   const currentUser = await requireSession();
-  
+
   return (
-    <div className="p-8">
+    <div>
       <ProjectDetailView project={projectDetails} currentUser={currentUser} />
     </div>
   );
