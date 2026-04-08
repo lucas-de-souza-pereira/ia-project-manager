@@ -5,6 +5,7 @@ import Link from "next/link";
 // Composants features
 import ProjectTasksCard from "../tasks/project-tasks-card";
 import { CreateTaskModal } from "../tasks/modals/create-task-modal";
+import { UpdateTaskModal } from "../tasks/modals/update-tasks-modal";
 import { UserChip } from "@/components/shared/user-chip";
 
 // Composants UI Shadcn
@@ -57,6 +58,11 @@ export default function ProjectDetailView({
             + Ajouter une tâche
           </Link>
           <CreateTaskModal
+            projectMember={allTeamMembers.map((m) => m.member)}
+          />
+
+          <UpdateTaskModal
+            tasks={project.tasks}
             projectMember={allTeamMembers.map((m) => m.member)}
           />
 

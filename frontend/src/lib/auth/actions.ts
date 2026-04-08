@@ -3,20 +3,11 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { apiFetch } from "@/lib/api/client";
-import type { User } from "@/types/user";
 import type { ActionResult } from "@/types/actions";
+import type { AuthApiResponse } from "@/types/auth";
 
 const COOKIE_NAME = "auth_token";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
-
-interface AuthApiResponse {
-  success: boolean;
-  message: string;
-  data: {
-    user: User;
-    token: string;
-  };
-}
 
 export async function loginAction(
   _prevState: ActionResult,

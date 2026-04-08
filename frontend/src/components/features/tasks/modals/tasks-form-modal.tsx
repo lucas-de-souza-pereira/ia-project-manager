@@ -3,6 +3,7 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { format, parse, isValid } from "date-fns";
 
 // Configuration et Utilitaires
@@ -43,6 +44,7 @@ import { Calendar as CalendarIcon, ChevronDown } from "@/components/icons";
 
 // Types
 import { User } from "@/types/user";
+import { Task } from "@/types/task";
 
 const createTaskSchema = z.object({
   title: z.string().min(1, "Le titre est requis."),
@@ -61,30 +63,63 @@ const createTaskSchema = z.object({
       },
       { message: "Cette date n'existe pas dans le calendrier." },
     ),
-  assignees: z.array(z.string()),
+  assigneeIds: z.array(z.string()),
   status: z.enum(["TODO", "IN_PROGRESS", "DONE"]),
 });
 
 export default function TaskFormModal({
+  initialData,
   projectMember = [],
+  onSubmitAction,
 }: {
+  initialData?: Task;
   projectMember?: User[];
+  onSubmitAction: (values: z.infer<typeof createTaskSchema>) => Promise<void>;
 }) {
   const form = useForm<z.infer<typeof createTaskSchema>>({
     resolver: zodResolver(createTaskSchema),
     mode: "onTouched",
     defaultValues: {
-      title: "",
-      description: "",
-      dueDate: "",
-      assignees: [],
-      status: "TODO",
+      title: initialData?.title || "",
+      description: initialData?.description || "",
+      dueDate: initialData?.dueDate
+        ? format(new Date(initialData.dueDate), "dd/MM/yyyy")
+        : "",
+      assigneeIds: initialData?.assignees?.map((a) => a.userId) || [],
+      status:
+        (initialData?.status as "TODO" | "IN_PROGRESS" | "DONE") || "TODO",
     },
   });
 
+  useEffect(() => {
+    if (initialData) {
+      form.reset({
+        title: initialData.title,
+        description: initialData.description || "",
+        dueDate: initialData.dueDate
+          ? format(new Date(initialData.dueDate), "dd/MM/yyyy")
+          : "",
+        assigneeIds: initialData.assignees?.map((a) => a.userId) || [],
+        status:
+          (initialData.status as "TODO" | "IN_PROGRESS" | "DONE") || "TODO",
+      });
+    } else {
+      form.reset({
+        title: "",
+        description: "",
+        dueDate: "",
+        assigneeIds: [],
+        status: "TODO",
+      });
+    }
+  }, [initialData, form]);
+
   async function onSubmit(values: z.infer<typeof createTaskSchema>) {
-    console.log("Valeurs validées par Zod :", values);
+    await onSubmitAction(values);
   }
+
+  const isEdit = !!initialData;
+  const buttonLabel = isEdit ? "Enregistrer" : "+ Ajouter une tâche";
 
   return (
     <Form {...form}>
@@ -173,7 +208,7 @@ export default function TaskFormModal({
 
         <FormField
           control={form.control}
-          name="assignees"
+          name="assigneeIds"
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Assigné à</FormLabel>
@@ -288,7 +323,13 @@ export default function TaskFormModal({
         />
 
         <div className="flex justify-end pt-4">
-          <Button type="submit">Créer la tâche</Button>
+          <Button
+            type="submit"
+            disabled={!form.formState.isValid || form.formState.isSubmitting}
+            className="min-w-[150px]"
+          >
+            {form.formState.isSubmitting ? "Envoi..." : buttonLabel}
+          </Button>
         </div>
       </form>
     </Form>
