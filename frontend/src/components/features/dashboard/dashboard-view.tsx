@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { Chips } from "@/components/shared/chips";
-import TaskListView from "./task-list-view";
-import TaskKanbanView from "./task-kanban-view";
+import TaskListView from "@/components/features/dashboard/task-list-view";
+import TaskKanbanView from "@/components/features/dashboard/task-kanban-view";
 import { Button } from "@/components/ui/button";
 import { SquareCheck, Calendar } from "@/components/icons";
 import { useAuth } from "@/contexts/auth-context";

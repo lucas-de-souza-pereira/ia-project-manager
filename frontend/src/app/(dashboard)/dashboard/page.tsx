@@ -1,5 +1,4 @@
-import DashboardView from "@/components/features/tasks/dashboard-view";
-import { type AssignedTask } from "@/types/task";
+import DashboardView from "@/components/features/dashboard/dashboard-view";
 import { getToken } from "@/lib/auth/session";
 import { getAssignedTasks } from "@/lib/api/dashboard";
 

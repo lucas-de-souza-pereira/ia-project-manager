@@ -1,6 +1,6 @@
 "use client";
 
-import ProjectTasksCard from "./project-tasks-card";
+import ProjectTasksCard from "../tasks/project-tasks-card";
 import { ArrowLeft } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { type ProjectWithTasks } from "@/types/project";
@@ -8,6 +8,8 @@ import { Chips } from "@/components/shared/chips";
 import { SquareCheck, Calendar } from "@/components/icons";
 import { UserChip } from "@/components/shared/user-chip";
 import { User } from "@/types/user";
+import { CreateTaskModal } from "../tasks/modals/create-task-modal";
+import Link from "next/link";
 
 export default function ProjectDetailView({
   project,
@@ -39,10 +41,15 @@ export default function ProjectDetailView({
           </div>
         </div>
 
-        <div className="flex">
-          <Button variant="default" size="lg">
+        <div className="flex gap-x-2">
+          <Link
+            href="?modal=create-task"
+            className="inline-flex h-[50px] items-center justify-center gap-2 rounded-lg bg-primary-button px-8 text-base font-normal text-primary-foreground"
+          >
             + Ajouter une tâche
-          </Button>
+          </Link>
+          <CreateTaskModal />
+
           <Button variant="default" size="lg">
             IA
           </Button>
