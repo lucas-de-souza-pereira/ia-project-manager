@@ -1,15 +1,23 @@
 "use client";
 
+import Link from "next/link";
+
+// Composants features
 import ProjectTasksCard from "../tasks/project-tasks-card";
-import { ArrowLeft } from "@/components/icons";
+import { CreateTaskModal } from "../tasks/modals/create-task-modal";
+import { UserChip } from "@/components/shared/user-chip";
+
+// Composants UI Shadcn
 import { Button } from "@/components/ui/button";
-import { type ProjectWithTasks } from "@/types/project";
+
+// icons
+import { ArrowLeft } from "@/components/icons";
 import { Chips } from "@/components/shared/chips";
 import { SquareCheck, Calendar } from "@/components/icons";
-import { UserChip } from "@/components/shared/user-chip";
-import { User } from "@/types/user";
-import { CreateTaskModal } from "../tasks/modals/create-task-modal";
-import Link from "next/link";
+
+// types
+import { type User } from "@/types/user";
+import { type ProjectWithTasks } from "@/types/project";
 
 export default function ProjectDetailView({
   project,
@@ -48,7 +56,9 @@ export default function ProjectDetailView({
           >
             + Ajouter une tâche
           </Link>
-          <CreateTaskModal />
+          <CreateTaskModal
+            projectMember={allTeamMembers.map((m) => m.member)}
+          />
 
           <Button variant="default" size="lg">
             IA
