@@ -6,6 +6,7 @@ import Link from "next/link";
 import ProjectTasksCard from "../tasks/project-tasks-card";
 import { CreateTaskModal } from "../tasks/modals/create-task-modal";
 import { UpdateTaskModal } from "../tasks/modals/update-tasks-modal";
+import { UpdateProjectModal } from "./modals/update-project-modal";
 import { UserChip } from "@/components/shared/user-chip";
 
 // Composants UI Shadcn
@@ -33,6 +34,7 @@ export default function ProjectDetailView({
       .filter((m) => m.user.id !== project.owner.id)
       .map((m) => ({ member: m.user, role: m.role })),
   ];
+  const projectMember = allTeamMembers.map((m) => m.member);
   const otherTeamMembers = allTeamMembers.filter(
     ({ member }) => member.id !== currentUser.id,
   );
@@ -48,6 +50,8 @@ export default function ProjectDetailView({
             <h1>{project.name}</h1>
             <p>{project.description}</p>
           </div>
+
+          <Link href="?modal=update-project">Modifier</Link>
         </div>
 
         <div className="flex gap-x-2">
@@ -57,13 +61,17 @@ export default function ProjectDetailView({
           >
             + Ajouter une tâche
           </Link>
-          <CreateTaskModal
-            projectMember={allTeamMembers.map((m) => m.member)}
-          />
+          <CreateTaskModal projectMember={projectMember} />
 
           <UpdateTaskModal
             tasks={project.tasks}
-            projectMember={allTeamMembers.map((m) => m.member)}
+            projectMember={projectMember}
+          />
+
+          <UpdateProjectModal
+            project={project}
+            currentUser={currentUser}
+            projectMember={projectMember}
           />
 
           <Button variant="default" size="lg">

@@ -1,0 +1,71 @@
+"use server";
+
+import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
+import { apiFetch } from "@/lib/api/client";
+import { CreateTaskData, Task } from "@/types/task";
+import { ActionResult } from "@/types/actions";
+import { parse, isValid } from "date-fns";
+import { CreateProjectData, Project } from "@/types/project";
+
+export async function createProjectAction(
+  data: CreateProjectData,
+): Promise<ActionResult<Project>> {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("auth_token")?.value;
+
+    if (!token) {
+      return { success: false, error: "Vous n'êtes pas authentifié." };
+    }
+    const result = await apiFetch<{
+      success: boolean;
+      message: string;
+      data: { project: Project };
+    }>(`/projects`, {
+      method: "POST",
+      body: JSON.stringify(data),
+      token: token,
+    });
+    revalidatePath("/projects");
+    revalidatePath("/dashboard");
+
+    return { success: true, data: result.data.project };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Erreur lors de la création";
+    return { success: false, error: message };
+  }
+}
+
+export async function updateProjectAction(
+  projectId: string,
+  data: CreateProjectData,
+): Promise<ActionResult<Project>> {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("auth_token")?.value;
+
+    if (!token) {
+      return { success: false, error: "Vous n'êtes pas authentifié." };
+    }
+
+    const result = await apiFetch<{
+      success: boolean;
+      message: string;
+      data: { project: Project };
+    }>(`/projects/${projectId}`, {
+      method: "PUT",
+      body: JSON.stringify(data),
+      token: token,
+    });
+
+    revalidatePath(`/projects/${projectId}`);
+
+    return { success: true, data: result.data.project };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Erreur lors de la modification";
+    return { success: false, error: message };
+  }
+}

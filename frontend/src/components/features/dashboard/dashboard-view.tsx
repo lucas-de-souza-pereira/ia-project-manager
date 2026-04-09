@@ -7,7 +7,7 @@ import TaskKanbanView from "@/components/features/dashboard/task-kanban-view";
 import { Button } from "@/components/ui/button";
 import { SquareCheck, Calendar } from "@/components/icons";
 import { useAuth } from "@/contexts/auth-context";
-
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { type AssignedTask } from "@/types/task";
 
 interface DashboardViewProps {
@@ -15,8 +15,19 @@ interface DashboardViewProps {
 }
 
 export default function DashboardView({ tasks }: DashboardViewProps) {
-  const [view, setView] = useState<"list" | "kanban">("list");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
   const { user } = useAuth();
+  const [view, setView] = useState<"list" | "kanban">("list");
+
+  const handleOpenCreateProjectModal = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("modal", "create-project");
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
   return (
     <div className="mt-8 md:mt-12 xl:mt-22">
       <div className="w-10/12 xl:w-[1215px] mx-auto">
@@ -28,7 +39,11 @@ export default function DashboardView({ tasks }: DashboardViewProps) {
             </p>
           </div>
 
-          <Button variant="default" size="lg">
+          <Button
+            variant="default"
+            size="lg"
+            onClick={handleOpenCreateProjectModal}
+          >
             + Créer un projet
           </Button>
         </div>

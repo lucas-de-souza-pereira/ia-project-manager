@@ -52,14 +52,12 @@ export function AssigneeSelector<T extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem className="flex flex-col">
-          <FormLabel>
-            {label && (
-              <FormLabel className="gap-x-0">
-                {label}
-                {required && <span aria-hidden="true">*</span>}
-              </FormLabel>
-            )}
-          </FormLabel>
+          {label && (
+            <FormLabel className="gap-x-0">
+              {label}
+              {required && <span aria-hidden="true">*</span>}
+            </FormLabel>
+          )}
           <Popover>
             <FormControl>
               <PopoverTrigger
@@ -94,20 +92,23 @@ export function AssigneeSelector<T extends FieldValues>({
                   <CommandEmpty>Aucun membre trouvé.</CommandEmpty>
                   <CommandGroup>
                     {projectMember.map((user) => {
-                      const isSelected = field.value?.includes(user.id);
+                      const isSelected = field.value?.includes(user.email);
                       return (
                         <CommandItem
                           value={user.name}
-                          key={user.id}
+                          key={user.email}
                           onSelect={() => {
                             if (isSelected) {
                               field.onChange(
                                 field.value.filter(
-                                  (id: string) => id !== user.id,
+                                  (email: string) => email !== user.email,
                                 ),
                               );
                             } else {
-                              field.onChange([...(field.value || []), user.id]);
+                              field.onChange([
+                                ...(field.value || []),
+                                user.email,
+                              ]);
                             }
                           }}
                         >

@@ -30,3 +30,9 @@ export interface Project {
 export interface ProjectWithTasks extends Project {
   tasks: Task[];
 }
+
+export interface CreateProjectData {
+  name: string;
+  description: string;
+  contributors: string[];
+}
