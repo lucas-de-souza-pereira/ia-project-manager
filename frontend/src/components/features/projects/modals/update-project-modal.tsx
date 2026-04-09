@@ -66,10 +66,7 @@ export function UpdateProjectModal({
 
   const handleSubmit = async (values: CreateProjectData) => {
     setError(null);
-    const res = await updateProjectAction(
-      project.id,
-      values as CreateProjectData,
-    );
+    const res = await updateProjectAction(project.id, values);
     if (!res.success) {
       setError(res.error || "Une erreur est survenue lors de la modification.");
       return;

@@ -17,6 +17,7 @@ interface FormInputProps<
   name: Path<T>;
   control: Control<T>;
   label?: string;
+  placeholder?: string;
   required?: boolean;
 }
 
