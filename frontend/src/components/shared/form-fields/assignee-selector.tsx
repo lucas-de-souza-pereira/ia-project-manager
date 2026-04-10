@@ -37,6 +37,7 @@ interface AssigneeSelectorProps<T extends FieldValues> {
   label?: string;
   required?: boolean;
   projectMember: User[];
+  valueKey?: "id" | "email";
 }
 
 export function AssigneeSelector<T extends FieldValues>({
@@ -45,6 +46,7 @@ export function AssigneeSelector<T extends FieldValues>({
   label,
   required,
   projectMember,
+  valueKey = "email",
 }: AssigneeSelectorProps<T>) {
   return (
     <FormField
@@ -92,22 +94,22 @@ export function AssigneeSelector<T extends FieldValues>({
                   <CommandEmpty>Aucun membre trouvé.</CommandEmpty>
                   <CommandGroup>
                     {projectMember.map((user) => {
-                      const isSelected = field.value?.includes(user.email);
+                      const isSelected = field.value?.includes(user[valueKey]);
                       return (
                         <CommandItem
                           value={user.name}
-                          key={user.email}
+                          key={user[valueKey]}
                           onSelect={() => {
                             if (isSelected) {
                               field.onChange(
-                                field.value.filter(
-                                  (email: string) => email !== user.email,
+                                (field.value || []).filter(
+                                  (val: string) => val !== user[valueKey],
                                 ),
                               );
                             } else {
                               field.onChange([
                                 ...(field.value || []),
-                                user.email,
+                                user[valueKey],
                               ]);
                             }
                           }}

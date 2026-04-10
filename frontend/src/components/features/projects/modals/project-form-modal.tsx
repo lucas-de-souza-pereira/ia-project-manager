@@ -82,6 +82,7 @@ export default function ProjectFormModal({
           name="contributors"
           label="Assigné à"
           projectMember={contributors}
+          valueKey="email"
           required
         />
 

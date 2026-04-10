@@ -104,6 +104,7 @@ export default function TaskFormModal({
             name="assigneeIds"
             label="Assigné à"
             projectMember={projectMember}
+            valueKey="id"
             required
           />
         </div>
