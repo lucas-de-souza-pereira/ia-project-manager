@@ -19,7 +19,11 @@ import ProjectFormModal from "./project-form-modal";
 import { CreateProjectData } from "@/types/project";
 import { User } from "@/types/user";
 import { Project } from "@/types/project";
-import { updateProjectAction } from "@/lib/actions/projects";
+import {
+  updateProjectAction,
+  addContributorToProjectAction,
+  removeContributorFromProjectAction,
+} from "@/lib/actions/projects";
 import { getUsersAction } from "@/lib/actions/users";
 
 export function UpdateProjectModal({
@@ -66,12 +70,60 @@ export function UpdateProjectModal({
 
   const handleSubmit = async (values: CreateProjectData) => {
     setError(null);
-    const res = await updateProjectAction(project.id, values);
-    if (!res.success) {
-      setError(res.error || "Une erreur est survenue lors de la modification.");
-      return;
+
+    const hasProjectUpdate =
+      values.name !== project.name ||
+      values.description !== project.description;
+
+    const currentEmails = project.members.map((m) => m.user.email);
+
+    const emailsToAdd = values.contributors?.filter(
+      (email) => !currentEmails.includes(email),
+    );
+
+    const membersToRemove = project.members.filter(
+      (m) => !values.contributors?.includes(m.user.email),
+    );
+
+    try {
+      if (hasProjectUpdate) {
+        const res = await updateProjectAction(project.id, values);
+        if (!res.success) {
+          setError(
+            res.error ||
+              "Une erreur est survenue lors de la modification du projet.",
+          );
+          return;
+        }
+      }
+
+      if (emailsToAdd) {
+        for (const email of emailsToAdd) {
+          const res = await addContributorToProjectAction(project.id, email);
+          if (!res.success) {
+            setError(res.error || `Erreur lors de l'ajout de ${email}.`);
+            return;
+          }
+        }
+      }
+
+      if (membersToRemove) {
+        for (const member of membersToRemove) {
+          const res = await removeContributorFromProjectAction(
+            project.id,
+            member.userId,
+          );
+          if (!res.success) {
+            setError(res.error || "Erreur lors de la suppression d'un membre.");
+            return;
+          }
+        }
+      }
+
+      handleOpenChange(false);
+    } catch (err) {
+      setError("Une erreur inattendue est survenue.");
     }
-    handleOpenChange(false);
   };
 
   return (

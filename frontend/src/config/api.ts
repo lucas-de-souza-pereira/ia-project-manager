@@ -13,6 +13,10 @@ export const API_ROUTES = {
   PROJECTS: {
     BASE: "/projects",
     DETAIL: (projectId: string) => `/projects/${projectId}`,
+    ADD_CONTRIBUTOR: (projectId: string) =>
+      `/projects/${projectId}/contributors`,
+    REMOVE_CONTRIBUTOR: (projectId: string, userId: string) =>
+      `/projects/${projectId}/contributors/${userId}`,
   },
   TASKS: {
     LIST: (projectId: string) => `/projects/${projectId}/tasks`,

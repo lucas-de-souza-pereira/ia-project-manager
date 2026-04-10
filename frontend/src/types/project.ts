@@ -34,5 +34,5 @@ export interface ProjectWithTasks extends Project {
 export interface CreateProjectData {
   name: string;
   description: string;
-  contributors: string[];
+  contributors?: string[];
 }

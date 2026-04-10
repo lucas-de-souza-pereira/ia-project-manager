@@ -28,6 +28,7 @@ export default function ProjectDetailView({
   project: ProjectWithTasks;
   currentUser: User;
 }) {
+  console.log(project);
   const allTeamMembers = [
     { member: project.owner, role: "ADMIN" },
     ...project.members

@@ -41,7 +41,6 @@ export function CreateTaskModal({
       router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
     }
   };
-
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-[500px]">

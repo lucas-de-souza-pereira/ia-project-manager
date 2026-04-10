@@ -7,6 +7,7 @@ import { CreateTaskData, Task } from "@/types/task";
 import { ActionResult } from "@/types/actions";
 import { parse, isValid } from "date-fns";
 import { CreateProjectData, Project } from "@/types/project";
+import { API_ROUTES } from "@/config/api";
 
 export async function createProjectAction(
   data: CreateProjectData,
@@ -66,6 +67,73 @@ export async function updateProjectAction(
   } catch (err) {
     const message =
       err instanceof Error ? err.message : "Erreur lors de la modification";
+    return { success: false, error: message };
+  }
+}
+
+export async function addContributorToProjectAction(
+  projectId: string,
+  email: string,
+): Promise<ActionResult> {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("auth_token")?.value;
+
+    if (!token) {
+      return { success: false, error: "Vous n'êtes pas authentifié." };
+    }
+
+    await apiFetch<{
+      success: boolean;
+      message: string;
+      data?: any;
+    }>(API_ROUTES.PROJECTS.ADD_CONTRIBUTOR(projectId), {
+      method: "POST",
+      body: JSON.stringify({ email }),
+      token: token,
+    });
+
+    revalidatePath(`/projects/${projectId}`);
+
+    return { success: true };
+  } catch (err) {
+    const message =
+      err instanceof Error
+        ? err.message
+        : "Erreur lors de l'ajout du contributeur";
+    return { success: false, error: message };
+  }
+}
+
+export async function removeContributorFromProjectAction(
+  projectId: string,
+  userId: string,
+): Promise<ActionResult> {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("auth_token")?.value;
+
+    if (!token) {
+      return { success: false, error: "Vous n'êtes pas authentifié." };
+    }
+
+    await apiFetch<{
+      success: boolean;
+      message: string;
+      data?: any;
+    }>(API_ROUTES.PROJECTS.REMOVE_CONTRIBUTOR(projectId, userId), {
+      method: "DELETE",
+      token: token,
+    });
+
+    revalidatePath(`/projects/${projectId}`);
+
+    return { success: true };
+  } catch (err) {
+    const message =
+      err instanceof Error
+        ? err.message
+        : "Erreur lors de la suppression du contributeur";
     return { success: false, error: message };
   }
 }
