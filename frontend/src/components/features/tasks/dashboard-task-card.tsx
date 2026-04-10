@@ -7,11 +7,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { Folder, Calendar, Comment } from "@/components/icons";
 import { formatFrenchDate } from "@/lib/utils";
 import { type AssignedTask } from "@/types/task";
 import { TASK_STATUS_DICT } from "@/config/task-status";
+import Link from "next/link";
 
 interface DashboardTaskCardProps {
   task: AssignedTask;
@@ -71,9 +73,12 @@ export default function DashboardTaskCard({
         <TaskMetadata task={task} />
 
         <CardAction>
-          <Button variant="default" size="lg" className="w-30">
+          <Link
+            href={`/projects/${task.projectId}`}
+            className={cn(buttonVariants({ variant: "default", size: "lg" }), "w-30")}
+          >
             Voir
-          </Button>
+          </Link>
         </CardAction>
       </CardContent>
     </Card>

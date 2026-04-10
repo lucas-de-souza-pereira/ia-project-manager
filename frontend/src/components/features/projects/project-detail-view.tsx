@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // Composants features
 import ProjectTasksCard from "../tasks/project-tasks-card";
@@ -28,7 +29,7 @@ export default function ProjectDetailView({
   project: ProjectWithTasks;
   currentUser: User;
 }) {
-  console.log(project);
+  const router = useRouter();
   const allTeamMembers = [
     { member: project.owner, role: "ADMIN" },
     ...project.members
@@ -43,7 +44,11 @@ export default function ProjectDetailView({
     <div className="mt-19.5">
       <div className="flex items-center justify-between pl-11 pr-[113px]">
         <div className="flex gap-x-3 ">
-          <Button variant="ghost" className="bg-white rounded-lg border-border">
+          <Button
+            variant="ghost"
+            className="bg-white rounded-lg border-border"
+            onClick={() => router.back()}
+          >
             <ArrowLeft className="w-3.75" />
           </Button>
 
