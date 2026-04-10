@@ -17,6 +17,7 @@ import { CommentsSection } from "./comments/comments-section";
 import { Badge } from "@/components/ui/badge";
 import { TASK_STATUS_DICT } from "@/config/task-status";
 import { Button } from "@/components/ui/button";
+import { deleteTaskAction } from "@/lib/actions/tasks";
 
 import {
   DropdownMenu,
@@ -47,7 +48,7 @@ export default function ProjectTasksCard({
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
   const onDelete = () => {
-    console.log("delete");
+    deleteTaskAction(task.projectId, task.id);
   };
 
   const onAddComment = (content: string) => {

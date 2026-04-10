@@ -6,6 +6,7 @@ import { apiFetch } from "@/lib/api/client";
 import { CreateTaskData, Task } from "@/types/task";
 import { ActionResult } from "@/types/actions";
 import { parse, isValid } from "date-fns";
+import { API_ROUTES } from "@/config/api";
 
 export async function createTaskAction(
   projectId: string,
@@ -31,7 +32,7 @@ export async function createTaskAction(
       success: boolean;
       message: string;
       data: { task: Task };
-    }>(`/projects/${projectId}/tasks`, {
+    }>(API_ROUTES.TASKS.LIST(projectId), {
       method: "POST",
       body: JSON.stringify(backendData),
       token: token,
@@ -72,7 +73,7 @@ export async function updateTaskAction(
       success: boolean;
       message: string;
       data: { task: Task };
-    }>(`/projects/${projectId}/tasks/${taskId}`, {
+    }>(API_ROUTES.TASKS.DETAIL(projectId, taskId), {
       method: "PUT",
       body: JSON.stringify(backendData),
       token: token,
@@ -84,6 +85,37 @@ export async function updateTaskAction(
   } catch (err) {
     const message =
       err instanceof Error ? err.message : "Erreur lors de la modification";
+    return { success: false, error: message };
+  }
+}
+
+export async function deleteTaskAction(
+  projectId: string,
+  taskId: string,
+): Promise<ActionResult<Task>> {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("auth_token")?.value;
+
+    if (!token) {
+      return { success: false, error: "Vous n'êtes pas authentifié." };
+    }
+
+    const result = await apiFetch<{
+      success: boolean;
+      message: string;
+      data: { task: Task };
+    }>(API_ROUTES.TASKS.DETAIL(projectId, taskId), {
+      method: "DELETE",
+      token: token,
+    });
+
+    revalidatePath(`/projects/${projectId}`);
+
+    return { success: true, data: result.data.task };
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Erreur lors de la suppression";
     return { success: false, error: message };
   }
 }
