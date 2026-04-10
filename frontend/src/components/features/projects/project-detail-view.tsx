@@ -18,9 +18,10 @@ import { ArrowLeft } from "@/components/icons";
 import { Chips } from "@/components/shared/chips";
 import { SquareCheck, Calendar } from "@/components/icons";
 
-// types
+// types et actions
 import { type User } from "@/types/user";
 import { type ProjectWithTasks } from "@/types/project";
+import { deleteProjectAction } from "@/lib/actions/projects";
 
 export default function ProjectDetailView({
   project,
@@ -43,6 +44,13 @@ export default function ProjectDetailView({
 
   const isOwner = currentUser.id === project.owner.id;
 
+  const handleDeleteProject = async () => {
+    const res = await deleteProjectAction(project.id);
+    if (res && !res.success) {
+      alert(res.error);
+    }
+  };
+
   return (
     <div className="mt-19.5">
       <div className="flex items-center justify-between pl-11 pr-[113px]">
@@ -60,6 +68,11 @@ export default function ProjectDetailView({
             <p>{project.description}</p>
           </div>
           {isOwner && <Link href="?modal=update-project">Modifier</Link>}
+          {isOwner && (
+            <Button variant="outline" onClick={() => handleDeleteProject()}>
+              Supprimer
+            </Button>
+          )}
         </div>
 
         <div className="flex gap-x-2">

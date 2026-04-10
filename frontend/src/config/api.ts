@@ -26,6 +26,8 @@ export const API_ROUTES = {
   COMMENTS: {
     LIST: (projectId: string, taskId: string) =>
       `/projects/${projectId}/tasks/${taskId}/comments`,
+    CREATE: (projectId: string, taskId: string) =>
+      `/projects/${projectId}/tasks/${taskId}/comments`,
     DETAIL: (projectId: string, taskId: string, commentId: string) =>
       `/projects/${projectId}/tasks/${taskId}/comments/${commentId}`,
   },

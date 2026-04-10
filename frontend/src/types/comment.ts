@@ -13,3 +13,9 @@ export interface Comment {
 export interface CommentInput {
   content: string;
 }
+
+export interface CommentCreateInput {
+  content: string;
+  taskId: string;
+  projectId: string;
+}

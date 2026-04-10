@@ -8,6 +8,7 @@ import { ActionResult } from "@/types/actions";
 import { parse, isValid } from "date-fns";
 import { CreateProjectData, Project } from "@/types/project";
 import { API_ROUTES } from "@/config/api";
+import { redirect } from "next/navigation";
 
 export async function createProjectAction(
   data: CreateProjectData,
@@ -23,7 +24,7 @@ export async function createProjectAction(
       success: boolean;
       message: string;
       data: { project: Project };
-    }>(`/projects`, {
+    }>(API_ROUTES.PROJECTS.BASE, {
       method: "POST",
       body: JSON.stringify(data),
       token: token,
@@ -55,7 +56,7 @@ export async function updateProjectAction(
       success: boolean;
       message: string;
       data: { project: Project };
-    }>(`/projects/${projectId}`, {
+    }>(API_ROUTES.PROJECTS.DETAIL(projectId), {
       method: "PUT",
       body: JSON.stringify(data),
       token: token,
@@ -69,6 +70,36 @@ export async function updateProjectAction(
       err instanceof Error ? err.message : "Erreur lors de la modification";
     return { success: false, error: message };
   }
+}
+
+export async function deleteProjectAction(
+  projectId: string,
+): Promise<ActionResult> {
+  let success = false;
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("auth_token")?.value;
+
+    if (!token) {
+      return { success: false, error: "Vous n'êtes pas authentifié." };
+    }
+
+    const result = await apiFetch(API_ROUTES.PROJECTS.DETAIL(projectId), {
+      method: "DELETE",
+      token: token,
+    });
+
+    revalidatePath(`/projects/${projectId}`);
+    revalidatePath("/projects");
+    revalidatePath("/dashboard");
+    success = true;
+  } catch (err) {
+    const message =
+      err instanceof Error ? err.message : "Erreur lors de la suppression";
+    return { success: false, error: message };
+  }
+
+  redirect("/projects");
 }
 
 export async function addContributorToProjectAction(

@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { TASK_STATUS_DICT } from "@/config/task-status";
 import { Button } from "@/components/ui/button";
 import { deleteTaskAction } from "@/lib/actions/tasks";
+import { addCommentAction } from "@/lib/actions/comments";
 
 import {
   DropdownMenu,
@@ -52,7 +53,11 @@ export default function ProjectTasksCard({
   };
 
   const onAddComment = (content: string) => {
-    console.log(content);
+    addCommentAction({
+      content,
+      taskId: task.id,
+      projectId: task.projectId,
+    });
   };
   const statusConfig = TASK_STATUS_DICT[task.status];
 
