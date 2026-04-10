@@ -40,6 +40,9 @@ export default function ProjectDetailView({
   const otherTeamMembers = allTeamMembers.filter(
     ({ member }) => member.id !== currentUser.id,
   );
+
+  const isOwner = currentUser.id === project.owner.id;
+
   return (
     <div className="mt-19.5">
       <div className="flex items-center justify-between pl-11 pr-[113px]">
@@ -56,8 +59,7 @@ export default function ProjectDetailView({
             <h1>{project.name}</h1>
             <p>{project.description}</p>
           </div>
-
-          <Link href="?modal=update-project">Modifier</Link>
+          {isOwner && <Link href="?modal=update-project">Modifier</Link>}
         </div>
 
         <div className="flex gap-x-2">

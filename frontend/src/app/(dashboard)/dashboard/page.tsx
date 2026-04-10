@@ -6,7 +6,6 @@ export default async function DashboardPage() {
   const token = await getToken();
   const rawTasks = await getAssignedTasks(token as string);
 
-  console.log(rawTasks);
   const priorityWeight = {
     HIGH: 3,
     MEDIUM: 2,
