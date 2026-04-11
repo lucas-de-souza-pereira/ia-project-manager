@@ -3,12 +3,15 @@
 import { useState } from "react";
 import { Chips } from "@/components/shared/chips";
 import TaskListView from "@/components/features/dashboard/task-list-view";
-import TaskKanbanView from "@/components/features/dashboard/task-kanban-view";
+import { KanbanColumn } from "@/components/shared/kanban-column";
 import { Button } from "@/components/ui/button";
 import { SquareCheck, Calendar } from "@/components/icons";
 import { useAuth } from "@/contexts/auth-context";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { type AssignedTask } from "@/types/task";
+import DashboardTaskCard from "../tasks/dashboard-task-card";
+import { KANBAN_COLUMNS } from "@/config/task-status";
+
 
 interface DashboardViewProps {
   tasks: AssignedTask[];
@@ -27,6 +30,10 @@ export default function DashboardView({ tasks }: DashboardViewProps) {
     params.set("modal", "create-project");
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
+
+  const todoTasks = tasks.filter((t) => t.status === "TODO");
+  const inProgressTasks = tasks.filter((t) => t.status === "IN_PROGRESS");
+  const doneTasks = tasks.filter((t) => t.status === "DONE");
 
   return (
     <div className="mt-8 md:mt-12 xl:mt-22">
@@ -68,8 +75,22 @@ export default function DashboardView({ tasks }: DashboardViewProps) {
           <TaskListView tasks={tasks} />
         </div>
       ) : (
-        <div className="mt-5 md:mt-8 xl:mt-12.5 w-11/12 mx-auto">
-          <TaskKanbanView tasks={tasks} />
+        <div className="mt-5 md:mt-8 xl:mt-12.5 max-w-[1440px] w-full mx-auto flex flex-col gap-y-4.5 xl:flex-row gap-x-5.5">
+          {KANBAN_COLUMNS.map((column) => (
+            <KanbanColumn
+              key={column.status}
+              title={column.title}
+              tasks={tasks}
+              status={column.status}
+              renderCard={(task) => (
+                <DashboardTaskCard
+                  key={task.id}
+                  task={task}
+                  variant="kanban"
+                />
+              )}
+            />
+          ))}
         </div>
       )}
     </div>

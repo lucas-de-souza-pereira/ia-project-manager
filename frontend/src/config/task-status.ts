@@ -1,5 +1,7 @@
 import { AssignedTask } from "@/types/task";
 
+
+
 export const TASK_STATUS_DICT: Record<
   AssignedTask["status"],
   { label: string; tailwindClasses: string }
@@ -16,4 +18,10 @@ export const TASK_STATUS_DICT: Record<
     label: "Terminée",
     tailwindClasses: "bg-[#F1FFF7] text-[#27AE60]",
   },
-};
+} as const;
+
+export const KANBAN_COLUMNS = [
+  { status: "TODO", title: TASK_STATUS_DICT.TODO.label },
+  { status: "IN_PROGRESS", title: TASK_STATUS_DICT.IN_PROGRESS.label },
+  { status: "DONE", title: TASK_STATUS_DICT.DONE.label },
+] as const; 
