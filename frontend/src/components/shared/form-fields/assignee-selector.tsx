@@ -97,7 +97,7 @@ export function AssigneeSelector<T extends FieldValues>({
                       const isSelected = field.value?.includes(user[valueKey]);
                       return (
                         <CommandItem
-                          value={user.name}
+                          value={user.name || user.email}
                           key={user[valueKey]}
                           onSelect={() => {
                             if (isSelected) {
@@ -120,7 +120,7 @@ export function AssigneeSelector<T extends FieldValues>({
                               isSelected ? "opacity-100" : "opacity-0",
                             )}
                           />
-                          {user.name}
+                          {user.name || user.email}
                         </CommandItem>
                       );
                     })}

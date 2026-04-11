@@ -21,6 +21,10 @@ export const profileSchema = z
         "Le mot de passe doit contenir au moins une lettre minuscule",
       )
       .regex(/[0-9]/, "Le mot de passe doit contenir au moins un chiffre")
+      .regex(
+        /^[a-zA-Z\d@$!%*?&]*$/,
+        "Caractères spéciaux autorisés : @ $ ! % * ? &",
+      )
       .optional()
       .or(z.literal("")),
   })

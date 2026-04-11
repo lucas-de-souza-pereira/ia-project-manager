@@ -90,8 +90,7 @@ export async function updatePasswordAction(
       token: token,
       body: JSON.stringify(passwordData),
     });
-
-    return { success: true, data: result.data.user };
+    return { success: true };
   } catch (err) {
     const message =
       err instanceof Error

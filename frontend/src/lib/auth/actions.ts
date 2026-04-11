@@ -47,12 +47,11 @@ export async function registerAction(
 ): Promise<ActionResult> {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
-  const name = formData.get("name") as string | null;
 
   try {
     const res = await apiFetch<AuthApiResponse>("/auth/register", {
       method: "POST",
-      body: JSON.stringify({ email, password, name: name || undefined }),
+      body: JSON.stringify({ email, password }),
     });
 
     const cookieStore = await cookies();
@@ -71,7 +70,7 @@ export async function registerAction(
     return { success: false, error: message };
   }
 
-  redirect("/dashboard");
+  redirect("/profile");
 }
 
 export async function logoutAction(): Promise<void> {

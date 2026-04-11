@@ -25,7 +25,7 @@ export function UserChip({
   const colorVariant = isMe ? "user" : roleInfo.badgeVariant;
   const avatarRole = isMe ? "USER" : actualRole;
 
-  const label = variant === "role" ? roleInfo.label : user.name;
+  const label = variant === "role" ? roleInfo.label : (user.name || "Utilisateur");
 
   return (
     <div className="flex items-center gap-2">

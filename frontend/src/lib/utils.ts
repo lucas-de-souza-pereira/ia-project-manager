@@ -24,7 +24,8 @@ export function formatFrenchDateWithHour(dateString: string): string {
   }).format(new Date(dateString));
 }
 
-export function getUserInitials(name: string): string {
+export function getUserInitials(name?: string): string {
+  if (!name || name.trim() === "") return "?";
   const parts = name.trim().split(/\s+/);
   if (parts.length >= 2) {
     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
