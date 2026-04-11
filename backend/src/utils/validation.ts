@@ -284,6 +284,7 @@ export const validateUpdateProjectData = (data: {
 export const validateCreateTaskData = (data: {
   title: string;
   description?: string;
+  status?: string;
   priority?: string;
   dueDate?: string;
   assigneeIds?: string[];
@@ -321,6 +322,17 @@ export const validateCreateTaskData = (data: {
     errors.push({
       field: "priority",
       message: "La priorité doit être LOW, MEDIUM, HIGH ou URGENT",
+    });
+  }
+
+  // Validation du statut
+  if (
+    data.status &&
+    !["TODO", "IN_PROGRESS", "DONE", "CANCELLED"].includes(data.status)
+  ) {
+    errors.push({
+      field: "status",
+      message: "Le statut doit être TODO, IN_PROGRESS, DONE ou CANCELLED",
     });
   }
 

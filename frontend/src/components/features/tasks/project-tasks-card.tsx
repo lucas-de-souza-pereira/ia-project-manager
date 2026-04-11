@@ -10,12 +10,24 @@ import {
 
 import { Task } from "@/types/task";
 import { User } from "@/types/user";
-import { Calendar } from "@/components/icons";
+import { Calendar, Ellipsis } from "@/components/icons";
 import { formatFrenchDate } from "@/lib/utils";
 import { UserChip } from "@/components/shared/user-chip";
 import { CommentsSection } from "./comments/comments-section";
 import { Badge } from "@/components/ui/badge";
 import { TASK_STATUS_DICT } from "@/config/task-status";
+import { Button } from "@/components/ui/button";
+import { deleteTaskAction } from "@/lib/actions/tasks";
+import { addCommentAction } from "@/lib/actions/comments";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface ProjectTasksCardProps {
   task: Task;
@@ -26,10 +38,29 @@ export default function ProjectTasksCard({
   task,
   currentUser,
 }: ProjectTasksCardProps) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const onEdit = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("modal", "update-task");
+    params.set("taskId", task.id);
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+  const onDelete = () => {
+    deleteTaskAction(task.projectId, task.id);
+  };
+
   const onAddComment = (content: string) => {
-    console.log(content);
+    addCommentAction({
+      content,
+      taskId: task.id,
+      projectId: task.projectId,
+    });
   };
   const statusConfig = TASK_STATUS_DICT[task.status];
+
   return (
     <Card>
       <CardHeader>
@@ -40,6 +71,21 @@ export default function ProjectTasksCard({
           </Badge>
         </div>
         <p>{task.description}</p>
+        <CardAction>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={<Button variant="ghost" size="icon" />}
+            >
+              <Ellipsis className="w-3.75 h-1" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={onEdit}>Modifier</DropdownMenuItem>
+              <DropdownMenuItem onClick={onDelete} className="text-destructive">
+                Supprimer
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </CardAction>
       </CardHeader>
       <CardContent>
         <p>Échéance :</p>

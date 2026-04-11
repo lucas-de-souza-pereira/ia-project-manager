@@ -1,4 +1,4 @@
-import DashboardTaskCard from "./dashboard-task-card";
+import DashboardTaskCard from "../tasks/dashboard-task-card";
 import { type AssignedTask } from "@/types/task";
 
 export default function TaskListView({ tasks }: { tasks: AssignedTask[] }) {

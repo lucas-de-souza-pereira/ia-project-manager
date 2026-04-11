@@ -3,30 +3,22 @@
 import { useActionState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 import Link from "next/link";
+
+// components shadcn ui
+import { Button } from "@/components/ui/button";
+import { Form } from "@/components/ui/form";
+
+// components custom
+import { FormInput } from "@/components/shared/form-fields/form-input";
+
+// icons
 import { Logo } from "@/components/icons/logo";
 
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { registerAction } from "@/lib/auth/actions";
+// types et action
 import { ActionResult } from "@/types/actions";
-
-const registerSchema = z.object({
-  name: z.string().min(1, "Le nom est requis."),
-  email: z.string().email("Adresse email invalide."),
-  password: z
-    .string()
-    .min(8, "Le mot de passe doit faire au moins 8 caractères."),
-});
+import { registerAction } from "@/lib/auth/actions";
+import { RegisterInput, registerSchema } from "@/lib/validation/auth";
 
 const initialState: ActionResult = { success: false, error: "" };
 
@@ -36,11 +28,10 @@ export function RegisterForm() {
     initialState,
   );
 
-  const form = useForm<z.infer<typeof registerSchema>>({
+  const form = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
     mode: "onTouched",
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
@@ -70,44 +61,19 @@ export function RegisterForm() {
               </p>
             )}
 
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nom complet</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Jean Dupont" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
+            <FormInput
               control={form.control}
               name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="jean@abricot.fr" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Email"
+              placeholder="jean@abricot.fr"
             />
-            <FormField
+
+            <FormInput
               control={form.control}
               name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mot de passe</FormLabel>
-                  <FormControl>
-                    <Input type="password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Mot de passe"
+              placeholder="Mot de passe"
+              type="password"
             />
 
             <div className="space-y-4 mx-auto px-4.25">

@@ -3,20 +3,11 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { apiFetch } from "@/lib/api/client";
-import type { User } from "@/types/user";
 import type { ActionResult } from "@/types/actions";
+import type { AuthApiResponse } from "@/types/auth";
 
 const COOKIE_NAME = "auth_token";
 const COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
-
-interface AuthApiResponse {
-  success: boolean;
-  message: string;
-  data: {
-    user: User;
-    token: string;
-  };
-}
 
 export async function loginAction(
   _prevState: ActionResult,
@@ -56,12 +47,11 @@ export async function registerAction(
 ): Promise<ActionResult> {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
-  const name = formData.get("name") as string | null;
 
   try {
     const res = await apiFetch<AuthApiResponse>("/auth/register", {
       method: "POST",
-      body: JSON.stringify({ email, password, name: name || undefined }),
+      body: JSON.stringify({ email, password }),
     });
 
     const cookieStore = await cookies();
@@ -80,7 +70,7 @@ export async function registerAction(
     return { success: false, error: message };
   }
 
-  redirect("/dashboard");
+  redirect("/profile");
 }
 
 export async function logoutAction(): Promise<void> {

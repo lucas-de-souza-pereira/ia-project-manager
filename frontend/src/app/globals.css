@@ -1,8 +1,60 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css"; /* Shadcn imports */
+@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
+
+/* Couleurs de base - Variables CSS */
+:root {
+  --background: #f9fafb;
+  --foreground: #000000;
+
+  --primary: #d3590b;
+  --primary-light: #ffe8d9;
+  --primary-foreground: #ffffff;
+
+  --heading: #1f1f1f;
+  --card: #ffffff;
+  --card-foreground: #6b7280;
+  --muted: #e5e7eb;
+  --muted-foreground: #9ca3af;
+  --border: #e5e7eb;
+  --primary-button: #0f0f0f;
+  --primary-button-hover: #1f1f1f;
+
+  --input: #e5e7eb;
+  --ring: #d3590b;
+
+  --secondary: #f9fafb;
+  --secondary-foreground: #6b7280;
+
+  --accent: #f9fafb;
+  --accent-foreground: #000000;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+
+  --chart-1: #d3590b;
+  --chart-2: #1f1f1f;
+  --chart-3: #6b7280;
+  --chart-4: #e5e7eb;
+  --chart-5: #000000;
+
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: #0f0f0f;
+  --foreground: #f9fafb;
+  --card: #1f1f1f;
+  --card-foreground: #ffffff;
+  --muted: #1f1f1f;
+  --border: #1f1f1f;
+  --input: #1f1f1f;
+}
 
 @theme inline {
   /* Polices */
@@ -52,63 +104,12 @@
 
   /* Radius */
   --radius-sm: 4px;
-  --radius-md: var(--radius); /* 8px */
+  --radius-md: var(--radius);
   --radius-lg: 10px;
   --radius-xl: calc(var(--radius) * 1.4);
 }
 
 @layer base {
-  :root {
-    --background: #f9fafb;
-    --foreground: #000000;
-
-    --primary: #d3590b;
-    --primary-light: #ffe8d9;
-    --primary-foreground: #ffffff;
-
-    --heading: #1f1f1f;
-    --card: #ffffff;
-    --card-foreground: #6b7280;
-    --muted: #e5e7eb;
-    --muted-foreground: #9ca3af;
-    --border: #e5e7eb;
-    --primary-button: #0f0f0f;
-    --primary-button-hover: #1f1f1f;
-
-    --input: #e5e7eb;
-    --ring: #d3590b;
-
-    --secondary: #f9fafb;
-    --secondary-foreground: #6b7280;
-
-    --accent: #f9fafb;
-    --accent-foreground: #000000;
-
-    --destructive: #ef4444;
-    --destructive-foreground: #ffffff;
-
-    --popover: #ffffff;
-    --popover-foreground: #000000;
-
-    --chart-1: #d3590b;
-    --chart-2: #1f1f1f;
-    --chart-3: #6b7280;
-    --chart-4: #e5e7eb;
-    --chart-5: #000000;
-
-    --radius: 0.5rem;
-  }
-
-  .dark {
-    --background: #0f0f0f;
-    --foreground: #f9fafb;
-    --card: #1f1f1f;
-    --card-foreground: #ffffff;
-    --muted: #1f1f1f;
-    --border: #1f1f1f;
-    --input: #1f1f1f;
-  }
-
   * {
     border-color: var(--border);
   }

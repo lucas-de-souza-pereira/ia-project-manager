@@ -25,3 +25,11 @@ export interface AssignedTask extends Task {
   };
   commentsCount: number;
 }
+
+export interface CreateTaskData {
+  title: string;
+  description: string;
+  dueDate: string;
+  status: string;
+  assigneeIds: string[];
+}

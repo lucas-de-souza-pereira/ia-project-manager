@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import DashboardTaskCard from "./dashboard-task-card";
+import DashboardTaskCard from "../tasks/dashboard-task-card";
 import { type AssignedTask } from "@/types/task";
 
 interface KanbanColumnProps {

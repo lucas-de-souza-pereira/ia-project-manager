@@ -3,7 +3,6 @@ import { UserAvatar } from "./user-avatar";
 import { DashboardIcon } from "@/components/icons";
 import { Folder } from "@/components/icons";
 import { Logo } from "@/components/icons";
-import { LogoutButton } from "@/components/features/auth/logout-button";
 
 export function Navbar() {
   return (
@@ -33,7 +32,6 @@ export function Navbar() {
           className="flex flex-col items-center lg:flex-row lg:gap-x-4"
         >
           <UserAvatar />
-          <LogoutButton />
         </nav>
       </div>
     </nav>
