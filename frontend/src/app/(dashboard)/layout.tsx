@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Navbar } from "@/components/layout/nav/navbar";
 import { AuthProvider } from "@/contexts/auth-context";
 import { requireSession } from "@/lib/auth/session";
+import { Footer } from "@/components/layout/footer/footer";
 
 export default async function DashboardLayout({
   children,
@@ -17,7 +18,9 @@ export default async function DashboardLayout({
           <Navbar />
         </header>
         <main className="flex-1 overflow-y-auto">{children}</main>
+            
       </div>
+  <Footer/>
     </AuthProvider>
   );
 }
