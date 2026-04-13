@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 // Composants features
 import ProjectTasksCard from "../tasks/project-tasks-card";
@@ -9,6 +10,7 @@ import { CreateTaskModal } from "../tasks/modals/create-task-modal";
 import { UpdateTaskModal } from "../tasks/modals/update-tasks-modal";
 import { UpdateProjectModal } from "./modals/update-project-modal";
 import { UserChip } from "@/components/shared/user-chip";
+import { KanbanColumn } from "@/components/shared/kanban-column";
 
 // Composants UI Shadcn
 import { Button } from "@/components/ui/button";
@@ -22,6 +24,7 @@ import { SquareCheck, Calendar } from "@/components/icons";
 import { type User } from "@/types/user";
 import { type ProjectWithTasks } from "@/types/project";
 import { deleteProjectAction } from "@/lib/actions/projects";
+import { KANBAN_COLUMNS } from "@/config/task-status";
 
 export default function ProjectDetailView({
   project,
@@ -31,6 +34,9 @@ export default function ProjectDetailView({
   currentUser: User;
 }) {
   const router = useRouter();
+  
+  const [view, setView] = useState<"list" | "kanban">("list");
+  
   const allTeamMembers = [
     { member: project.owner, role: "ADMIN" },
     ...project.members
@@ -138,17 +144,17 @@ export default function ProjectDetailView({
             <Chips
               icon={<SquareCheck className="w-4 h-4" />}
               label="Liste"
-              isActive={true}
+              isActive={view === "list"}
               onClick={() => {
-                console.log("Liste");
+                setView("list");
               }}
             />
             <Chips
               icon={<Calendar className="w-4 h-4" />}
               label="Kanban"
-              isActive={false}
+              isActive={view === "kanban"}
               onClick={() => {
-                console.log("Kanban");
+                setView("kanban");
               }}
             />
             <p>Trier par</p>
@@ -158,13 +164,33 @@ export default function ProjectDetailView({
       </div>
 
       <div className="mt-15 flex flex-col gap-y-8">
-        {project.tasks.map((task) => (
-          <ProjectTasksCard
-            key={task.id}
-            task={task}
-            currentUser={currentUser}
-          />
-        ))}
+        {view === "list" ? (
+          project.tasks.map((task) => (
+            <ProjectTasksCard
+              key={task.id}
+              task={task}
+              currentUser={currentUser}
+            />
+          ))
+        ) : (
+          <div className="mt-5 md:mt-8 xl:mt-12.5 w-11/12 mx-auto flex flex-col gap-y-4.5 xl:flex-row gap-x-5.5">
+            {KANBAN_COLUMNS.map((column) => (
+              <KanbanColumn
+                key={column.status}
+                title={column.title}
+                tasks={project.tasks}
+                status={column.status}
+                renderCard={(task) => (
+                  <ProjectTasksCard
+                    key={task.id}
+                    task={task}
+                    currentUser={currentUser}
+                  />
+                )}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

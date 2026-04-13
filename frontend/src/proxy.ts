@@ -9,6 +9,12 @@ export default function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get(COOKIE_NAME)?.value;
 
+  if (pathname === "/login" && request.nextUrl.searchParams.has("expired")) {
+    const response = NextResponse.next();
+    response.cookies.delete(COOKIE_NAME);
+    return response;
+  }
+
   const isProtected = PROTECTED_PREFIXES.some((prefix) =>
     pathname.startsWith(prefix),
   );

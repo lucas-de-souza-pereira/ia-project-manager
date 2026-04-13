@@ -31,10 +31,6 @@ export default function DashboardView({ tasks }: DashboardViewProps) {
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  const todoTasks = tasks.filter((t) => t.status === "TODO");
-  const inProgressTasks = tasks.filter((t) => t.status === "IN_PROGRESS");
-  const doneTasks = tasks.filter((t) => t.status === "DONE");
-
   return (
     <div className="mt-8 md:mt-12 xl:mt-22">
       <div className="w-10/12 xl:w-[1215px] mx-auto">
