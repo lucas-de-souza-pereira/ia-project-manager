@@ -117,7 +117,6 @@ const FormControl = React.forwardRef<
       ref={ref}
       id={formItemId}
       aria-describedby={
-        // FIX WAVE: On ne lie que le message d'erreur par défaut pour ne pas casser la référence
         !error ? undefined : `${formMessageId}`
       }
       aria-invalid={!!error}

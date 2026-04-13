@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, startTransition } from "react";
 import { UserProfile } from "@/types/user";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -46,9 +46,11 @@ export default function ProfileForm({
     if (hasProfileChanged) {
       const res = await updateProfileAction(values);
       if (res.success) {
-        router.refresh();
         if (isNewUser) {
-          router.push("/dashboard");
+          startTransition(() => {
+            router.push("/dashboard");
+            router.refresh();
+          });
           return;
         }
       }
@@ -78,7 +80,7 @@ export default function ProfileForm({
       setError("Aucune modification n'a été détectée.");
       return;
     }
-
+    router.refresh();
     setSuccess("Informations modifiées avec succès.");
   };
 
@@ -103,7 +105,7 @@ export default function ProfileForm({
           </p>
         )}
         {success && (
-          <p className="text-sm border border-success text-success bg-success/10 rounded-md p-3 mb-4 text-center">
+          <p className="text-sm text-primary border border-primary-light text-success bg-card/10 rounded-md p-3 mb-4 text-center">
             {success}
           </p>
         )}
@@ -138,7 +140,7 @@ export default function ProfileForm({
           </>
         )}
 
-        <div className="flex justify-end pt-4">
+        <div className="flex justify-start pt-4">
           <Button
             type="submit"
             disabled={!form.formState.isValid || form.formState.isSubmitting}

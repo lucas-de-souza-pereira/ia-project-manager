@@ -21,9 +21,17 @@ export default async function ProfilePage() {
   };
 
   return (
-    <div>
-      <ProfileForm userProfile={userProfile} />
-      <LogoutButton />
+    <div className="mt-8 md:mt-12 xl:mt-14.25">
+      <div className="flex flex-col gap-y-6 bg-card py-10 px-14.75 rounded-lg w-10/12 xl:w-[1215px] mx-auto">
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-y-2">
+            <h1 className="text-heading text-lg font-semibold">Mon profil</h1>
+            <p>{name}</p>
+          </div>
+          <LogoutButton />
+        </div>
+        <ProfileForm userProfile={userProfile} />
+      </div>
     </div>
   );
 }

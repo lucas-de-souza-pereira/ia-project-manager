@@ -30,7 +30,7 @@ export function UserChip({
   return (
     <div className="flex items-center gap-2">
       <Avatar className="">
-        <AvatarFallback className={`${getAvatarRole(avatarRole)} text-[10px]`}>
+        <AvatarFallback className={`${getAvatarRole(avatarRole)} text-[10px] border border-card `}>
           {getUserInitials(user.name)}
         </AvatarFallback>
       </Avatar>

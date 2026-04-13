@@ -68,7 +68,7 @@ export function AssigneeSelector<T extends FieldValues>({
                     type="button"
                     variant="outline"
                     className={cn(
-                      "w-full justify-between",
+                      "w-full justify-between text-xs md:text-xs",
                       !field.value?.length && "text-muted-foreground",
                     )}
                   />

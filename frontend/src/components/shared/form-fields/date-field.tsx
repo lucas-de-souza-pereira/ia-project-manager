@@ -53,7 +53,7 @@ export function DateField<T extends FieldValues>({
               <Input
                 placeholder="JJ/MM/AAAA"
                 maxLength={10}
-                className="pr-10"
+                className="pr-10 text-xs md:text-xs"
                 aria-required={required}
                 {...field}
               />

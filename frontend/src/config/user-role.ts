@@ -1,8 +1,9 @@
 export const AVATAR_ROLE = [
   { role: "USER", tailwindClasses: "bg-[#FFE8D9] text-[#D3590B]" },
   { role: "ADMIN", tailwindClasses: "bg-[#E0ECFF] text-[#3B82F6]" },
-  { role: "CONTRIBUTOR", tailwindClasses: "bg-[#E5E7EB] text-[#6B7280]" },
-];
+  { role: "CONTRIBUTOR", tailwindClasses: "bg-[#E5E7EB] text-[#0F0F0F]" },
+] as const;
+
 
 export const getAvatarRole = (role: string) => {
   const found = AVATAR_ROLE.find(
@@ -10,6 +11,7 @@ export const getAvatarRole = (role: string) => {
   );
   return found ? found.tailwindClasses : "";
 };
+
 
 export const USER_ROLE_CONFIG = {
   ADMIN: {

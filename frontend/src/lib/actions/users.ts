@@ -1,6 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 import { apiFetch } from "@/lib/api/client";
 import { ActionResult } from "@/types/actions";
 import { User, PasswordData } from "@/types/user";
@@ -60,6 +61,8 @@ export async function updateProfileAction(
       token: token,
       body: JSON.stringify(backendData),
     });
+
+    revalidatePath("/");
     return { success: true, data: result.data.user };
   } catch (err) {
     const message =

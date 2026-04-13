@@ -90,24 +90,22 @@ export default function TaskFormModal({
           required
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <DateField
-            control={form.control}
-            name="dueDate"
-            label="Échéance"
-            placeholder="JJ/MM/AAAA"
-            required
-          />
+        <DateField
+          control={form.control}
+          name="dueDate"
+          label="Échéance"
+          placeholder="JJ/MM/AAAA"
+          required
+        />
 
-          <AssigneeSelector
-            control={form.control}
-            name="assigneeIds"
-            label="Assigné à"
-            projectMember={projectMember}
-            valueKey="id"
-            required
-          />
-        </div>
+        <AssigneeSelector
+          control={form.control}
+          name="assigneeIds"
+          label="Assigné à"
+          projectMember={projectMember}
+          valueKey="id"
+          required
+        />
 
         <StatusSelector control={form.control} name="status" />
 

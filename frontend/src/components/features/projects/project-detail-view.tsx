@@ -11,14 +11,13 @@ import { UpdateTaskModal } from "../tasks/modals/update-tasks-modal";
 import { UpdateProjectModal } from "./modals/update-project-modal";
 import { UserChip } from "@/components/shared/user-chip";
 import { KanbanColumn } from "@/components/shared/kanban-column";
+import { Chips } from "@/components/shared/chips";
 
 // Composants UI Shadcn
 import { Button } from "@/components/ui/button";
 
 // icons
-import { ArrowLeft } from "@/components/icons";
-import { Chips } from "@/components/shared/chips";
-import { SquareCheck, Calendar } from "@/components/icons";
+import { SquareCheck, Calendar, ArrowLeft, Star } from "@/components/icons";
 
 // types et actions
 import { type User } from "@/types/user";
@@ -69,9 +68,10 @@ export default function ProjectDetailView({
             <ArrowLeft className="w-3.75" />
           </Button>
 
-          <div className="flex flex-col">
+        <div className="flex gap-x-3.5">
+          <div className="flex flex-col gap-y-3.5">
             <h1>{project.name}</h1>
-            <p>{project.description}</p>
+            <p className="text-lg/4.5">{project.description}</p>
           </div>
           {isOwner && <Link href="?modal=update-project">Modifier</Link>}
           {isOwner && (
@@ -80,11 +80,12 @@ export default function ProjectDetailView({
             </Button>
           )}
         </div>
+        </div>
 
         <div className="flex gap-x-2">
           <Link
             href="?modal=create-task"
-            className="inline-flex h-[50px] items-center justify-center gap-2 rounded-lg bg-primary-button px-8 text-base font-normal text-primary-foreground"
+            className="inline-flex h-[50px] items-center justify-center gap-2 rounded-lg bg-primary-button hover:bg-primary-button-hover px-4 text-base font-normal text-primary-foreground transition-colors duration-300"
           >
             + Ajouter une tâche
           </Link>
@@ -101,18 +102,19 @@ export default function ProjectDetailView({
             projectMember={projectMember}
           />
 
-          <Button variant="default" size="lg">
+          <Button variant="default" size="lg" className="bg-primary hover:bg-primary-foreground hover:text-primary hover:border-primary">
+            <Star className="w-5.25 h-5.25"/>
             IA
           </Button>
         </div>
       </div>
 
-      <div className="flex mt-15">
-        <div className="flex gap-10">
+      <div className="flex mt-15 bg-[#F3F4F6] py-5 px-12.5 items-center justify-between">
+        <div className="flex gap-2">
           <h2>Contributeurs</h2>
           <p>{allTeamMembers.length} personnes</p>
         </div>
-        <div className="flex gap-4">
+        <div className="flex gap-2">
           <UserChip
             user={currentUser}
             currentUserId={currentUser.id}
@@ -133,11 +135,11 @@ export default function ProjectDetailView({
         </div>
       </div>
 
-      <div className="mt-15">
-        <div className="flex items-center gap-x-2.5">
-          <div className="flex flex-col">
+      <div className="mt-8.5 md:bg-card md:rounded-lg md:border md:border-border p-1.5 md:p-14.75">
+        <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-y-2">
             <h2>Tâches</h2>
-            <p>{project.tasks.length} tâches</p>
+            <p>Par ordre de priorité</p>
           </div>
 
           <div className="flex gap-2">
@@ -161,18 +163,22 @@ export default function ProjectDetailView({
             <p>input recherche</p>
           </div>
         </div>
-      </div>
-
-      <div className="mt-15 flex flex-col gap-y-8">
-        {view === "list" ? (
-          project.tasks.map((task) => (
+      
+ {view === "list" ?
+         (
+      <div className="mt-10 flex flex-col gap-y-4.5">
+          {project.tasks.map((task) => (
             <ProjectTasksCard
               key={task.id}
               task={task}
               currentUser={currentUser}
-            />
+              />
+
           ))
+        }
+         </div>
         ) : (
+         
           <div className="mt-5 md:mt-8 xl:mt-12.5 w-11/12 mx-auto flex flex-col gap-y-4.5 xl:flex-row gap-x-5.5">
             {KANBAN_COLUMNS.map((column) => (
               <KanbanColumn
@@ -191,7 +197,8 @@ export default function ProjectDetailView({
             ))}
           </div>
         )}
-      </div>
+     
+    </div>
     </div>
   );
 }

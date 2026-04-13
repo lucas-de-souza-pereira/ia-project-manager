@@ -20,11 +20,11 @@ export function CommentsSection({
   const listId = `comments-list-${comments.length}`;
   return (
     <div className="space-y-6">
-      <div className="flex justify-between">
-        <h3 className="font-semibold">Commentaires ({comments.length})</h3>
+      <div className="flex items-center justify-between">
+        <h4 className="text-sm text-heading font-normal">Commentaires ({comments.length})</h4>
         <Button
           variant="ghost"
-          size="lg"
+          size="sm"
           onClick={() => setIsCommentsOpen(!isCommentsOpen)}
           aria-expanded={isCommentsOpen}
           aria-controls={listId}
@@ -35,16 +35,16 @@ export function CommentsSection({
           }
         >
           {isCommentsOpen ? (
-            <ChevronUp className="w-3.75 h-4" />
+            <ChevronUp className="w-4 h-2" />
           ) : (
-            <ChevronDown className="w-3.75 h-4" />
+            <ChevronDown className="w-4 h-2" />
           )}
         </Button>
       </div>
 
       {isCommentsOpen && (
         <div id={listId} className="space-y-4">
-          <div>
+          <div className="flex flex-col gap-4">
             {comments.map((comment) => (
               <CommentItem key={comment.id} comment={comment} />
             ))}
@@ -55,3 +55,4 @@ export function CommentsSection({
     </div>
   );
 }
+

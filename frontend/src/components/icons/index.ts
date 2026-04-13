@@ -9,3 +9,4 @@ export { ChevronUp } from "./chevron-up";
 export { ChevronDown } from "./chevron-down";
 export { UserGroup } from "./user-group";
 export { Ellipsis } from "./ellipsis";
+export { Star } from "./star"
