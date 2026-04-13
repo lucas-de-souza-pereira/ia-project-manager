@@ -3,27 +3,23 @@
 import { useActionState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 import Link from "next/link";
+
+// components shadcn ui
+import { Form } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+
+// components custom
+import { FormInput } from "@/components/shared/form-fields/form-input";
+
+// icons
 import { Logo } from "@/components/icons";
 
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+// types et action
+import { loginSchema, type LoginInput } from "@/lib/validation/auth";
 import { loginAction } from "@/lib/auth/actions";
 import { ActionResult } from "@/types/actions";
 
-const loginSchema = z.object({
-  email: z.string().email("Adresse email invalide."),
-  password: z.string().min(1, "Le mot de passe est requis."),
-});
 
 const initialState: ActionResult = { success: false, error: "" };
 
@@ -33,7 +29,7 @@ export function LoginForm() {
     initialState,
   );
 
-  const form = useForm<z.infer<typeof loginSchema>>({
+  const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
     mode: "onTouched",
     defaultValues: {
@@ -66,31 +62,19 @@ export function LoginForm() {
               </p>
             )}
 
-            <FormField
+            <FormInput
               control={form.control}
               name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="jean@abricot.fr" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Email"
+              placeholder="jean@abricot.fr"
             />
-            <FormField
+
+            <FormInput
               control={form.control}
               name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mot de passe</FormLabel>
-                  <FormControl>
-                    <Input type="password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Mot de passe"
+              placeholder="Mot de passe"
+              type="password"
             />
 
             <div className="space-y-4 mx-auto px-4.25">
