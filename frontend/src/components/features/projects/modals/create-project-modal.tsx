@@ -59,8 +59,7 @@ export function CreateProjectModal({ currentUser }: { currentUser: User }) {
       setError(res.error || "Une erreur est survenue lors de la création.");
       return;
     }
-    handleOpenChange(false);
-    router.push(`/projects/${res.data?.id}`);
+    router.replace(`/projects/${res.data?.id}`);
   };
 
   return (
