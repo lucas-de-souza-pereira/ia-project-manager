@@ -24,7 +24,7 @@ export default function ProjectsView({
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
   return (
-    <div className="w-11/12 lg:w-[1166px] mx-auto">
+    <div className="w-11/12 xl:w-[1166px] mx-auto">
       <div className="flex flex-col gap-y-4.5 md:flex-row items-center justify-between mt-8 md:mt-12 lg:mt-19">
         <div className="flex flex-col gap-y-3.5">
           <h1>Mes projets</h1>
@@ -41,7 +41,7 @@ export default function ProjectsView({
       </div>
 
       <CreateProjectModal currentUser={currentUser} />
-      <div className="mt-8 md:mt-12 lg:mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="mt-8 md:mt-12 lg:mt-16 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {projects.map((project) => (
           <ProjectCard
             key={project.id}

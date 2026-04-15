@@ -104,7 +104,6 @@ export default function TaskFormModal({
           label="Assigné à"
           projectMember={projectMember}
           valueKey="id"
-          required
         />
 
         <StatusSelector control={form.control} name="status" />

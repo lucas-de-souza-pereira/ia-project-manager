@@ -83,7 +83,6 @@ export default function ProjectFormModal({
           label="Assigné à"
           projectMember={contributors}
           valueKey="email"
-          required
         />
 
         <div className="flex justify-end pt-4">

@@ -13,14 +13,13 @@ export default async function DashboardLayout({
 
   return (
     <AuthProvider user={user}>
-      <div className="flex flex-col h-screen w-full bg-slate-50 overflow-hidden">
+      <div className="flex flex-col min-h-screen w-full bg-slate-50">
         <header className="w-full shrink-0 border-b bg-white">
           <Navbar />
         </header>
-        <main className="flex-1 overflow-y-auto">{children}</main>
-            
+        <main className="flex-1 pb-19">{children}</main>
+        <Footer />
       </div>
-  <Footer/>
     </AuthProvider>
   );
 }
