@@ -12,3 +12,4 @@ export { Ellipsis } from "./ellipsis";
 export { Star } from "./star"
 export { Trash } from "./trash"
 export { Pencil } from "./pencil"
+export { Search } from "./search"
