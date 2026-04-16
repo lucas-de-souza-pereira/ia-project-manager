@@ -10,3 +10,5 @@ export { ChevronDown } from "./chevron-down";
 export { UserGroup } from "./user-group";
 export { Ellipsis } from "./ellipsis";
 export { Star } from "./star"
+export { Trash } from "./trash"
+export { Pencil } from "./pencil"

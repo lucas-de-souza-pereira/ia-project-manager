@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import ProjectTasksCard from "../tasks/project-tasks-card";
 import { CreateTaskModal } from "../tasks/modals/create-task-modal";
 import { UpdateTaskModal } from "../tasks/modals/update-tasks-modal";
+import { ManageTaskIAModal } from "../tasks/modals/manage-task-ia-modal";
 import { UpdateProjectModal } from "./modals/update-project-modal";
 import { UserChip } from "@/components/shared/user-chip";
 import { KanbanColumn } from "@/components/shared/kanban-column";
@@ -122,14 +123,18 @@ export default function ProjectDetailView({
               projectMember={projectMember}
             />
 
-            <Button
-              variant="default"
-              size="lg"
-              className="bg-primary hover:bg-primary-foreground hover:text-primary hover:border-primary shrink-0"
+            <ManageTaskIAModal />
+
+            <Link
+              href="?modal=task-ia"
+              className={cn(
+                buttonVariants({ variant: "default", size: "lg" }),
+                "bg-primary hover:bg-primary-foreground hover:text-primary border hover:border-primary shrink-0 gap-x-2"
+              )}
             >
               <Star className="w-5.25 h-5.25" />
               IA
-            </Button>
+            </Link>
           </div>
         </div>
       </div>

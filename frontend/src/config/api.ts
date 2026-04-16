@@ -22,6 +22,7 @@ export const API_ROUTES = {
     LIST: (projectId: string) => `/projects/${projectId}/tasks`,
     DETAIL: (projectId: string, taskId: string) =>
       `/projects/${projectId}/tasks/${taskId}`,
+    GENERATE: (projectId: string) => `/projects/${projectId}/tasks/generate`,
   },
   COMMENTS: {
     LIST: (projectId: string, taskId: string) =>

@@ -42,6 +42,8 @@ next-env.d.ts
 
 # backend
 node_modules
+dist/
+backend/dist/
 # Keep environment variables out of version control
 .env
 
