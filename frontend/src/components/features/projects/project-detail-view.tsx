@@ -14,6 +14,7 @@ import { UpdateProjectModal } from "./modals/update-project-modal";
 import { UserChip } from "@/components/shared/user-chip";
 import { KanbanColumn } from "@/components/shared/kanban-column";
 import { Chips } from "@/components/shared/chips";
+import ProjectTasksCalendar from "../tasks/project-tasks-calendar";
 
 // Composants UI Shadcn
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -25,7 +26,6 @@ import { SquareCheck, Calendar, ArrowLeft, Star } from "@/components/icons";
 import { type User } from "@/types/user";
 import { type ProjectWithTasks } from "@/types/project";
 import { deleteProjectAction } from "@/lib/actions/projects";
-import { KANBAN_COLUMNS } from "@/config/task-status";
 
 export default function ProjectDetailView({
   project,
@@ -36,7 +36,7 @@ export default function ProjectDetailView({
 }) {
   const router = useRouter();
 
-  const [view, setView] = useState<"list" | "kanban">("list");
+  const [view, setView] = useState<"list" | "calendar">("list");
 
   const allTeamMembers = [
     { member: project.owner, role: "ADMIN" },
@@ -129,7 +129,7 @@ export default function ProjectDetailView({
               href="?modal=task-ia"
               className={cn(
                 buttonVariants({ variant: "default", size: "lg" }),
-                "bg-primary hover:bg-primary-foreground hover:text-primary border hover:border-primary shrink-0 gap-x-2"
+                "bg-primary hover:bg-primary-foreground hover:text-primary border hover:border-primary shrink-0 gap-x-2",
               )}
             >
               <Star className="w-5.25 h-5.25" />
@@ -191,10 +191,10 @@ export default function ProjectDetailView({
                 />
                 <Chips
                   icon={<Calendar className="w-4 h-4" />}
-                  label="Kanban"
-                  isActive={view === "kanban"}
+                  label="Calendrier"
+                  isActive={view === "calendar"}
                   onClick={() => {
-                    setView("kanban");
+                    setView("calendar");
                   }}
                 />
               </div>
@@ -221,21 +221,10 @@ export default function ProjectDetailView({
             </div>
           ) : (
             <div className="mt-5 md:mt-8 xl:mt-12.5 w-11/12 mx-auto flex flex-col gap-y-4.5 xl:flex-row gap-x-5.5">
-              {KANBAN_COLUMNS.map((column) => (
-                <KanbanColumn
-                  key={column.status}
-                  title={column.title}
-                  tasks={project.tasks}
-                  status={column.status}
-                  renderCard={(task) => (
-                    <ProjectTasksCard
-                      key={task.id}
-                      task={task}
-                      currentUser={currentUser}
-                    />
-                  )}
-                />
-              ))}
+              <ProjectTasksCalendar
+                tasks={project.tasks}
+                currentUser={currentUser}
+              />
             </div>
           )}
         </div>
