@@ -21,7 +21,9 @@ export function CommentsSection({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h4 className="text-sm text-heading font-normal">Commentaires ({comments.length})</h4>
+        <h4 className="text-sm text-heading font-normal">
+          Commentaires ({comments.length})
+        </h4>
         <Button
           variant="ghost"
           size="sm"
@@ -44,15 +46,16 @@ export function CommentsSection({
 
       {isCommentsOpen && (
         <div id={listId} className="space-y-4">
-          <div className="flex flex-col gap-4">
+          <ul className="flex flex-col gap-4">
             {comments.map((comment) => (
-              <CommentItem key={comment.id} comment={comment} />
+              <li key={comment.id}>
+                <CommentItem comment={comment} />
+              </li>
             ))}
-          </div>
+          </ul>
           <CommentForm onAddComment={onAddComment} />
         </div>
       )}
     </div>
   );
 }
-

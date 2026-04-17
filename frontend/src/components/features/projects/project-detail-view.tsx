@@ -72,7 +72,7 @@ export default function ProjectDetailView({
   };
 
   return (
-    <div className="max-w-[1215px] mx-auto mt-19.5 w-full flex flex-col">
+    <div className="w-11/12 max-w-[1215px] mx-auto mt-10 md:mt-19.5 flex flex-col">
       <ProjectHeader
         project={project}
         currentUser={currentUser}
@@ -81,7 +81,7 @@ export default function ProjectDetailView({
         handleDeleteProject={handleDeleteProject}
       />
 
-      <div className="mt-12.5">
+      <div className="mt-8 md:mt-12.5">
         <ProjectContributor
           project={project}
           currentUser={currentUser}
@@ -90,49 +90,66 @@ export default function ProjectDetailView({
         />
       </div>
 
-      <section className="w-full pb-10 mt-10" aria-labelledby="project-tasks">
-        <div className="mt-0 md:bg-card md:rounded-lg md:border md:border-border p-1.5 md:p-14.75">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-y-6">
-            <div className="flex flex-col gap-y-1">
-              <h2 id="project-tasks" className="text-xl font-semibold">
-                Tâches
-              </h2>
-              <p className="text-sm text-muted-foreground">
-                Par ordre de priorité
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-4">
-              <div className="flex items-center gap-x-1">
-                <Chips
-                  icon={<SquareCheck className="w-4 h-4" />}
-                  label="Liste"
-                  isActive={view === "list"}
-                  onClick={() => {
-                    setView("list");
-                  }}
-                />
-                <Chips
-                  icon={<Calendar className="w-4 h-4" />}
-                  label="Calendrier"
-                  isActive={view === "calendar"}
-                  onClick={() => {
-                    setView("calendar");
-                  }}
-                />
-              </div>
-
-              <TaskFilters
-                searchQuery={searchQuery}
-                onSearchChange={setSearchQuery}
-                statusFilter={statusFilter}
-                onStatusChange={setStatusFilter}
-              />
-            </div>
+      <section
+        className="w-full pb-10 mt-6 md:mt-10 md:bg-card md:rounded-lg md:border md:border-border p-1.5 md:p-14.75"
+        aria-labelledby="project-tasks"
+      >
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-y-6">
+          <div className="flex flex-col gap-y-1">
+            <h2 id="project-tasks" className="text-xl font-semibold">
+              Tâches
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Par ordre de priorité
+            </p>
           </div>
 
+          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4 w-full">
+            <div
+              className="flex items-center gap-x-1"
+              role="tablist"
+              aria-label="Choisir le mode d'affichage"
+            >
+              <Chips
+                role="tab"
+                aria-selected={view === "list"}
+                aria-controls="tasks-content"
+                icon={<SquareCheck className="w-4 h-4" />}
+                label="Liste"
+                isActive={view === "list"}
+                onClick={() => {
+                  setView("list");
+                }}
+              />
+              <Chips
+                role="tab"
+                aria-selected={view === "calendar"}
+                aria-controls="tasks-content"
+                icon={<Calendar className="w-4 h-4" />}
+                label="Calendrier"
+                isActive={view === "calendar"}
+                onClick={() => {
+                  setView("calendar");
+                }}
+              />
+            </div>
+
+            <TaskFilters
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              statusFilter={statusFilter}
+              onStatusChange={setStatusFilter}
+            />
+          </div>
+        </div>
+
+        <div aria-live="polite" className="sr-only">
+          {filteredTasks.length} tâches trouvées pour vos critères de recherche.
+        </div>
+
+        <div id="tasks-content" role="tabpanel">
           {view === "list" ? (
-            <div className="mt-10 flex flex-col gap-y-4.5">
+            <div className="mt-5 md:mt-8 xl:mt-12.5 flex flex-col gap-y-4.5">
               {filteredTasks.map((task) => (
                 <ProjectTasksCard
                   key={task.id}

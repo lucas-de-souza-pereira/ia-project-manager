@@ -9,12 +9,14 @@ interface UserChipProps {
   currentUserId?: string;
   ownerId?: string;
   variant?: "role" | "name";
+  responsive?: boolean;
 }
 export function UserChip({
   user,
   currentUserId,
   ownerId,
   variant = "role",
+  responsive = false,
 }: UserChipProps) {
   const isMe = user.id === currentUserId;
   const isOwner = user.id === ownerId;
@@ -43,7 +45,11 @@ export function UserChip({
           {getUserInitials(user.name)}
         </AvatarFallback>
       </Avatar>
-      <Badge variant={colorVariant} aria-hidden="true">
+      <Badge
+        variant={colorVariant}
+        aria-hidden="true"
+        className={responsive ? "md:block hidden" : ""}
+      >
         {label}
       </Badge>
     </div>

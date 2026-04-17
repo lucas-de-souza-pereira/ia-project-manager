@@ -73,9 +73,9 @@ export default function ProjectTasksCalendar({
         </div>
 
         {tasksForSelectedDate.length > 0 ? (
-          <div className="flex flex-col gap-y-4 md:flex-row md:overflow-x-auto gap-x-3.25 md:gap-x-4.5 pb-4 custom-scrollbar">
+          <div className="flex flex-col gap-y-4 pb-4 custom-scrollbar">
             {tasksForSelectedDate.map((task) => (
-              <div key={task.id} className="w-full md:w-[350px] shrink-0">
+              <div key={task.id} className="w-full shrink-0">
                 <ProjectTasksCard
                   key={task.id}
                   task={task}

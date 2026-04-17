@@ -62,7 +62,7 @@ export function TaskFilters({
             aria-hidden="true"
           />
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-[152px] bg-white border-border">
+        <DropdownMenuContent className="md:w-[152px] bg-white border-border">
           <DropdownMenuRadioGroup
             value={statusFilter}
             onValueChange={onStatusChange}

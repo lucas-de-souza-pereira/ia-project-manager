@@ -20,7 +20,7 @@ export default function ProjectContributor({
 }: ProjectContributorProps) {
   return (
     <section
-      className="flex flex-col sm:flex-row py-5 px-12.5 sm:items-center justify-between gap-y-4 bg-[#F3F4F6] rounded-lg"
+      className="flex flex-col lg:flex-row py-5 px-12.5 lg:items-center justify-between gap-y-4 bg-[#F3F4F6] rounded-lg"
       aria-labelledby="project-contributors"
     >
       <div className="flex items-center gap-x-2">
@@ -32,7 +32,7 @@ export default function ProjectContributor({
         </p>
       </div>
       <ul
-        className="flex items-center gap-x-2 flex-wrap"
+        className="flex flex-col md:flex-row items-start md:items-center gap-y-2 md:gap-x-2 flex-wrap"
         aria-label="Listes des contributeurs du projet"
       >
         <li>

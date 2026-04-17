@@ -59,11 +59,17 @@ export default function ProjectTasksCard({
   const statusConfig = TASK_STATUS_DICT[task.status];
 
   return (
-    <Card className="py-4.5 px-6 xl:py-6.25 xl:px-10 h-full flex flex-col justify-between">
+    <Card
+      className="py-4.5 px-6 xl:py-6.25 xl:px-10 h-full flex flex-col justify-between"
+      aria-labelledby={`task-title-${task.id}`}
+    >
       <CardHeader className="p-0 md:p-0 lg:p-0">
-        <div className="flex items-center gap-x-2">
-          <h3>{task.title}</h3>
-          <Badge className={statusConfig.tailwindClasses}>
+        <div className="flex items-center flex-wrap md:flex-nowrap md:justify-start gap-y-2 gap-x-2">
+          <h3 id={`task-title-${task.id}`}>{task.title}</h3>
+          <Badge
+            className={statusConfig.tailwindClasses}
+            aria-label={`Statut : ${statusConfig.label}`}
+          >
             {statusConfig.label}
           </Badge>
         </div>
@@ -75,11 +81,12 @@ export default function ProjectTasksCard({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="border border-border w-14 h-14"
+                  aria-label="Actions de la tâche"
+                  className="border border-border w-10 h-10 md:w-14 md:h-14"
                 />
               }
             >
-              <Ellipsis className="w-3.75 h-1" />
+              <Ellipsis className="w-3.75 h-1" aria-hidden="true" />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={onEdit}>Modifier</DropdownMenuItem>
@@ -91,24 +98,34 @@ export default function ProjectTasksCard({
         </CardAction>
       </CardHeader>
       <CardContent className="p-0 md:p-0 lg:p-0">
-        <div className="flex gap-x-1 items-center text-xs">
-          <p>Échéance :</p>
+        <div
+          className="flex gap-x-1 items-center text-xs"
+          aria-label={`Échéance le ${formatFrenchDate(task.dueDate)}`}
+        >
+          <p aria-hidden="true">Échéance :</p>
           <div className="flex text-[#1F1F1F] items-center gap-x-2">
-            <Calendar className="w-3.75 h-4" />
+            <Calendar className="w-3.75 h-4" aria-hidden="true" />
             <p className="text-[#1F1F1F]">{formatFrenchDate(task.dueDate)}</p>
           </div>
         </div>
 
         <div className="flex mt-6 items-center gap-x-2">
           <p>Assigné à :</p>
-          {task.assignees?.map((assignee) => (
-            <UserChip
-              key={assignee.user.id}
-              user={assignee.user}
-              currentUserId={currentUser.id}
-              variant="name"
-            />
-          ))}
+          <ul
+            className="flex items-center gap-x-2"
+            aria-label="Personnes assignées à cette tâche"
+          >
+            {task.assignees?.map((assignee) => (
+              <li key={assignee.user.id}>
+                <UserChip
+                  user={assignee.user}
+                  currentUserId={currentUser.id}
+                  variant="name"
+                  responsive
+                />
+              </li>
+            ))}
+          </ul>
         </div>
 
         <hr className="mt-6 border-border" />

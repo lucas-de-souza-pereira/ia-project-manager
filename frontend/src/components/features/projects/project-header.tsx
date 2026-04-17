@@ -39,22 +39,22 @@ export default function ProjectHeader({
   return (
     <section className="w-full relative" aria-labelledby="project-description">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-y-6">
-        <div className="flex items-start gap-x-6 xl:gap-x-0">
+        <div className="flex items-start gap-x-6 2xl:gap-x-0">
           <Button
             variant="ghost"
-            className="bg-white rounded-xl border border-border shrink-0 size-[57px] shadow-sm p-0 flex items-center justify-center mt-1 xl:mt-0 xl:absolute xl:-left-[73px]"
+            className="bg-white rounded-xl border border-border shrink-0 size-[57px] shadow-sm p-0 flex items-center justify-center mt-1 2xl:mt-0 2xl:absolute 2xl:-left-[73px]"
             onClick={() => router.back()}
             aria-label="Retour sur la page précédente"
           >
             <ArrowLeft className="size-5 text-muted-foreground" />
           </Button>
 
-          <div className="flex flex-col">
-            <div className="flex items-center flex-wrap gap-x-3">
+          <div className="flex flex-col gap-y-2">
+            <div className="flex flex-col md:flex-row items-start md:items-center flex-wrap gap-x-3">
               <h1 id="project-description" className="text-2xl font-semibold">
                 {project.name}
               </h1>
-              <div className="flex items-center gap-x-3">
+              <div className="flex items-center gap-x-3 mt-2 md:mt-0">
                 {isOwner && (
                   <Link
                     href="?modal=update-project"
@@ -83,7 +83,7 @@ export default function ProjectHeader({
           </div>
         </div>
 
-        <div className="flex items-center gap-x-2 shrink-0">
+        <div className="flex items-center justify-center lg:justify-start gap-x-2 shrink-0">
           <Link
             href="?modal=create-task"
             className="inline-flex h-[50px] items-center justify-center gap-2 rounded-lg bg-primary-button hover:bg-primary-button-hover px-4 text-base font-normal text-primary-foreground transition-colors duration-300"
