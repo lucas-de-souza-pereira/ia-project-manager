@@ -10,19 +10,28 @@ interface ErrorStateProps {
   children?: React.ReactNode;
 }
 
-export function ErrorState({ error, reset, message, children }: ErrorStateProps) {
+export function ErrorState({
+  error,
+  reset,
+  message,
+  children,
+}: ErrorStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[400px] w-full p-6 text-center animate-in fade-in zoom-in-95 duration-500">
+    <div
+      className="flex flex-col items-center justify-center min-h-[400px] w-full p-6 text-center animate-in fade-in zoom-in-95 duration-500"
+      role="alert"
+    >
       <div className="bg-destructive/10 p-4 rounded-full mb-6">
         <AlertCircle className="w-12 h-12 text-destructive" />
       </div>
-      
-      <h2 className="text-2xl font-bold text-foreground mb-2">
+
+      <h1 className="text-2xl font-bold text-foreground mb-2">
         Oups, quelque chose s'est mal passé
-      </h2>
-      
+      </h1>
+
       <p className="text-muted-foreground max-w-md mb-8">
-        {message || "Une erreur inattendue est survenue. Nos équipes techniques ont été prévenues."}
+        {message ||
+          "Une erreur inattendue est survenue. Nos équipes techniques ont été prévenues."}
         {error?.digest && (
           <span className="block mt-2 text-xs opacity-50 font-mono">
             ID d'erreur : {error.digest}
@@ -32,7 +41,7 @@ export function ErrorState({ error, reset, message, children }: ErrorStateProps)
 
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
         {reset && (
-          <Button 
+          <Button
             onClick={reset}
             className="bg-primary-button hover:bg-primary-button/90 text-primary-foreground px-8 py-6 h-auto text-base rounded-xl flex items-center gap-2"
           >

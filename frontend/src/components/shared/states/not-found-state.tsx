@@ -14,9 +14,9 @@ export function NotFoundState() {
         </div>
       </div>
 
-      <h2 className="text-3xl font-bold text-foreground mb-4">
+      <h1 className="text-3xl font-bold text-foreground mb-4">
         Oups ! Cette page s'est envolée
-      </h2>
+      </h1>
 
       <p className="text-muted-foreground max-w-md mb-10 text-lg">
         Désolé, la page que vous recherchez n'existe pas ou a été déplacée vers

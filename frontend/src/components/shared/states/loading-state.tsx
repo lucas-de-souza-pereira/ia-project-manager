@@ -4,7 +4,14 @@ import { Logo } from "@/components/icons";
 
 export function LoadingState() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[400px] w-full animate-in fade-in duration-500">
+    <div
+      className="flex flex-col items-center justify-center min-h-[400px] w-full animate-in fade-in duration-500"
+      role="status"
+      aria-live="polite"
+    >
+      <span className="sr-only">
+        Chargement de la page en cours, veuillez patienter...
+      </span>
       <div className="relative">
         <Logo className="w-48 h-auto text-primary animate-pulse" />
         <div className="absolute -inset-4 bg-primary/5 rounded-full blur-2xl animate-pulse -z-10" />
