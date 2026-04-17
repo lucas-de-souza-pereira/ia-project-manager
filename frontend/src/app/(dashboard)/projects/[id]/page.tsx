@@ -1,6 +1,11 @@
 import { getToken, requireSession } from "@/lib/auth/session";
 import ProjectDetailView from "@/components/features/projects/project-detail-view";
 import { getProjectById } from "@/lib/api/projects";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Détails du projet",
+};
 
 export default async function ProjectDetailsPage({
   params,

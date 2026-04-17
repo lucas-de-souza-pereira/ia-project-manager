@@ -19,9 +19,9 @@ export function LogoutButton() {
       disabled={isPending}
       size="lg"
       className="min-w-[150px] text-base font-normal"
-      aria-label="Se déconnecter"
+      aria-label={isPending ? "Déconnexion en cours..." : "Se déconnecter"}
     >
-      {isPending ? "…" : "Déconnexion"}
+      {isPending ? "En cours..." : "Déconnexion"}
     </Button>
   );
 }

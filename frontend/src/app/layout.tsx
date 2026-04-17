@@ -14,7 +14,10 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "ABRICOT",
+  title: {
+    default: "ABRICOT",
+    template: "%s | ABRICOT",
+  },
   description: "SaaS de gestion de projet",
 };
 

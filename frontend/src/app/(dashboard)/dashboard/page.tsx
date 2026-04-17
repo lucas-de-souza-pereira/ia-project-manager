@@ -2,6 +2,12 @@ import DashboardView from "@/components/features/dashboard/dashboard-view";
 import { getToken } from "@/lib/auth/session";
 import { getAssignedTasks } from "@/lib/api/dashboard";
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Tableau de bord",
+};
+
 export default async function DashboardPage() {
   const token = await getToken();
   const rawTasks = await getAssignedTasks(token as string);

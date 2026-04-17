@@ -1,14 +1,19 @@
 "use client";
 
 import { useState, startTransition } from "react";
-import { UserProfile } from "@/types/user";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+
+// components shadcn ui
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { FormInput } from "@/components/shared/form-fields/form-input";
-import { useRouter } from "next/navigation";
 
+// components custom
+import { FormInput } from "@/components/shared/form-fields/form-input";
+
+// types et actions
+import { UserProfile } from "@/types/user";
 import { type ProfileData, profileSchema } from "@/lib/validation/profile";
 import { updateProfileAction, updatePasswordAction } from "@/lib/actions/users";
 
@@ -88,7 +93,11 @@ export default function ProfileForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmitAction)} className="space-y-6">
+      <form
+        onSubmit={form.handleSubmit(onSubmitAction)}
+        aria-labelledby="profile-title"
+        className="space-y-6"
+      >
         {isNewUser && (
           <div className="bg-primary/5 border border-primary/20 rounded-lg p-6 mb-8 text-center animate-in fade-in slide-in-from-top-4 duration-500">
             <h2 className="text-2xl font-bold text-primary mb-2">
@@ -100,12 +109,18 @@ export default function ProfileForm({
           </div>
         )}
         {error && (
-          <p className="text-sm border border-destructive text-destructive bg-destructive/10 rounded-md p-3 mb-4 text-center">
+          <p
+            role="alert"
+            className="text-sm border border-destructive text-destructive bg-destructive/10 rounded-md p-3 mb-4 text-center"
+          >
             {error}
           </p>
         )}
         {success && (
-          <p className="text-sm text-primary border border-primary-light text-success bg-card/10 rounded-md p-3 mb-4 text-center">
+          <p
+            aria-live="polite"
+            className="text-sm text-primary border border-primary-light text-success bg-card/10 rounded-md p-3 mb-4 text-center"
+          >
             {success}
           </p>
         )}
@@ -147,7 +162,7 @@ export default function ProfileForm({
             className="min-w-[150px]"
           >
             {form.formState.isSubmitting
-              ? "Envoi..."
+              ? "Modification en cours..."
               : "Modifier les informations"}
           </Button>
         </div>
