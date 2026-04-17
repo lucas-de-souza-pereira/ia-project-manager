@@ -15,11 +15,11 @@ export function NotFoundState() {
       </div>
 
       <h1 className="text-3xl font-bold text-foreground mb-4">
-        Oups ! Cette page s'est envolée
+        Oups ! Cette page s&apos;est envolée
       </h1>
 
       <p className="text-muted-foreground max-w-md mb-10 text-lg">
-        Désolé, la page que vous recherchez n'existe pas ou a été déplacée vers
+        Désolé, la page que vous recherchez n&apos;existe pas ou a été déplacée vers
         un autre verger.
       </p>
 

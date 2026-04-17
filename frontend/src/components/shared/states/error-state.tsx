@@ -26,7 +26,7 @@ export function ErrorState({
       </div>
 
       <h1 className="text-2xl font-bold text-foreground mb-2">
-        Oups, quelque chose s'est mal passé
+        Oups, quelque chose s&apos;est mal passé
       </h1>
 
       <p className="text-muted-foreground max-w-md mb-8">
@@ -34,7 +34,7 @@ export function ErrorState({
           "Une erreur inattendue est survenue. Nos équipes techniques ont été prévenues."}
         {error?.digest && (
           <span className="block mt-2 text-xs opacity-50 font-mono">
-            ID d'erreur : {error.digest}
+            ID d&apos;erreur : {error.digest}
           </span>
         )}
       </p>

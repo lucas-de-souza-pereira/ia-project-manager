@@ -1,5 +1,4 @@
 import { Control, FieldValues, Path } from "react-hook-form";
-import { cn } from "@/lib/utils";
 
 // Composants UI Shadcn
 import {
@@ -10,7 +9,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
 
 // types
 interface FormInputProps<
@@ -45,14 +43,13 @@ export function FormInput<T extends FieldValues>({
             </FormLabel>
           )}
           <FormControl>
-            <Input 
+            <Input
               type={type}
               className="text-xs md:text-xs"
               placeholder={placeholder}
               aria-required={required}
               {...field}
               {...props}
-              
             />
           </FormControl>
           <FormMessage />

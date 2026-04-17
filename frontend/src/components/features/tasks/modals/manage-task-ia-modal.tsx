@@ -1,4 +1,5 @@
 "use client";
+import { useEffect, useCallback } from "react";
 import {
   useSearchParams,
   useRouter,
@@ -37,21 +38,32 @@ export function ManageTaskIAModal() {
   const { id: projectId } = useParams();
   const isOpen = searchParams.get("modal") === "task-ia";
 
-  const { state, actions } = useManageTaskIA(projectId as string, () =>
-    handleOpenChange(false),
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (!open) {
+        const nextParams = new URLSearchParams(searchParams.toString());
+        nextParams.delete("modal");
+        router.replace(`${pathname}?${nextParams.toString()}`, {
+          scroll: false,
+        });
+      }
+    },
+    [router, pathname, searchParams],
   );
 
-  const handleOpenChange = (open: boolean) => {
-    if (!open) {
-      actions.reset();
-      const nextParams = new URLSearchParams(searchParams.toString());
-      nextParams.delete("modal");
-      router.replace(`${pathname}?${nextParams.toString()}`, { scroll: false });
+  const onComplete = useCallback(() => handleOpenChange(false), [handleOpenChange]);
+
+  const { state, actions } = useManageTaskIA(projectId as string, onComplete);
+
+  const { reset } = actions;
+  useEffect(() => {
+    if (!isOpen) {
+      reset();
     }
-  };
+  }, [isOpen, reset]);
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-[500px] h-[85vh] md:h-[80vh] md:min-h-[523px] max-h-[90vh] overflow-y-auto px-4 md:px-6 lg:px-8 xl:px-13 py-4 md:py-8 lg:py-13 xl:py-19.75">
+      <DialogContent className="sm:max-w-[600px] h-[85vh] md:h-[80vh] md:min-h-[523px] max-h-[90vh] overflow-y-auto px-4 md:px-6 lg:px-8 xl:px-13 py-4 md:py-8 lg:py-13 xl:py-19.75">
         <DialogHeader className="flex-none mb-4">
           <DialogTitle className="flex items-center gap-x-2 text-2xl font-semibold">
             <span>

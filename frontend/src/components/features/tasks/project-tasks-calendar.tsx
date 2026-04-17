@@ -8,7 +8,6 @@ import { Calendar } from "@/components/ui/calendar";
 import { type Task } from "@/types/task";
 import { type User } from "@/types/user";
 import ProjectTasksCard from "./project-tasks-card";
-import { cn } from "@/lib/utils";
 
 interface ProjectTasksCalendarProps {
   tasks: Task[];
@@ -43,7 +42,7 @@ export default function ProjectTasksCalendar({
           aria-label="Sélectionner une date pour voir les tâches"
           className="rounded-md border-0"
           style={{
-            //@ts-ignore - Variable CSS custom
+            //@ts-expect-error - Variable CSS custom
             "--cell-size": "43px",
           }}
           modifiers={{
@@ -91,7 +90,7 @@ export default function ProjectTasksCalendar({
             className="flex flex-col items-center justify-center p-12 border border-dashed border-border rounded-xl bg-muted/30 text-center"
           >
             <p className="text-muted-foreground">
-              Aucune tâche d'échéance ce jour-là.
+              Aucune tâche d&apos;échéance ce jour-là.
             </p>
           </div>
         )}

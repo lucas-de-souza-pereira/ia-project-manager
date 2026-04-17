@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { generateTasksAIAction, type AIGeneratedTask } from "@/lib/actions/ai-tasks";
 import { createTaskAction } from "@/lib/actions/tasks";
 import { type CreateTaskData } from "@/types/task";
@@ -22,7 +22,7 @@ export function useManageTaskIA(projectId: string, onComplete: () => void) {
   /**
    * Appelle l'API IA via la Server Action pour générer de nouvelles tâches.
    */
-  const handleGenerate = async (e?: React.FormEvent) => {
+  const handleGenerate = useCallback(async (e?: React.SyntheticEvent) => {
     if (e) e.preventDefault();
     if (!prompt.trim() || isLoading) return;
 
@@ -39,12 +39,12 @@ export function useManageTaskIA(projectId: string, onComplete: () => void) {
 
     setGeneratedTasks((prev) => [...prev, ...(res.data || [])]);
     setPrompt("");
-  };
+  }, [projectId, prompt, isLoading]);
 
   /**
    * Enregistre toutes les tâches validées en base de données.
    */
-  const handleSaveTasks = async () => {
+  const handleSaveTasks = useCallback(async () => {
     if (generatedTasks.length === 0) return;
     setIsSaving(true);
     setError(null);
@@ -63,40 +63,40 @@ export function useManageTaskIA(projectId: string, onComplete: () => void) {
         )
       );
       onComplete(); // Ferme la modale ou réinitialise
-    } catch (err) {
+    } catch {
       setError("Erreur lors de l'enregistrement des tâches.");
     } finally {
       setIsSaving(false);
     }
-  };
+  }, [projectId, generatedTasks, onComplete]);
 
-  const removeTask = (index: number) => {
+  const removeTask = useCallback((index: number) => {
     setGeneratedTasks((prev) => prev.filter((_, i) => i !== index));
-  };
+  }, []);
 
-  const startEditing = (index: number, task: AIGeneratedTask) => {
+  const startEditing = useCallback((index: number, task: AIGeneratedTask) => {
     setEditingIndex(index);
     setEditTitle(task.title);
     setEditDesc(task.description);
-  };
+  }, []);
 
-  const saveEditedTask = (index: number) => {
+  const saveEditedTask = useCallback((index: number) => {
     setGeneratedTasks((prev) => {
       const copy = [...prev];
       copy[index] = { title: editTitle, description: editDesc };
       return copy;
     });
     setEditingIndex(null);
-  };
+  }, [editTitle, editDesc]);
 
-  const cancelEditing = () => setEditingIndex(null);
+  const cancelEditing = useCallback(() => setEditingIndex(null), []);
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setPrompt("");
     setGeneratedTasks([]);
     setError(null);
     setEditingIndex(null);
-  };
+  }, []);
 
   return {
     state: {

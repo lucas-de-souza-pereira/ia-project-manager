@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 // Composants UI Shadcn
 import {
@@ -43,22 +43,22 @@ export function UpdateProjectModal({
 
   const isOpen = searchParams.get("modal") === "update-project";
 
-  const contributors = useMemo(() => {
-    return project.members.map((member) => member.user);
-  }, [project.members]);
+
 
   useEffect(() => {
+    let isMounted = true;
     async function loadUsers() {
       if (isOpen && users.length === 0) {
         const res = await getUsersAction();
-        if (res.success && res.data) {
-          const users = res.data.filter((user) => user.id !== currentUser.id);
-          setUsers(users);
+        if (isMounted && res.success && res.data) {
+          const filteredUsers = res.data.filter((user) => user.id !== currentUser.id);
+          setUsers(filteredUsers);
         }
       }
     }
     loadUsers();
-  }, [isOpen, users.length]);
+    return () => { isMounted = false; };
+  }, [isOpen, users.length, currentUser.id]);
 
   const handleOpenChange = (open: boolean) => {
     if (!open) {
@@ -121,8 +121,8 @@ export function UpdateProjectModal({
       }
 
       handleOpenChange(false);
-    } catch (err) {
-      setError("Une erreur inattendue est survenue.");
+    } catch {
+      setError("Erreur lors de la mise à jour du projet.");
     }
   };
 

@@ -20,7 +20,7 @@ export async function getSession(): Promise<User | null> {
     );
     return res.data.user;
   } catch (error) {
-    if ((error as any)?.digest?.includes("NEXT_REDIRECT")) {
+    if ((error as { digest?: string })?.digest?.includes("NEXT_REDIRECT")) {
       throw error;
     }
     return null;

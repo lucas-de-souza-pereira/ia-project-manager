@@ -12,7 +12,6 @@ import {
 } from "react-hook-form";
 
 import { cn } from "@/lib/utils";
-// @ts-ignore
 import { Label } from "@/components/ui/label";
 
 const Form = FormProvider;
@@ -117,7 +116,9 @@ const FormControl = React.forwardRef<
       ref={ref}
       id={formItemId}
       aria-describedby={
-        !error ? undefined : `${formMessageId}`
+        !error
+          ? `${formDescriptionId}`
+          : `${formDescriptionId} ${formMessageId}`
       }
       aria-invalid={!!error}
       {...props}

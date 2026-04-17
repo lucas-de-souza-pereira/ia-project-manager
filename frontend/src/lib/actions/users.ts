@@ -84,7 +84,7 @@ export async function updatePasswordAction(
       return { success: false, error: "Vous n'êtes pas authentifié." };
     }
 
-    const result = await apiFetch<{
+    await apiFetch<{
       success: boolean;
       message: string;
       data: { user: User };

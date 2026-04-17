@@ -32,17 +32,19 @@ export function CreateProjectModal({ currentUser }: { currentUser: User }) {
   const isOpen = searchParams.get("modal") === "create-project";
 
   useEffect(() => {
+    let isMounted = true;
     async function loadUsers() {
       if (isOpen && users.length === 0) {
         const res = await getUsersAction();
-        if (res.success && res.data) {
-          const users = res.data.filter((user) => user.id !== currentUser.id);
-          setUsers(users);
+        if (isMounted && res.success && res.data) {
+          const filteredUsers = res.data.filter((user) => user.id !== currentUser.id);
+          setUsers(filteredUsers);
         }
       }
     }
     loadUsers();
-  }, [isOpen, users.length]);
+    return () => { isMounted = false; };
+  }, [isOpen, users.length, currentUser.id]);
 
   const handleOpenChange = (open: boolean) => {
     if (!open) {
