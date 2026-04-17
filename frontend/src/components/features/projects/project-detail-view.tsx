@@ -1,21 +1,16 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useState, useMemo } from "react";
 
 // Composants features
 import ProjectTasksCard from "../tasks/project-tasks-card";
-import { CreateTaskModal } from "../tasks/modals/create-task-modal";
-import { UpdateTaskModal } from "../tasks/modals/update-tasks-modal";
-import { UpdateProjectModal } from "./modals/update-project-modal";
-import { UserChip } from "@/components/shared/user-chip";
-
-// Composants UI Shadcn
-import { Button } from "@/components/ui/button";
+import { Chips } from "@/components/shared/chips";
+import ProjectTasksCalendar from "../tasks/project-tasks-calendar";
+import { TaskFilters } from "../tasks/task-filters";
+import ProjectHeader from "@/components/features/projects/project-header";
+import ProjectContributor from "@/components/features/projects/project-contributor";
 
 // icons
-import { ArrowLeft } from "@/components/icons";
-import { Chips } from "@/components/shared/chips";
 import { SquareCheck, Calendar } from "@/components/icons";
 
 // types et actions
@@ -30,7 +25,10 @@ export default function ProjectDetailView({
   project: ProjectWithTasks;
   currentUser: User;
 }) {
-  const router = useRouter();
+  const [view, setView] = useState<"list" | "calendar">("list");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("ALL");
+
   const allTeamMembers = [
     { member: project.owner, role: "ADMIN" },
     ...project.members
@@ -44,6 +42,17 @@ export default function ProjectDetailView({
 
   const isOwner = currentUser.id === project.owner.id;
 
+  const filteredTasks = useMemo(() => {
+    return project.tasks.filter((task) => {
+      const matchesSearch = task.title
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+      const matchesStatus =
+        statusFilter === "ALL" || task.status === statusFilter;
+      return matchesSearch && matchesStatus;
+    });
+  }, [project.tasks, searchQuery, statusFilter]);
+
   const handleDeleteProject = async () => {
     const res = await deleteProjectAction(project.id);
     if (res && !res.success) {
@@ -52,120 +61,100 @@ export default function ProjectDetailView({
   };
 
   return (
-    <div className="mt-19.5">
-      <div className="flex items-center justify-between pl-11 pr-[113px]">
-        <div className="flex gap-x-3 ">
-          <Button
-            variant="ghost"
-            className="bg-white rounded-lg border-border"
-            onClick={() => router.back()}
-          >
-            <ArrowLeft className="w-3.75" />
-          </Button>
+    <div className="w-11/12 max-w-[1215px] mx-auto mt-10 md:mt-19.5 flex flex-col">
+      <ProjectHeader
+        project={project}
+        currentUser={currentUser}
+        isOwner={isOwner}
+        projectMember={projectMember}
+        handleDeleteProject={handleDeleteProject}
+      />
 
-          <div className="flex flex-col">
-            <h1>{project.name}</h1>
-            <p>{project.description}</p>
+      <div className="mt-8 md:mt-12.5">
+        <ProjectContributor
+          project={project}
+          currentUser={currentUser}
+          allTeamMembers={allTeamMembers}
+          otherTeamMembers={otherTeamMembers}
+        />
+      </div>
+
+      <section
+        className="w-full pb-10 mt-6 md:mt-10 md:bg-card md:rounded-lg md:border md:border-border p-1.5 md:p-14.75"
+        aria-labelledby="project-tasks"
+      >
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-y-6">
+          <div className="flex flex-col gap-y-1">
+            <h2 id="project-tasks" className="text-xl font-semibold">
+              Tâches
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Par ordre de priorité
+            </p>
           </div>
-          {isOwner && <Link href="?modal=update-project">Modifier</Link>}
-          {isOwner && (
-            <Button variant="outline" onClick={() => handleDeleteProject()}>
-              Supprimer
-            </Button>
+
+          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4 w-full lg:w-auto">
+            <div
+              className="flex items-center gap-x-1"
+              role="tablist"
+              aria-label="Choisir le mode d'affichage"
+            >
+              <Chips
+                role="tab"
+                aria-selected={view === "list"}
+                aria-controls="tasks-content"
+                icon={<SquareCheck className="w-4 h-4" />}
+                label="Liste"
+                isActive={view === "list"}
+                onClick={() => {
+                  setView("list");
+                }}
+              />
+              <Chips
+                role="tab"
+                aria-selected={view === "calendar"}
+                aria-controls="tasks-content"
+                icon={<Calendar className="w-4 h-4" />}
+                label="Calendrier"
+                isActive={view === "calendar"}
+                onClick={() => {
+                  setView("calendar");
+                }}
+              />
+            </div>
+
+            <TaskFilters
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+              statusFilter={statusFilter}
+              onStatusChange={setStatusFilter}
+            />
+          </div>
+        </div>
+
+        <div aria-live="polite" className="sr-only">
+          {filteredTasks.length} tâches trouvées pour vos critères de recherche.
+        </div>
+
+        <div id="tasks-content" role="tabpanel">
+          {view === "list" ? (
+            <ul className="mt-5 md:mt-8 xl:mt-12.5 flex flex-col gap-y-4.5 px-0 xl:px-10">
+              {filteredTasks.map((task) => (
+                <li key={task.id}>
+                  <ProjectTasksCard task={task} currentUser={currentUser} />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div className="mt-5 md:mt-8 xl:mt-12.5 w-11/12 mx-auto flex flex-col gap-y-4.5 xl:flex-row gap-x-5.5">
+              <ProjectTasksCalendar
+                tasks={filteredTasks}
+                currentUser={currentUser}
+              />
+            </div>
           )}
         </div>
-
-        <div className="flex gap-x-2">
-          <Link
-            href="?modal=create-task"
-            className="inline-flex h-[50px] items-center justify-center gap-2 rounded-lg bg-primary-button px-8 text-base font-normal text-primary-foreground"
-          >
-            + Ajouter une tâche
-          </Link>
-          <CreateTaskModal projectMember={projectMember} />
-
-          <UpdateTaskModal
-            tasks={project.tasks}
-            projectMember={projectMember}
-          />
-
-          <UpdateProjectModal
-            project={project}
-            currentUser={currentUser}
-            projectMember={projectMember}
-          />
-
-          <Button variant="default" size="lg">
-            IA
-          </Button>
-        </div>
-      </div>
-
-      <div className="flex mt-15">
-        <div className="flex gap-10">
-          <h2>Contributeurs</h2>
-          <p>{allTeamMembers.length} personnes</p>
-        </div>
-        <div className="flex gap-4">
-          <UserChip
-            user={currentUser}
-            currentUserId={currentUser.id}
-            ownerId={project.owner.id}
-            variant="role"
-          />
-          <div className="flex items-center gap-2">
-            {otherTeamMembers.map((item) => (
-              <UserChip
-                key={item.member.id}
-                user={item.member}
-                currentUserId={currentUser.id}
-                ownerId={project.owner.id}
-                variant="name"
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-15">
-        <div className="flex items-center gap-x-2.5">
-          <div className="flex flex-col">
-            <h2>Tâches</h2>
-            <p>{project.tasks.length} tâches</p>
-          </div>
-
-          <div className="flex gap-2">
-            <Chips
-              icon={<SquareCheck className="w-4 h-4" />}
-              label="Liste"
-              isActive={true}
-              onClick={() => {
-                console.log("Liste");
-              }}
-            />
-            <Chips
-              icon={<Calendar className="w-4 h-4" />}
-              label="Kanban"
-              isActive={false}
-              onClick={() => {
-                console.log("Kanban");
-              }}
-            />
-            <p>Trier par</p>
-            <p>input recherche</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-15 flex flex-col gap-y-8">
-        {project.tasks.map((task) => (
-          <ProjectTasksCard
-            key={task.id}
-            task={task}
-            currentUser={currentUser}
-          />
-        ))}
-      </div>
+      </section>
     </div>
   );
 }

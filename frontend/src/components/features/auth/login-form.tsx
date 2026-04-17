@@ -3,27 +3,22 @@
 import { useActionState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 import Link from "next/link";
+
+// components shadcn ui
+import { Form } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
+
+// components custom
+import { FormInput } from "@/components/shared/form-fields/form-input";
+
+// icons
 import { Logo } from "@/components/icons";
 
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+// types et action
+import { loginSchema, type LoginInput } from "@/lib/validation/auth";
 import { loginAction } from "@/lib/auth/actions";
 import { ActionResult } from "@/types/actions";
-
-const loginSchema = z.object({
-  email: z.string().email("Adresse email invalide."),
-  password: z.string().min(1, "Le mot de passe est requis."),
-});
 
 const initialState: ActionResult = { success: false, error: "" };
 
@@ -33,7 +28,7 @@ export function LoginForm() {
     initialState,
   );
 
-  const form = useForm<z.infer<typeof loginSchema>>({
+  const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
     mode: "onTouched",
     defaultValues: {
@@ -43,20 +38,26 @@ export function LoginForm() {
   });
 
   return (
-    <div className="flex flex-col h-full w-full py-19">
-      <div className="flex-1 flex flex-col justify-start">
+    <main className="flex flex-col h-full w-full py-19">
+      <header className="flex-1 flex flex-col justify-start">
         <div className="mb-8 mx-auto">
-          <Logo className="w-63 h-8 text-primary" />
+          <Logo aria-hidden="true" className="w-63 h-8 text-primary" />
         </div>
-      </div>
+      </header>
 
       <div className="w-full">
         <div className="text-center mb-10">
-          <h1 className="text-[40px] font-bold text-primary">Connexion</h1>
+          <h1 id="login-title" className="text-[40px] font-bold text-primary">
+            Connexion
+          </h1>
         </div>
 
         <Form {...form}>
-          <form action={formAction} className="space-y-7 w-3/4 mx-auto">
+          <form
+            action={formAction}
+            aria-labelledby="login-title"
+            className="space-y-7 w-3/4 mx-auto"
+          >
             {!state.success && state.error && (
               <p
                 role="alert"
@@ -66,31 +67,19 @@ export function LoginForm() {
               </p>
             )}
 
-            <FormField
+            <FormInput
               control={form.control}
               name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="jean@abricot.fr" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Email"
+              placeholder="jean@abricot.fr"
             />
-            <FormField
+
+            <FormInput
               control={form.control}
               name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mot de passe</FormLabel>
-                  <FormControl>
-                    <Input type="password" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label="Mot de passe"
+              placeholder="Mot de passe"
+              type="password"
             />
 
             <div className="space-y-4 mx-auto px-4.25">
@@ -115,7 +104,7 @@ export function LoginForm() {
         </Form>
       </div>
 
-      <div className="flex-1 flex flex-col justify-end">
+      <footer className="flex-1 flex flex-col justify-end">
         <div className="pt-8 text-center text-sm font-medium tracking-wide">
           Pas encore de compte ?{" "}
           <Link
@@ -125,7 +114,7 @@ export function LoginForm() {
             Créer un compte
           </Link>
         </div>
-      </div>
-    </div>
+      </footer>
+    </main>
   );
 }

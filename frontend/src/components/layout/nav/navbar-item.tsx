@@ -17,6 +17,8 @@ export function NavbarItem({ href, icon, label }: NavbarItemProps) {
   return (
     <Link
       href={href}
+      aria-current={isActive ? "page" : undefined}
+      aria-label={label}
       className={`inline-flex items-center w-auto md:w-62 h-12 md:h-19.5 rounded-lg px-4 md:px-10.5 py-4 md:py-6.75 justify-center gap-4 transition-colors duration-300 ${
         isActive
           ? "bg-primary-button text-primary-foreground cursor-default"
@@ -24,7 +26,7 @@ export function NavbarItem({ href, icon, label }: NavbarItemProps) {
       }`}
       onClick={(e) => isActive && e.preventDefault()}
     >
-      {icon}
+      <span aria-hidden="true">{icon}</span>
       <span className="hidden md:block text-base">{label}</span>
     </Link>
   );

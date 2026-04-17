@@ -67,8 +67,9 @@ export function AssigneeSelector<T extends FieldValues>({
                   <Button
                     type="button"
                     variant="outline"
+                    aria-label="Sélectionner un ou plusieurs collaborateurs"
                     className={cn(
-                      "w-full justify-between",
+                      "w-full justify-between text-xs md:text-xs border-input bg-transparent rounded-sm px-4.25",
                       !field.value?.length && "text-muted-foreground",
                     )}
                   />

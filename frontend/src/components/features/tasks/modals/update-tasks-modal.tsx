@@ -49,7 +49,7 @@ export function UpdateTaskModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto px-4 md:px-6 lg:px-8 xl:px-18.25 py-4 md:py-8 lg:py-13 xl:py-19.75">
         <DialogHeader>
           <DialogTitle>Modifier</DialogTitle>
           <DialogDescription className="sr-only">
@@ -59,7 +59,10 @@ export function UpdateTaskModal({
 
         <div className="py-4">
           {error && (
-            <p className="text-sm border border-destructive text-destructive bg-destructive/10 rounded-md p-3 mb-4 text-center">
+            <p
+              role="alert"
+              className="text-sm border border-destructive text-destructive bg-destructive/10 rounded-md p-3 mb-4 text-center"
+            >
               {error}
             </p>
           )}

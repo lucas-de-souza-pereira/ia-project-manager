@@ -34,7 +34,7 @@ export function StatusSelector<T extends FieldValues>({
           <FormLabel>Statut</FormLabel>
           <FormControl>
             <div
-              className="flex flex-wrap gap-2"
+              className="flex flex-nowrap md:flex-wrap md:gap-2"
               role="radiogroup"
               aria-label="Sélectionner le statut de la tâche"
             >
@@ -49,14 +49,16 @@ export function StatusSelector<T extends FieldValues>({
                     aria-checked={isSelected}
                     tabIndex={isSelected ? 0 : -1}
                     className={cn(
-                      "h-auto px-3 py-2 border-2 transition-all",
+                      "h-auto  px-1.5 sm:px-3 py-1.5 sm:py-2 border-2 transition-all",
                       isSelected
                         ? "border-primary bg-primary/5"
                         : "border-transparent",
                     )}
                     onClick={() => field.onChange(status)}
                   >
-                    <Badge className={TASK_STATUS_DICT[status].tailwindClasses}>
+                    <Badge
+                      className={` ${TASK_STATUS_DICT[status].tailwindClasses} px-3.5 sm:px-4`}
+                    >
                       {TASK_STATUS_DICT[status].label}
                     </Badge>
                   </Button>

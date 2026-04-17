@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 // Composants UI Shadcn
 import {
@@ -43,22 +43,22 @@ export function UpdateProjectModal({
 
   const isOpen = searchParams.get("modal") === "update-project";
 
-  const contributors = useMemo(() => {
-    return project.members.map((member) => member.user);
-  }, [project.members]);
+
 
   useEffect(() => {
+    let isMounted = true;
     async function loadUsers() {
       if (isOpen && users.length === 0) {
         const res = await getUsersAction();
-        if (res.success && res.data) {
-          const users = res.data.filter((user) => user.id !== currentUser.id);
-          setUsers(users);
+        if (isMounted && res.success && res.data) {
+          const filteredUsers = res.data.filter((user) => user.id !== currentUser.id);
+          setUsers(filteredUsers);
         }
       }
     }
     loadUsers();
-  }, [isOpen, users.length]);
+    return () => { isMounted = false; };
+  }, [isOpen, users.length, currentUser.id]);
 
   const handleOpenChange = (open: boolean) => {
     if (!open) {
@@ -121,14 +121,14 @@ export function UpdateProjectModal({
       }
 
       handleOpenChange(false);
-    } catch (err) {
-      setError("Une erreur inattendue est survenue.");
+    } catch {
+      setError("Erreur lors de la mise à jour du projet.");
     }
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto px-4 md:px-6 lg:px-8 xl:px-18.25 py-4 md:py-8 lg:py-13 xl:py-19.75">
         <DialogHeader>
           <DialogTitle>Modifier le projet</DialogTitle>
           <DialogDescription className="sr-only">
@@ -138,7 +138,10 @@ export function UpdateProjectModal({
 
         <div className="py-4">
           {error && (
-            <p className="text-sm border border-destructive text-destructive bg-destructive/10 rounded-md p-3 mb-4 text-center">
+            <p
+              role="alert"
+              className="text-sm border border-destructive text-destructive bg-destructive/10 rounded-md p-3 mb-4 text-center"
+            >
               {error}
             </p>
           )}

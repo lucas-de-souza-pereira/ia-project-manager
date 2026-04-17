@@ -23,6 +23,11 @@ export async function apiFetch<T>(
 
   const data = await res.json();
 
+  if (res.status === 401) {
+    const { redirect } = await import("next/navigation");
+    redirect("/login?expired=1");
+  }
+
   if (!res.ok) {
     throw new Error(data?.message ?? `HTTP error ${res.status}`);
   }

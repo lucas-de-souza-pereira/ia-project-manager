@@ -3,9 +3,7 @@
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { apiFetch } from "@/lib/api/client";
-import { CreateTaskData, Task } from "@/types/task";
 import { ActionResult } from "@/types/actions";
-import { parse, isValid } from "date-fns";
 import { CreateProjectData, Project } from "@/types/project";
 import { API_ROUTES } from "@/config/api";
 import { redirect } from "next/navigation";
@@ -31,7 +29,8 @@ export async function createProjectAction(
     });
     revalidatePath("/projects");
     revalidatePath("/dashboard");
-
+    console.log("result", result);
+    console.log("result.data.project", result.data.project);
     return { success: true, data: result.data.project };
   } catch (err) {
     const message =
@@ -75,7 +74,6 @@ export async function updateProjectAction(
 export async function deleteProjectAction(
   projectId: string,
 ): Promise<ActionResult> {
-  let success = false;
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth_token")?.value;
@@ -84,15 +82,13 @@ export async function deleteProjectAction(
       return { success: false, error: "Vous n'êtes pas authentifié." };
     }
 
-    const result = await apiFetch(API_ROUTES.PROJECTS.DETAIL(projectId), {
+    await apiFetch(API_ROUTES.PROJECTS.DETAIL(projectId), {
       method: "DELETE",
       token: token,
     });
 
-    revalidatePath(`/projects/${projectId}`);
     revalidatePath("/projects");
     revalidatePath("/dashboard");
-    success = true;
   } catch (err) {
     const message =
       err instanceof Error ? err.message : "Erreur lors de la suppression";
@@ -117,7 +113,7 @@ export async function addContributorToProjectAction(
     await apiFetch<{
       success: boolean;
       message: string;
-      data?: any;
+      data?: unknown;
     }>(API_ROUTES.PROJECTS.ADD_CONTRIBUTOR(projectId), {
       method: "POST",
       body: JSON.stringify({ email }),
@@ -151,7 +147,7 @@ export async function removeContributorFromProjectAction(
     await apiFetch<{
       success: boolean;
       message: string;
-      data?: any;
+      data?: unknown;
     }>(API_ROUTES.PROJECTS.REMOVE_CONTRIBUTOR(projectId, userId), {
       method: "DELETE",
       token: token,

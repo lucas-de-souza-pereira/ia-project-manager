@@ -3,20 +3,20 @@
 import { type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { ComponentProps } from "react";
 
-interface ChipsProps {
+interface ChipsProps extends ComponentProps<typeof Button> {
   icon: ReactNode;
   label: string;
   isActive?: boolean;
-  onClick?: () => void;
 }
 
-export function Chips({ icon, label, isActive = false, onClick }: ChipsProps) {
+export function Chips({ icon, label, isActive = false, ...props }: ChipsProps) {
   return (
     <Button
       type="button"
       variant="ghost"
-      onClick={onClick}
+      {...props}
       className={cn(
         "px-4 py-3.5 flex items-center gap-3.5 rounded-md transition-colors duration-300",
         isActive
@@ -24,7 +24,9 @@ export function Chips({ icon, label, isActive = false, onClick }: ChipsProps) {
           : "bg-primary-foreground text-primary hover:bg-primary-light hover:text-primary",
       )}
     >
-      <div className="shrink-0">{icon}</div>
+      <div className="shrink-0" aria-hidden="true">
+        {icon}
+      </div>
       <span className="text-sm">{label}</span>
     </Button>
   );

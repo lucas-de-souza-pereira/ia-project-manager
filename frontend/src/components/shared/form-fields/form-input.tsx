@@ -45,6 +45,7 @@ export function FormInput<T extends FieldValues>({
           <FormControl>
             <Input
               type={type}
+              className="text-xs md:text-xs"
               placeholder={placeholder}
               aria-required={required}
               {...field}

@@ -20,7 +20,7 @@ export default function DashboardError({
       <h2 className="text-xl font-bold">Impossible de charger les tâches</h2>
       <p className="text-muted-foreground text-center max-w-md">
         Une erreur est survenue lors de la connexion au serveur. Cela peut venir
-        de votre connexion ou d'une maintenance en cours.
+        de votre connexion ou d&apos;une maintenance en cours.
       </p>
       <Button onClick={() => reset()} variant="outline" className="mt-4">
         Réessayer

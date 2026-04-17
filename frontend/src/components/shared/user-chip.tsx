@@ -9,12 +9,14 @@ interface UserChipProps {
   currentUserId?: string;
   ownerId?: string;
   variant?: "role" | "name";
+  responsive?: boolean;
 }
 export function UserChip({
   user,
   currentUserId,
   ownerId,
   variant = "role",
+  responsive = false,
 }: UserChipProps) {
   const isMe = user.id === currentUserId;
   const isOwner = user.id === ownerId;
@@ -25,16 +27,31 @@ export function UserChip({
   const colorVariant = isMe ? "user" : roleInfo.badgeVariant;
   const avatarRole = isMe ? "USER" : actualRole;
 
-  const label = variant === "role" ? roleInfo.label : (user.name || "Utilisateur");
+  const label =
+    variant === "role" ? roleInfo.label : user.name || "Utilisateur";
+
+  const screenReaderLabel = `${user.name || "Utilisateur"} - ${roleInfo.label}`;
 
   return (
-    <div className="flex items-center gap-2">
-      <Avatar className="">
-        <AvatarFallback className={`${getAvatarRole(avatarRole)} text-[10px]`}>
+    <div
+      className="flex items-center gap-2"
+      aria-label={screenReaderLabel}
+      role="img"
+    >
+      <Avatar aria-hidden="true">
+        <AvatarFallback
+          className={`${getAvatarRole(avatarRole)} text-[10px] border border-card `}
+        >
           {getUserInitials(user.name)}
         </AvatarFallback>
       </Avatar>
-      <Badge variant={colorVariant}>{label}</Badge>
+      <Badge
+        variant={colorVariant}
+        aria-hidden="true"
+        className={responsive ? "md:block hidden" : ""}
+      >
+        {label}
+      </Badge>
     </div>
   );
 }

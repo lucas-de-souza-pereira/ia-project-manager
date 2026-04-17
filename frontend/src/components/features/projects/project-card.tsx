@@ -1,9 +1,7 @@
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -43,42 +41,58 @@ export default function ProjectCard({
   const totalTeamMembers = allTeamUsers.length;
   return (
     <Link href={`/projects/${project.id}`}>
-      <Card className="px-4 py-5 md:px-6.25 md:py-6.25 lg:px-8.5 lg:py-7.5 h-full flex flex-col justify-between">
+      <Card
+        className="px-4 py-5 md:px-6.25 md:py-6.25 lg:px-8.5 lg:py-7.5 h-full flex flex-col justify-between "
+        aria-labelledby={`project-title-${project.id}`}
+      >
         <CardHeader className="p-0 md:p-0 lg:p-0">
           <div className="flex flex-col items-start justify-between gap-y-1.75">
-            <CardTitle variant="h2">{project.name}</CardTitle>
+            <CardTitle variant="h2" id={`project-title-${project.id}`}>
+              {project.name}
+            </CardTitle>
             <CardDescription>{project.description}</CardDescription>
           </div>
         </CardHeader>
 
         <CardContent className="p-0 md:p-0 lg:p-0">
           <div className="flex items-center justify-between">
-            <p className="text-xs">Progression</p>
-            <p className="text-xs text-heading">{project.progress}%</p>
+            <p className="text-xs" id={`progress-label-${project.id}`}>
+              Progression
+            </p>
+            <p className="text-xs text-heading" aria-hidden="true">
+              {project.progress}%
+            </p>
           </div>
           <Progress
             value={project.progress ? project.progress : 0}
             className="mt-3.75"
+            aria-labelledby={`progress-label-${project.id} tasks-count-${project.id}`}
           />
-          <p className="text-[10px] mt-2">
+          <p className="text-[10px] mt-2" id={`tasks-count-${project.id}`}>
             {project.completedTasksCount}/{project._count.tasks} tâches
             terminées
           </p>
 
           <div className="flex flex-col items-start gap-x-2 mt-8">
             <div className="flex items-center gap-x-2">
-              <UserGroup className="size-2.75" />
+              <UserGroup className="size-2.75" aria-hidden="true" />
               <p className="text-[10px]">Équipe ({totalTeamMembers})</p>
             </div>
-            <div className="flex gap-2 items-center mt-3.75">
+            <div
+              className="flex gap-2 items-center mt-3.75"
+              aria-label="Membres de l'équipe travaillant sur ce projet"
+            >
               <UserChip
                 user={currentUser}
                 currentUserId={currentUser.id}
                 ownerId={project.owner.id}
                 variant="role"
+                aria-label="Vous"
               />
               <Avatar>
-                <AvatarGroup>
+                <AvatarGroup
+                  aria-label={`Et ${otherTeamMembers.length} autres membres`}
+                >
                   {otherTeamMembers?.map((item) => (
                     <Avatar key={item.member.id}>
                       <AvatarFallback

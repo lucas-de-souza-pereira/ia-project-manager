@@ -83,8 +83,10 @@ import {
   updateTask,
   deleteTask,
 } from "../controllers/taskController";
+import { generateTasksWithAI } from "../controllers/aiController";
 
 router.post("/:id/tasks", authenticateToken, createTask);
+router.post("/:id/tasks/generate", authenticateToken, generateTasksWithAI);
 
 /**
  * @route   GET /projects/:id/tasks

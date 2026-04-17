@@ -2,6 +2,7 @@
 
 import { useTransition } from "react";
 import { logoutAction } from "@/lib/auth/actions";
+import { Button } from "@/components/ui/button";
 
 export function LogoutButton() {
   const [isPending, startTransition] = useTransition();
@@ -13,13 +14,14 @@ export function LogoutButton() {
   }
 
   return (
-    <button
+    <Button
       onClick={handleLogout}
       disabled={isPending}
-      className="text-xs text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
-      aria-label="Se déconnecter"
+      size="lg"
+      className="min-w-[150px] text-base font-normal"
+      aria-label={isPending ? "Déconnexion en cours..." : "Se déconnecter"}
     >
-      {isPending ? "…" : "Déconnexion"}
-    </button>
+      {isPending ? "En cours..." : "Déconnexion"}
+    </Button>
   );
 }

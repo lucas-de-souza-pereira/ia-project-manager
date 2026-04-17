@@ -6,6 +6,7 @@ import {
   updateTask,
   deleteTask,
 } from "../controllers/taskController";
+import { generateTasksWithAI } from "../controllers/aiController";
 import { authenticateToken } from "../middleware/auth";
 import commentRoutes from "./commentRoutes";
 
@@ -19,6 +20,13 @@ const router = Router();
  * @body    { title: string, description?: string, priority?: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT', dueDate?: string }
  */
 router.post("/", authenticateToken, createTask);
+
+/**
+ * @route   POST /projects/:projectId/tasks/generate
+ * @desc    Générer des tâches via IA en se basant sur le RAG
+ * @access  Private (nécessite un token JWT valide et accès au projet)
+ */
+router.post("/generate", authenticateToken, generateTasksWithAI);
 
 /**
  * @route   GET /projects/:projectId/tasks

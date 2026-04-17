@@ -53,7 +53,7 @@ export function DateField<T extends FieldValues>({
               <Input
                 placeholder="JJ/MM/AAAA"
                 maxLength={10}
-                className="pr-10"
+                className="pr-10 text-xs md:text-xs"
                 aria-required={required}
                 {...field}
               />
@@ -65,11 +65,12 @@ export function DateField<T extends FieldValues>({
                     type="button"
                     variant="ghost"
                     size="icon"
-                    className="absolute right-0 top-0 h-full w-10 text-muted-foreground hover:bg-transparent hover:text-foreground"
+                    aria-label="Ouvrir le calendrier"
+                    className="absolute right-0 top-0 h-full w-10 text-muted-foreground hover:bg-transparent hover:text-foreground "
                   />
                 }
               >
-                <CalendarIcon className="h-4 w-4" />
+                <CalendarIcon className="h-4 w-4 mr-3.5" />
               </PopoverTrigger>
 
               <PopoverContent className="w-auto p-0" align="end">

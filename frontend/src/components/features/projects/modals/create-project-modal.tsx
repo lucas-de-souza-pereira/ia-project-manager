@@ -32,17 +32,19 @@ export function CreateProjectModal({ currentUser }: { currentUser: User }) {
   const isOpen = searchParams.get("modal") === "create-project";
 
   useEffect(() => {
+    let isMounted = true;
     async function loadUsers() {
       if (isOpen && users.length === 0) {
         const res = await getUsersAction();
-        if (res.success && res.data) {
-          const users = res.data.filter((user) => user.id !== currentUser.id);
-          setUsers(users);
+        if (isMounted && res.success && res.data) {
+          const filteredUsers = res.data.filter((user) => user.id !== currentUser.id);
+          setUsers(filteredUsers);
         }
       }
     }
     loadUsers();
-  }, [isOpen, users.length]);
+    return () => { isMounted = false; };
+  }, [isOpen, users.length, currentUser.id]);
 
   const handleOpenChange = (open: boolean) => {
     if (!open) {
@@ -59,13 +61,12 @@ export function CreateProjectModal({ currentUser }: { currentUser: User }) {
       setError(res.error || "Une erreur est survenue lors de la création.");
       return;
     }
-    handleOpenChange(false);
-    router.push(`/projects/${res.data?.id}`);
+    router.replace(`/projects/${res.data?.id}`);
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto px-4 md:px-6 lg:px-8 xl:px-18.25 py-4 md:py-8 lg:py-13 xl:py-19.75">
         <DialogHeader>
           <DialogTitle>Créer un projet</DialogTitle>
           <DialogDescription className="sr-only">
@@ -75,7 +76,10 @@ export function CreateProjectModal({ currentUser }: { currentUser: User }) {
 
         <div className="py-4">
           {error && (
-            <p className="text-sm border border-destructive text-destructive bg-destructive/10 rounded-md p-3 mb-4 text-center">
+            <p
+              role="alert"
+              className="text-sm border border-destructive text-destructive bg-destructive/10 rounded-md p-3 mb-4 text-center"
+            >
               {error}
             </p>
           )}
