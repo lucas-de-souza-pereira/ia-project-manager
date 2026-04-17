@@ -21,7 +21,7 @@ export default function ProjectsView({
   const handleOpenCreateProjectModal = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("modal", "create-project");
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
   return (
     <div className="w-11/12 xl:w-[1166px] mx-auto">

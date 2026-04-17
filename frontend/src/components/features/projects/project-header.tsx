@@ -58,6 +58,7 @@ export default function ProjectHeader({
                 {isOwner && (
                   <Link
                     href="?modal=update-project"
+                    replace
                     className={cn(
                       buttonVariants({ variant: "link" }),
                       "p-0 h-auto font-normal underline text-sm",
@@ -86,6 +87,7 @@ export default function ProjectHeader({
         <div className="flex items-center justify-center lg:justify-start gap-x-2 shrink-0">
           <Link
             href="?modal=create-task"
+            replace
             className="inline-flex h-[50px] items-center justify-center gap-2 rounded-lg bg-primary-button hover:bg-primary-button-hover px-4 text-base font-normal text-primary-foreground transition-colors duration-300"
           >
             Créer une tâche
@@ -105,6 +107,7 @@ export default function ProjectHeader({
 
           <Link
             href="?modal=task-ia"
+            replace
             className={cn(
               buttonVariants({ variant: "default", size: "lg" }),
               "bg-primary hover:bg-primary-foreground hover:text-primary border hover:border-primary shrink-0 gap-x-2",

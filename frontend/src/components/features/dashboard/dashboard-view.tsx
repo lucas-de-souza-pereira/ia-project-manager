@@ -50,7 +50,7 @@ export default function DashboardView({ tasks }: DashboardViewProps) {
   const handleOpenCreateProjectModal = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("modal", "create-project");
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   return (
