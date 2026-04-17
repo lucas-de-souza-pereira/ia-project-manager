@@ -1,26 +1,18 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useMemo } from "react";
-import { cn } from "@/lib/utils";
 
 // Composants features
 import ProjectTasksCard from "../tasks/project-tasks-card";
-
-import { UserChip } from "@/components/shared/user-chip";
-import { KanbanColumn } from "@/components/shared/kanban-column";
 import { Chips } from "@/components/shared/chips";
 import ProjectTasksCalendar from "../tasks/project-tasks-calendar";
 import { TaskFilters } from "../tasks/task-filters";
 import ProjectHeader from "@/components/features/projects/project-header";
 import ProjectContributor from "@/components/features/projects/project-contributor";
 
-// Composants UI Shadcn
-import { Button, buttonVariants } from "@/components/ui/button";
-
 // icons
-import { SquareCheck, Calendar, ArrowLeft, Star } from "@/components/icons";
+import { SquareCheck, Calendar } from "@/components/icons";
 
 // types et actions
 import { type User } from "@/types/user";
@@ -34,8 +26,6 @@ export default function ProjectDetailView({
   project: ProjectWithTasks;
   currentUser: User;
 }) {
-  const router = useRouter();
-
   const [view, setView] = useState<"list" | "calendar">("list");
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
@@ -104,7 +94,7 @@ export default function ProjectDetailView({
             </p>
           </div>
 
-          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4 w-full">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4 w-full lg:w-auto">
             <div
               className="flex items-center gap-x-1"
               role="tablist"
@@ -149,7 +139,7 @@ export default function ProjectDetailView({
 
         <div id="tasks-content" role="tabpanel">
           {view === "list" ? (
-            <ul className="mt-5 md:mt-8 xl:mt-12.5 flex flex-col gap-y-4.5">
+            <ul className="mt-5 md:mt-8 xl:mt-12.5 flex flex-col gap-y-4.5 px-0 xl:px-10">
               {filteredTasks.map((task) => (
                 <li key={task.id}>
                   <ProjectTasksCard task={task} currentUser={currentUser} />

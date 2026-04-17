@@ -74,7 +74,10 @@ export function CreateProjectModal({ currentUser }: { currentUser: User }) {
 
         <div className="py-4">
           {error && (
-            <p className="text-sm border border-destructive text-destructive bg-destructive/10 rounded-md p-3 mb-4 text-center">
+            <p
+              role="alert"
+              className="text-sm border border-destructive text-destructive bg-destructive/10 rounded-md p-3 mb-4 text-center"
+            >
               {error}
             </p>
           )}

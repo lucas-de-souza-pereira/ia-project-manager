@@ -23,9 +23,9 @@ export function KanbanColumn<T extends { id: string; status: string }>({
       aria-labelledby={columnId}
     >
       <div className="flex flex-row gap-x-2 items-center">
-        <h3 className="text-lg" id={columnId}>
+        <h2 className="text-lg" id={columnId}>
           {title}
-        </h3>
+        </h2>
         <Badge
           variant="muted"
           className="h-6.25"

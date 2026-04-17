@@ -33,13 +33,14 @@ export default function ProjectTasksCalendar({
     .map((task) => parseISO(task.dueDate));
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 items-start mt-8">
+    <div className="flex flex-col lg:flex-row gap-8 items-start mt-8 w-full">
       <div className="bg-card rounded-xl border border-border p-4 shadow-sm shrink-0 mx-auto lg:mx-0 w-full max-w-[350px]">
         <Calendar
           mode="single"
           selected={selectedDate}
           onSelect={setSelectedDate}
           locale={fr}
+          aria-label="Sélectionner une date pour voir les tâches"
           className="rounded-md border-0"
           style={{
             //@ts-ignore - Variable CSS custom
@@ -57,7 +58,7 @@ export default function ProjectTasksCalendar({
 
       <div className="flex-1 w-full flex flex-col gap-y-4 min-w-0">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-lg font-semibold">
+          <h3 id="calendar-tasks-title" className="text-lg font-semibold">
             {selectedDate
               ? `Tâches du ${selectedDate.toLocaleDateString("fr-FR", {
                   day: "numeric",
@@ -66,26 +67,29 @@ export default function ProjectTasksCalendar({
                 })}`
               : "Sélectionnez une date"}
           </h3>
-          <span className="text-sm text-muted-foreground">
+
+          <span aria-live="polite" className="text-sm text-muted-foreground">
             {tasksForSelectedDate.length}{" "}
             {tasksForSelectedDate.length > 1 ? "tâches" : "tâche"}
           </span>
         </div>
 
         {tasksForSelectedDate.length > 0 ? (
-          <div className="flex flex-col gap-y-4 pb-4 custom-scrollbar">
+          <ul
+            aria-labelledby="calendar-tasks-title"
+            className="flex flex-col gap-y-4 pb-4 custom-scrollbar"
+          >
             {tasksForSelectedDate.map((task) => (
-              <div key={task.id} className="w-full shrink-0">
-                <ProjectTasksCard
-                  key={task.id}
-                  task={task}
-                  currentUser={currentUser}
-                />
-              </div>
+              <li key={task.id} className="w-full shrink-0">
+                <ProjectTasksCard task={task} currentUser={currentUser} />
+              </li>
             ))}
-          </div>
+          </ul>
         ) : (
-          <div className="flex flex-col items-center justify-center p-12 border border-dashed border-border rounded-xl bg-muted/30 text-center">
+          <div
+            role="status"
+            className="flex flex-col items-center justify-center p-12 border border-dashed border-border rounded-xl bg-muted/30 text-center"
+          >
             <p className="text-muted-foreground">
               Aucune tâche d'échéance ce jour-là.
             </p>

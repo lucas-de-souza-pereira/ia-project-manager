@@ -65,6 +65,7 @@ export function DateField<T extends FieldValues>({
                     type="button"
                     variant="ghost"
                     size="icon"
+                    aria-label="Ouvrir le calendrier"
                     className="absolute right-0 top-0 h-full w-10 text-muted-foreground hover:bg-transparent hover:text-foreground "
                   />
                 }
