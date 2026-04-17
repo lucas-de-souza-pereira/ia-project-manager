@@ -66,16 +66,18 @@ export function IATaskCard({
           <div className="flex items-center gap-x-3 mt-auto">
             <button
               onClick={onRemove}
+              aria-label={`Supprimer la tâche générée : ${task.title}`}
               className="flex items-center gap-x-1.5 text-xs text-card-foreground hover:text-destructive transition-colors cursor-pointer"
             >
-              <Trash className="w-3.75 h-3.5" /> Supprimer
+              <Trash className="w-3.75 h-3.5" aria-hidden="true" /> Supprimer
             </button>
-            <span className="text-border">|</span>
+            <span className="text-border" aria-hidden="true">|</span>
             <button
               onClick={onStartEdit}
+              aria-label={`Modifier la tâche générée : ${task.title}`}
               className="flex items-center gap-x-1.5 text-xs text-card-foreground hover:text-foreground transition-colors cursor-pointer"
             >
-              <Pencil className="w-3.5 h-3.5" /> Modifier
+              <Pencil className="w-3.5 h-3.5" aria-hidden="true" /> Modifier
             </button>
           </div>
         </div>

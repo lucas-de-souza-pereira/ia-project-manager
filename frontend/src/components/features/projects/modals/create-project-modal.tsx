@@ -64,7 +64,7 @@ export function CreateProjectModal({ currentUser }: { currentUser: User }) {
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto px-4 md:px-6 lg:px-8 xl:px-18.25 py-4 md:py-8 lg:py-13 xl:py-19.75">
         <DialogHeader>
           <DialogTitle>Créer un projet</DialogTitle>
           <DialogDescription className="sr-only">

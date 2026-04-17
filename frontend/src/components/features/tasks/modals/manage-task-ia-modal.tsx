@@ -51,8 +51,7 @@ export function ManageTaskIAModal() {
   };
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      {/* <DialogContent className="w-[92vw] sm:max-w-[500px] flex flex-col p-6 sm:p-8 max-h-[90vh] overflow-hidden"> */}
-      <DialogContent className="max-w-[300px] sm:max-w-[500px]">
+      <DialogContent className="sm:max-w-[500px] h-[85vh] md:h-[80vh] md:min-h-[523px] max-h-[90vh] overflow-y-auto px-4 md:px-6 lg:px-8 xl:px-13 py-4 md:py-8 lg:py-13 xl:py-19.75">
         <DialogHeader className="flex-none mb-4">
           <DialogTitle className="flex items-center gap-x-2 text-2xl font-semibold">
             <span>
@@ -65,12 +64,25 @@ export function ManageTaskIAModal() {
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-col grow min-h-0 overflow-hidden">
+        <div
+          className={cn(
+            "flex flex-col flex-1 min-h-0 overflow-hidden",
+            !state.hasTasks && "justify-end",
+          )}
+        >
           {state.error && (
-            <div className="bg-destructive/10 text-destructive text-sm p-3 rounded-md mb-4">
+            <div
+              role="alert"
+              className="bg-destructive/10 text-destructive text-sm p-3 rounded-md mb-4"
+            >
               {state.error}
             </div>
           )}
+
+          <div aria-live="polite" className="sr-only">
+            {state.generatedTasks.length > 0 &&
+              `${state.generatedTasks.length} tâches générées par l'IA.`}
+          </div>
           {/* LISTE DES TÂCHES GÉNÉRÉES */}
           {state.hasTasks && (
             <div className="grow overflow-y-auto pr-1 mb-4 flex flex-col gap-y-3">
