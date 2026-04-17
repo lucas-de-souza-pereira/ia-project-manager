@@ -88,6 +88,7 @@ export function TaskFilters({
       {/* Barre de Recherche */}
       <InputGroup className="h-11 w-full sm:w-[283px] px-8 py-5.75 bg-primary-foreground border-input rounded-md group-focus-within:ring-2 group-focus-within:ring-primary/20 transition-all">
         <InputGroupInput
+          aria-label="Rechercher une tâche par son titre"
           placeholder="Rechercher une tâche"
           value={searchQuery}
           onChange={(e) => onSearchChange(e.target.value)}

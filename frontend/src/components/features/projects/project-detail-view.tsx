@@ -149,15 +149,13 @@ export default function ProjectDetailView({
 
         <div id="tasks-content" role="tabpanel">
           {view === "list" ? (
-            <div className="mt-5 md:mt-8 xl:mt-12.5 flex flex-col gap-y-4.5">
+            <ul className="mt-5 md:mt-8 xl:mt-12.5 flex flex-col gap-y-4.5">
               {filteredTasks.map((task) => (
-                <ProjectTasksCard
-                  key={task.id}
-                  task={task}
-                  currentUser={currentUser}
-                />
+                <li key={task.id}>
+                  <ProjectTasksCard task={task} currentUser={currentUser} />
+                </li>
               ))}
-            </div>
+            </ul>
           ) : (
             <div className="mt-5 md:mt-8 xl:mt-12.5 w-11/12 mx-auto flex flex-col gap-y-4.5 xl:flex-row gap-x-5.5">
               <ProjectTasksCalendar
