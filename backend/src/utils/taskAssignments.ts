@@ -14,14 +14,25 @@ export const validateProjectMembers = async (
 ): Promise<boolean> => {
   if (userIds.length === 0) return true;
 
+  const project = await prisma.project.findUnique({
+    where: { id: projectId },
+    select: { ownerId: true }
+  });
+
+  if (!project) return false;
+
   const projectMembers = await prisma.projectMember.findMany({
     where: {
       projectId,
       userId: { in: userIds },
     },
+    select: { userId: true }
   });
 
-  return projectMembers.length === userIds.length;
+  const authorizedIds = new Set(projectMembers.map(m => m.userId));
+  authorizedIds.add(project.ownerId);
+
+  return userIds.every(id => authorizedIds.has(id));
 };
 
 /**
