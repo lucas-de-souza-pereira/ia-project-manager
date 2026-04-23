@@ -30,7 +30,8 @@ export async function loginAction(
       maxAge: COOKIE_MAX_AGE,
       path: "/",
     });
-  } catch (err) {
+  } catch (err: any) {
+    if (err?.digest?.startsWith("NEXT_REDIRECT")) throw err;
     const message =
       err instanceof Error
         ? err.message
@@ -62,7 +63,8 @@ export async function registerAction(
       maxAge: COOKIE_MAX_AGE,
       path: "/",
     });
-  } catch (err) {
+  } catch (err: any) {
+    if (err?.digest?.startsWith("NEXT_REDIRECT")) throw err;
     const message =
       err instanceof Error
         ? err.message
