@@ -23,7 +23,7 @@ export async function apiFetch<T>(
 
   const data = await res.json();
 
-  if (res.status === 401) {
+  if (res.status === 401 && !path.includes("/auth/")) {
     const { redirect } = await import("next/navigation");
     redirect("/login?expired=1");
   }
