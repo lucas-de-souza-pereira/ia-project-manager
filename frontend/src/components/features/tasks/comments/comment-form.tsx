@@ -24,7 +24,7 @@ const commentSchema = z.object({
 export function CommentForm({
   onAddComment,
 }: {
-  onAddComment: (content: string) => void;
+  onAddComment: (content: string) => Promise<void> | void;
 }) {
   const { initials } = useAuth();
 
@@ -33,8 +33,8 @@ export function CommentForm({
     defaultValues: { content: "" },
   });
 
-  const onHandleSubmit = (values: z.infer<typeof commentSchema>) => {
-    onAddComment(values.content);
+  const onHandleSubmit = async (values: z.infer<typeof commentSchema>) => {
+    await onAddComment(values.content);
     form.reset();
   };
 

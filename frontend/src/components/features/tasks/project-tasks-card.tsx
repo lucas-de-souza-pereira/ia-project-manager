@@ -25,6 +25,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useTransition, useOptimistic } from "react";
+import { type Comment } from "@/types/comment";
 
 interface ProjectTasksCardProps {
   task: Task;
@@ -38,6 +40,12 @@ export default function ProjectTasksCard({
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const [isPending, startTransition] = useTransition();
+
+  const [optimisticComments, addOptimisticComment] = useOptimistic<
+    Comment[],
+    Comment
+  >(task.comments, (state, newComment) => [...state, newComment]);
 
   const onEdit = () => {
     const params = new URLSearchParams(searchParams.toString());
@@ -45,15 +53,33 @@ export default function ProjectTasksCard({
     params.set("taskId", task.id);
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
-  const onDelete = () => {
-    deleteTaskAction(task.projectId, task.id);
+  const onDelete = async () => {
+    await deleteTaskAction(task.projectId, task.id);
+    startTransition(() => {
+      router.refresh();
+    });
   };
 
-  const onAddComment = (content: string) => {
-    addCommentAction({
+  const onAddComment = async (content: string) => {
+    startTransition(() => {
+      addOptimisticComment({
+        id: Math.random().toString(),
+        content,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        taskId: task.id,
+        authorId: currentUser.id,
+        author: currentUser,
+      });
+    });
+
+    await addCommentAction({
       content,
       taskId: task.id,
       projectId: task.projectId,
+    });
+    startTransition(() => {
+      router.refresh();
     });
   };
   const statusConfig = TASK_STATUS_DICT[task.status];
@@ -132,7 +158,7 @@ export default function ProjectTasksCard({
 
         <div className="mt-6">
           <CommentsSection
-            comments={task.comments}
+            comments={optimisticComments}
             onAddComment={onAddComment}
           />
         </div>
