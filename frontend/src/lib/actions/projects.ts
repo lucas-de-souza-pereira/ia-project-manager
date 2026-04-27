@@ -29,8 +29,6 @@ export async function createProjectAction(
     });
     revalidatePath("/projects");
     revalidatePath("/dashboard");
-    console.log("result", result);
-    console.log("result.data.project", result.data.project);
     return { success: true, data: result.data.project };
   } catch (err) {
     const message =

@@ -30,7 +30,7 @@ export function RegisterForm() {
 
   const form = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
-    mode: "onTouched",
+    mode: "onChange",
     defaultValues: {
       email: "",
       password: "",
